@@ -4,6 +4,135 @@
 
 ---
 
+## نصب / Install
+
+### Requirements
+- **Claude Code** CLI installed and signed in. Install with:
+  ```bash
+  npm install -g @anthropic-ai/claude-code
+  ```
+  (Or use Claude Code on the web at <https://claude.ai/code> — this repo works there too.)
+- **git** to clone the repo.
+- Any modern OS (Linux / macOS / Windows with WSL).
+- An SVG viewer — every modern browser is one. That's it. No image API, no Python, no Node, no Docker required.
+
+### One-time setup
+```bash
+git clone https://github.com/<your-account>/Scenario_agent.git
+cd Scenario_agent
+claude            # opens Claude Code in this directory
+```
+
+When Claude Code launches in this folder it auto-discovers the agents under `.claude/agents/` and the slash commands under `.claude/commands/`. There is nothing to register.
+
+Verify it loaded:
+```
+/agents          # should list daastansaraa, pardeh-negaar, shakhsiat-pardaaz, pajooheshgar
+/help            # should show the Farsi commands: senaario, behtar, storybord, …
+```
+
+### Per-project setup
+For each story:
+1. Choose a kebab-case slug, e.g. `pardeye-akhar`.
+2. Drop research material into `raw/pardeye-akhar/` — PDFs, transcripts, notes, photos. (See [`raw/README.md`](raw/README.md).)
+3. Run `/zanjireh pardeye-akhar` for the full pipeline, or individual commands for fine control.
+
+---
+
+## استفاده / Quick start
+
+```text
+> /tahghigh pardeye-akhar
+  Pajooheshgar reads everything in raw/pardeye-akhar/ → writes
+  danesh/pardeye-akhar-research.md with setting, period, dialect, lexicon, quotes.
+
+> /senaario pardeye-akhar a grandmother in 1357 Isfahan tells her granddaughter the
+  one story she has never told anyone
+  Daastansaraa proposes logline + 3 angles, then writes the full script.
+
+> /shakhsiat pardeye-akhar
+  Shakhsiat-pardaaz builds the character bible.
+
+> /storybord pardeye-akhar 16x9
+  Pardeh-negaar draws SVG storyboard pages + a shot-list.
+
+> /prompt-video pardeye-akhar
+  Daastansaraa generates per-shot prompts for free AI video generators.
+
+> /naghd pardeye-akhar
+  Daastansaraa critiques the draft. Pair with /behtar to apply fixes.
+```
+
+Or run everything in one shot:
+```text
+> /zanjireh pardeye-akhar kaameleh
+```
+
+Open the generated `output/storybord/pardeye-akhar/board-01.svg` in your browser. Paste the prompts from `output/prompt/pardeye-akhar.md` into Hailuo / Kling / Pika / Runway free / Luma free / Bing.
+
+---
+
+## استفاده با LLMهای دیگر / Using with other LLMs (Ollama, LM Studio, etc.)
+
+The agents are written as **plain Markdown system-prompts** plus a folder convention. That means most of the system is portable to any chat UI or local LLM. What's **not** portable is the orchestration plumbing (slash commands, parallel sub-agent calls, `AskUserQuestion`) — that part is Claude Code-specific.
+
+### What works everywhere
+- The four agent definitions in `.claude/agents/*.md` — each file's body (below the YAML front-matter) is a complete system prompt you can paste into **any** chat:
+  - Ollama (`llama3.3`, `qwen2.5:32b`, `deepseek-r1`, `gemma2`, `mistral-nemo`, `command-r`)
+  - LM Studio, Jan, Open WebUI
+  - Aider, Continue.dev, Cline, Roo Code, Cursor
+  - Groq free tier, Together AI free credit, HuggingFace Inference, Google AI Studio (free)
+- The folder convention (`raw/`, `danesh/`, `output/`) is just files. Any agent that can read/write files can use it.
+- The SVG storyboard template at `templates/storyboard.svg` is plain XML — any model that can output text can fill it in.
+- The AI-video prompt format in `output/prompt/<slug>.md` is provider-agnostic text — paste into any free generator's web UI.
+
+### What is Claude Code-specific
+- The `/senaario`, `/storybord`, `/zanjireh`, … slash commands and their argument substitution.
+- The `Agent`-tool sub-agent delegation (parallel sub-agents running in isolated contexts).
+- The `AskUserQuestion` confirmation popups.
+
+### Portable mode — using the agents with Ollama or any local LLM
+A repeatable recipe:
+
+1. **Install a local runtime**, e.g.:
+   ```bash
+   # Ollama
+   curl -fsSL https://ollama.com/install.sh | sh
+   ollama pull qwen2.5:32b      # strong on long-form, multilingual, Persian-capable
+   ollama pull llama3.3:70b     # if you have the VRAM
+   ollama pull deepseek-r1:32b  # strong reasoning
+   ```
+2. **Hook it to a code-aware client** that can read/write your project files. Free options:
+   - **Aider** — `aider --model ollama/qwen2.5:32b` from inside the repo. Aider sees the whole tree.
+   - **Continue.dev** in VS Code — point its config at your Ollama endpoint.
+   - **Open WebUI** + the *Files* feature — drop the project as context.
+3. **Load an agent as the system prompt.** Open one of the four `.claude/agents/*.md` files, copy everything below the `---` YAML block, and paste it as the system / instructions / `.aider.conf.yml` `prompt:` field.
+4. **Drive the agent by hand** instead of slash commands. The conventions still apply: ask the LLM to "act as Daastansaraa, run `tahghigh` first, then `senaario`, and write outputs to `output/senaario/<slug>/`". The agent prompt already documents the file layout.
+
+### Suggested model picks for portable mode
+
+| Task | Recommended local model | Why |
+|---|---|---|
+| Long-form scenario in Farsi | `qwen2.5:32b-instruct` or `command-r:35b` | strong multilingual including Persian |
+| Story-doctoring & critique | `deepseek-r1:32b` or `qwen2.5:32b` | strong reasoning |
+| SVG storyboard generation | `qwen2.5-coder:32b` or `deepseek-coder-v2` | reliable structured text / XML |
+| Character bibles | `llama3.3:70b` or `qwen2.5:32b` | good at structured personas |
+| Research summarization | `qwen2.5:32b` or `gemma2:27b` | long context, faithful summary |
+
+### Free hosted alternatives (no install, no card)
+- **Google AI Studio** — Gemini 2.0 Flash / 2.5 free tier, generous quota.
+- **Groq** — free API for `llama-3.3-70b`, `qwen-2.5-32b`, `deepseek-r1-distill-70b`. Very fast.
+- **Together AI** — free trial credit.
+- **HuggingFace Inference Providers** — free monthly credits across many open models.
+- **Mistral Le Chat** — free web UI with strong models.
+
+### Honest caveats
+- Local 8-13B models will struggle with the storyboard SVG step and long-form Farsi consistency. Use 27B+ for serious work.
+- Without `AskUserQuestion`, the LLM may guess at unspecified format/length — be explicit in your prompt.
+- Without parallel sub-agents, you'll run steps sequentially. That's fine; it's just slower.
+
+---
+
 ## نام عامل / Agent name
 
 **Daastansaraa** (داستان‌سرا) — *the bard, the epic storyteller*. In Persian literature, a `داستان‌سرا` is the one who turns history, myth, and witness into a story worth retelling. That's the job.

@@ -145,11 +145,12 @@ Always produce work in **files**, not just chat. Default destinations:
 
 | Artifact | Path |
 |---|---|
-| Logline + synopsis | `output/senaario/<slug>/01-logline.md` |
-| Treatment | `output/senaario/<slug>/02-treatment.md` |
-| Beat sheet | `output/senaario/<slug>/03-beats.md` |
-| Scene list | `output/senaario/<slug>/04-scenes.md` |
-| Full script | `output/senaario/<slug>/05-filmnaameh.md` |
+| Logline | `output/senaario/<slug>/01-logline.md` |
+| Synopsis | `output/senaario/<slug>/02-synopsis.md` |
+| Treatment | `output/senaario/<slug>/03-treatment.md` |
+| Beat sheet | `output/senaario/<slug>/04-beats.md` |
+| Scene list | `output/senaario/<slug>/05-scenes.md` |
+| Full script | `output/senaario/<slug>/06-filmnaameh.md` |
 | Character bible | `output/shakhsiat/<slug>.md` |
 | Storyboard SVG | `output/storybord/<slug>/board-<NN>.svg` |
 | Shot list | `output/storybord/<slug>/shotlist.md` |
