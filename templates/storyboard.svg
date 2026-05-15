@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  storyboard.svg — base template for pardeh-negaar
+  6 panels (2 cols × 3 rows) on a 1600×1200 canvas at 16:9 panels.
+  Replace TEXT placeholders. Add stick-figure groups inside each panel <g>.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" font-family="sans-serif" font-size="14">
+  <style>
+    .frame  { fill: #ffffff; stroke: #111; stroke-width: 2; }
+    .label  { fill: #111; }
+    .small  { font-size: 11px; fill: #444; }
+    .badge  { fill: #111; }
+    .badgeT { fill: #fff; font-size: 11px; font-weight: 700; }
+    .dialog { font-style: italic; fill: #222; }
+    .legend { fill: #f6f6f6; stroke: #ccc; stroke-width: 1; }
+    .guide  { stroke: #ddd; stroke-width: 1; stroke-dasharray: 3,3; fill: none; }
+    .stick  { stroke: #111; stroke-width: 2; fill: none; stroke-linecap: round; }
+    .accent { fill: #c0392b; }
+    .ground { stroke: #666; stroke-width: 1; }
+  </style>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="1600" height="56" fill="#111"/>
+  <text x="24" y="36" fill="#fff" font-size="20" font-weight="700">PROJECT TITLE — Scene N — Page 1/?</text>
+  <text x="1576" y="36" fill="#fff" font-size="14" text-anchor="end">Daastansaraa · Pardeh-Negaar</text>
+
+  <!-- Legend strip -->
+  <rect x="0" y="56" width="1600" height="34" class="legend"/>
+  <text x="16" y="78" class="small">Shots: ELS · LS · MLS · MS · MCU · CU · ECU  |  Move: → pan  ↑↓ tilt  ⟶⟶ dolly-in  ↻ arc  ~~~ handheld  ▲▼ crane  ⊙ static  |  Lens: 24/35/50/85/135mm</text>
+
+  <!-- ============== PANEL 1 ============== -->
+  <g transform="translate(40,110)">
+    <rect class="frame" x="0" y="0" width="740" height="320"/>
+    <!-- rule-of-thirds guides -->
+    <line class="guide" x1="246" y1="0" x2="246" y2="320"/>
+    <line class="guide" x1="493" y1="0" x2="493" y2="320"/>
+    <line class="guide" x1="0" y1="106" x2="740" y2="106"/>
+    <line class="guide" x1="0" y1="213" x2="740" y2="213"/>
+    <!-- ground -->
+    <line class="ground" x1="0" y1="280" x2="740" y2="280"/>
+    <!-- stick figure (replace position freely) -->
+    <g transform="translate(370,200)">
+      <circle class="stick" cx="0" cy="0" r="10"/>
+      <line class="stick" x1="0" y1="10" x2="0" y2="50"/>
+      <line class="stick" x1="0" y1="20" x2="-16" y2="38"/>
+      <line class="stick" x1="0" y1="20" x2="16" y2="38"/>
+      <line class="stick" x1="0" y1="50" x2="-12" y2="78"/>
+      <line class="stick" x1="0" y1="50" x2="12" y2="78"/>
+    </g>
+    <!-- panel number badge -->
+    <rect class="badge" x="6" y="6" width="36" height="22" rx="3"/>
+    <text class="badgeT" x="24" y="22" text-anchor="middle">01</text>
+    <!-- shot-size + lens -->
+    <text class="label" x="730" y="22" text-anchor="end" font-weight="700">MS · 50mm</text>
+    <!-- camera move glyph -->
+    <text class="accent" x="730" y="42" text-anchor="end" font-size="18" font-weight="700">⟶⟶</text>
+    <!-- duration -->
+    <text class="small" x="730" y="58" text-anchor="end">4s</text>
+  </g>
+  <!-- captions -->
+  <text class="label" x="40" y="450" font-weight="700">[Action caption, ≤12 words, present tense.]</text>
+  <text class="dialog" x="40" y="470">[CHAR] "Dialogue snippet here." <tspan class="small">(ref: raw/...)</tspan></text>
+
+  <!-- ============== PANEL 2 ============== -->
+  <g transform="translate(820,110)">
+    <rect class="frame" x="0" y="0" width="740" height="320"/>
+    <line class="guide" x1="246" y1="0" x2="246" y2="320"/>
+    <line class="guide" x1="493" y1="0" x2="493" y2="320"/>
+    <line class="guide" x1="0" y1="106" x2="740" y2="106"/>
+    <line class="guide" x1="0" y1="213" x2="740" y2="213"/>
+    <line class="ground" x1="0" y1="280" x2="740" y2="280"/>
+    <rect class="badge" x="6" y="6" width="36" height="22" rx="3"/>
+    <text class="badgeT" x="24" y="22" text-anchor="middle">02</text>
+    <text class="label" x="730" y="22" text-anchor="end" font-weight="700">CU · 85mm</text>
+    <text class="accent" x="730" y="42" text-anchor="end" font-size="18" font-weight="700">⊙</text>
+    <text class="small" x="730" y="58" text-anchor="end">2s</text>
+  </g>
+  <text class="label" x="820" y="450" font-weight="700">[Action caption.]</text>
+  <text class="dialog" x="820" y="470">[CHAR] "Subtext line."</text>
+
+  <!-- ============== PANEL 3 ============== -->
+  <g transform="translate(40,500)">
+    <rect class="frame" x="0" y="0" width="740" height="320"/>
+    <line class="guide" x1="246" y1="0" x2="246" y2="320"/>
+    <line class="guide" x1="493" y1="0" x2="493" y2="320"/>
+    <line class="guide" x1="0" y1="106" x2="740" y2="106"/>
+    <line class="guide" x1="0" y1="213" x2="740" y2="213"/>
+    <line class="ground" x1="0" y1="280" x2="740" y2="280"/>
+    <rect class="badge" x="6" y="6" width="36" height="22" rx="3"/>
+    <text class="badgeT" x="24" y="22" text-anchor="middle">03</text>
+    <text class="label" x="730" y="22" text-anchor="end" font-weight="700">LS · 24mm</text>
+    <text class="accent" x="730" y="42" text-anchor="end" font-size="18" font-weight="700">→</text>
+    <text class="small" x="730" y="58" text-anchor="end">5s</text>
+  </g>
+  <text class="label" x="40" y="840" font-weight="700">[Action caption.]</text>
+  <text class="dialog" x="40" y="860">[no dialogue]</text>
+
+  <!-- ============== PANEL 4 ============== -->
+  <g transform="translate(820,500)">
+    <rect class="frame" x="0" y="0" width="740" height="320"/>
+    <line class="guide" x1="246" y1="0" x2="246" y2="320"/>
+    <line class="guide" x1="493" y1="0" x2="493" y2="320"/>
+    <line class="guide" x1="0" y1="106" x2="740" y2="106"/>
+    <line class="guide" x1="0" y1="213" x2="740" y2="213"/>
+    <line class="ground" x1="0" y1="280" x2="740" y2="280"/>
+    <rect class="badge" x="6" y="6" width="36" height="22" rx="3"/>
+    <text class="badgeT" x="24" y="22" text-anchor="middle">04</text>
+    <text class="label" x="730" y="22" text-anchor="end" font-weight="700">MCU · 50mm</text>
+    <text class="accent" x="730" y="42" text-anchor="end" font-size="18" font-weight="700">~~~</text>
+    <text class="small" x="730" y="58" text-anchor="end">3s</text>
+  </g>
+  <text class="label" x="820" y="840" font-weight="700">[Action caption.]</text>
+  <text class="dialog" x="820" y="860">[CHAR] "Line."</text>
+
+  <!-- ============== PANEL 5 ============== -->
+  <g transform="translate(40,890)">
+    <rect class="frame" x="0" y="0" width="740" height="260"/>
+    <line class="guide" x1="246" y1="0" x2="246" y2="260"/>
+    <line class="guide" x1="493" y1="0" x2="493" y2="260"/>
+    <line class="ground" x1="0" y1="230" x2="740" y2="230"/>
+    <rect class="badge" x="6" y="6" width="36" height="22" rx="3"/>
+    <text class="badgeT" x="24" y="22" text-anchor="middle">05</text>
+    <text class="label" x="730" y="22" text-anchor="end" font-weight="700">ECU · 135mm</text>
+    <text class="accent" x="730" y="42" text-anchor="end" font-size="18" font-weight="700">⊙</text>
+    <text class="small" x="730" y="58" text-anchor="end">2s</text>
+  </g>
+
+  <!-- ============== PANEL 6 ============== -->
+  <g transform="translate(820,890)">
+    <rect class="frame" x="0" y="0" width="740" height="260"/>
+    <line class="guide" x1="246" y1="0" x2="246" y2="260"/>
+    <line class="guide" x1="493" y1="0" x2="493" y2="260"/>
+    <line class="ground" x1="0" y1="230" x2="740" y2="230"/>
+    <rect class="badge" x="6" y="6" width="36" height="22" rx="3"/>
+    <text class="badgeT" x="24" y="22" text-anchor="middle">06</text>
+    <text class="label" x="730" y="22" text-anchor="end" font-weight="700">LS · 35mm</text>
+    <text class="accent" x="730" y="42" text-anchor="end" font-size="18" font-weight="700">↻</text>
+    <text class="small" x="730" y="58" text-anchor="end">4s</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="40" y="1180" class="small">Scene total: ~20s · Coverage: master + singles + insert · Notes: …</text>
+</svg>
