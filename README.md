@@ -187,9 +187,53 @@ Type any of these in Claude Code. All commands accept a `<slug>` argument (kebab
 | `/behtar <slug> [focus]` | بهتر · improve | Story-doctors an existing draft |
 | `/naghd <slug>` | نقد · critique | Diagnosis without rewriting |
 | `/gooneh <slug or idea>` | گونه · genre | Maps genre conventions + 5 reference works |
-| `/storybord <slug> [16x9\|9x16\|1x1]` | استوری‌بورد | SVG storyboard + shot-list |
+| `/storybord <slug> [scope] [aspect]` | استوری‌بورد | Professional SVG storyboard + shot-list. **Scope picker is mandatory** — see below |
+| `/mosaahebeh <slug> [subject]` | مصاحبه · interview | **Opt-in.** Design documentary interview question banks. Skip if your doc doesn't use interviews |
 | `/prompt-video <slug> [engine]` | پرامپت ویدئو | Per-shot AI-video prompts (free engines) |
 | `/zanjireh <slug> [variant]` | زنجیره · pipeline | Runs the full chain end-to-end |
+
+### Storyboard scope picker
+
+`/storybord` will never silently board your whole film. If you don't pass a scope, it asks. Available scopes:
+
+| Scope | What you get | Credit cost |
+|---|---|---|
+| `sample` | 1 page (~6 panels) from the most visually rich scene | minimal — **start here** |
+| `key` | The film's spine: opening, inciting incident, midpoint, all-is-lost, climax, final image | minimal |
+| `scene N` | One scene only | small |
+| `scene N-M` | A range of scenes | proportional |
+| `sequence N` | One of the 8 sequences (Frank Daniel method) | medium |
+| `act N` | Act 1, 2, or 3 | medium-large |
+| `all` | Whole script — only on explicit confirmation, with page-count warning | heavy |
+
+Hard cap per `/storybord` call: **4 pages (24 panels)**. Beyond that the agent halts and asks. This is the credit-safety rail.
+
+Examples:
+```
+/storybord pardeye-akhar sample              # one preview page
+/storybord pardeye-akhar key                 # 6 spine moments
+/storybord pardeye-akhar scene 4             # board just scene 4
+/storybord pardeye-akhar scene 12-15 16x9    # scenes 12-15, widescreen
+/storybord pardeye-akhar act 3               # full third act
+```
+
+### Storyboard quality bar
+
+Every panel is generated at production grade:
+- **Metadata bar** at the top: scene · shot · size · lens · height · angle · move · duration · sound tag.
+- **Aspect-correct frame** with letterboxing for 9:16, 2.39:1 inside each panel slot.
+- **Composition on the thirds grid** (faint dashed), with explicit FG/MG/BG depth.
+- **Light direction shown** with a sun symbol + ray arrow in the frame corner.
+- **Camera move arrows** (DOLLY-IN, PAN-R, CRANE-UP, ARC, HANDHELD, STATIC) in the top-right of the frame.
+- **Ghost frames** (dashed red) mark the *end* position of a camera move.
+- **Character symbols** (standing, walking, sitting, child, elder, crowd) from a reusable library — not raw stick figures.
+- **Action + dialogue + sound** captions per panel.
+
+The SVG sample at `output/storybord/sample-pardeye-akhar/board-01.svg` shows the bar.
+
+### Documentary interviews — opt-in
+
+Many documentaries don't use interviews at all (observational/Wiseman, poetic/Reggio, archival/Kapadia, essay/Marker). So **Daastansaraa never writes interview material unless you ask**. After scenario, if interviews would suit your project, the agent posts a suggestion: *"This doc would benefit from interviews. Run `/mosaahebeh <slug>` to design them."* If you don't ask, none get written. B-roll planning is always included for docs because it applies to every mode.
 
 ### Pipeline variants for `/zanjireh`
 

@@ -733,15 +733,21 @@ Use kebab-case Latin slugs (e.g. `pardeye-akhar`, `kafe-tehran-1399`).
 ### Step 3 — Show, then ask
 After each major artifact, summarize in **≤4 lines** what changed and what's next. Do not narrate every micro-step.
 
-### Step 4 — Storyboard rule (non-negotiable)
+### Step 4 — Storyboard rule (non-negotiable, professional grade)
 The user has stated: **the storyboard is the most important deliverable**. Therefore:
-- Always generate a real, viewable **SVG** storyboard, not just text.
-- Use the template at `templates/storyboard.svg` as the structural base.
-- Each scene gets one SVG page (6 panels per page typical).
-- Include: panel number, stick-figure blocking, frame composition, camera motion arrow, shot-size label, lens hint, action caption (≤12 words), dialogue snippet (if any), duration in seconds.
-- If the scene is longer than 6 panels, generate `board-01.svg`, `board-02.svg`, …
-- Also produce `shotlist.md` mirroring the SVGs.
-- If the user supplied reference images in `raw/`, name them in the panel captions: `(ref: raw/bazaar-night.jpg)`.
+- Always generate a real, viewable **SVG** storyboard, not just text — delegate to **pardeh-negaar**.
+- The quality bar is **professional production grade**: aspect-correct frames, metadata bar per panel (scene · shot · size · lens · height · angle · move · duration · sound), light direction indicator, ghost frames for camera moves, real character silhouettes from the symbol library (not raw stick figures), composition on the thirds grid, FG/MG/BG depth layers.
+- **Scope is opt-in, never assumed**. Before boarding, ask the user what to board:
+  - `sample` (1 page, ~6 panels — preview quality before committing more credit)
+  - `key` (the spine: opening, inciting, midpoint, all-is-lost, climax, final image)
+  - `scene N` or `scene N–M` (single or range)
+  - `sequence N` (one of 8 sequences)
+  - `act N` (acts 1, 2, or 3)
+  - `all` (whole script — only on explicit confirmation, with page-count warning)
+  Default the user's first choice to `sample`. **Never auto-board the whole film.**
+- Reuse the symbol library in `templates/storyboard.svg` (`#figStand`, `#figWalk`, `#figSit`, `#door`, `#arch`, `#window`, `#tree`, `#car`, `#sun`, `#moveDollyIn`, `#frame16x9`, …). Per-panel SVG should be mostly `<use>` calls — keeps pages ≤ 25 KB.
+- If the user supplied reference images in `raw/`, name them in the panel captions: `ref: raw/bazaar-night.jpg`.
+- Hard cap per `/storybord` invocation: **4 pages (24 panels)**. Beyond that, halt and ask.
 
 ### Step 5 — Free-tools rule
 **Never recommend a paid API.** When the user wants images/video generated:
@@ -749,6 +755,19 @@ The user has stated: **the storyboard is the most important deliverable**. There
 - Provide both an English prompt (engines need EN) and a Farsi gloss.
 - Provide negative prompts.
 - Provide a one-line "where to paste this" hint per shot.
+
+### Step 6 — Opt-in rule for documentary interviews
+Many documentary modes do not use interviews at all (observational, poetic, archival/Kapadia, essay/Marker). Therefore:
+- **Do not generate interview questions, transcripts, or interview-design files unless the user explicitly asks for them.**
+- If interviews would suit the project, post a **suggestion** in chat: *"This documentary would benefit from N interviews with [subject types]. To design them, run `/mosaahebeh <slug>`. Otherwise we'll proceed with B-roll, archival, and storyboard only."*
+- Wait for the user's go-ahead before producing any interview material.
+- This rule overrides any default pipeline behaviour. When in doubt, ask.
+
+### Step 7 — Credit discipline
+- Default any storyboard call to **`sample` scope** (1 page) unless the user specifies otherwise.
+- Cap `/storybord` invocations at 4 pages (24 panels) per call; halt and confirm if scope would exceed this.
+- Run sub-agents in parallel when their tasks are independent (research + character bible can run alongside scene work).
+- Do not iterate on SVG via `Edit` — write each page once with `Write`.
 
 ---
 
@@ -762,9 +781,9 @@ You support these named pipelines. They can be invoked by the user via slash com
 Runs the whole chain on a raw idea, producing all artifacts in `output/`.
 
 ### `zanjireh-documentary` — Documentary Pipeline
-`tahghigh → category-doc → arc-doc → interview-design → b-roll-list → storybord → prompt-video`
+`tahghigh → category-doc → arc-doc → b-roll-list → storybord → prompt-video`
 
-For non-fiction work, replaces dialogue-writing with interview-question design and B-roll planning.
+For non-fiction work. **Interviews are opt-in, not default** — many documentary modes (observational / Wiseman, poetic / Reggio, archival / Kapadia, essay / Marker) do not use interviews at all. After the arc step, post a one-paragraph suggestion: "Will this documentary use interviews? If yes, run `/mosaahebeh <slug>` to design them. If no, we proceed with B-roll + storyboard only." Only insert the `interview-design` step if the user explicitly requested interviews in the brief or replies yes to the suggestion. **Do not write interview material the user did not ask for.**
 
 ### `zanjireh-tabligh` — Ad / Short Pipeline
 `brief → logline → 3-act-60s → storybord-9x16 → prompt-video-9x16`

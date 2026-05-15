@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 2200" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <style>
+    .ink         { stroke: #111; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .thin        { stroke-width: 1; }
+    .med         { stroke-width: 1.5; }
+    .frame       { stroke: #111; stroke-width: 2.5; fill: #ffffff; }
+    .letterbox   { fill: #efefef; }
+    .grid        { stroke: #d0d0d0; stroke-width: 0.7; stroke-dasharray: 3 3; fill: none; }
+    .ground      { stroke: #777; stroke-width: 0.9; fill: none; }
+    .horizon     { stroke: #888; stroke-width: 0.7; stroke-dasharray: 5 4; fill: none; }
+    .arch        { stroke: #333; stroke-width: 1; fill: none; }
+    .light       { stroke: #d09a3a; stroke-width: 1.4; fill: none; }
+    .shadow      { fill: rgba(0,0,0,0.12); }
+    .metaT       { fill: #ffffff; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; }
+    .label       { fill: #111; font-size: 13px; }
+    .small       { fill: #555; font-size: 11px; }
+    .badge       { fill: #c0392b; }
+    .badgeT      { fill: #fff; font-size: 13px; font-weight: 800; }
+    .accent      { fill: #c0392b; }
+    .accentS     { stroke: #c0392b; stroke-width: 1.5; fill: none; }
+    .dialog      { fill: #1a1a1a; font-style: italic; font-size: 12px; }
+    .sfx         { fill: #6a3d00; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+    .head        { fill: #111; font-weight: 800; }
+    .legendBox   { fill: #fafafa; stroke: #ccc; stroke-width: 0.6; }
+    .ghost       { stroke: #c0392b; stroke-width: 1.2; stroke-dasharray: 4 3; fill: none; }
+  </style>
+
+  <defs>
+    <symbol id="figStand" viewBox="0 0 24 84" overflow="visible">
+      <circle class="ink med" cx="12" cy="6" r="5.5"/>
+      <line  class="ink med" x1="12" y1="11.5" x2="12" y2="20"/>
+      <path  class="ink med" d="M5.5 22 L18.5 22 L17 50 L7 50 Z"/>
+      <line  class="ink med" x1="6.5" y1="24" x2="2.5" y2="44"/>
+      <line  class="ink med" x1="17.5" y1="24" x2="21.5" y2="44"/>
+      <line  class="ink med" x1="8"  y1="50" x2="6"  y2="82"/>
+      <line  class="ink med" x1="16" y1="50" x2="18" y2="82"/>
+    </symbol>
+    <symbol id="figElder" viewBox="0 0 26 80" overflow="visible">
+      <circle class="ink med" cx="14" cy="8" r="5.5"/>
+      <line  class="ink med" x1="14" y1="13.5" x2="12" y2="22"/>
+      <path  class="ink med" d="M6 23 L19 23 L17 48 L9 48 Z"/>
+      <line  class="ink med" x1="7"  y1="25" x2="3"  y2="42"/>
+      <line  class="ink med" x1="18" y1="25" x2="24" y2="45"/>
+      <line  class="ink med" x1="10" y1="48" x2="9"  y2="78"/>
+      <line  class="ink med" x1="16" y1="48" x2="17" y2="78"/>
+      <line  class="ink med" x1="24" y1="45" x2="26" y2="78"/>
+    </symbol>
+    <symbol id="figSit" viewBox="0 0 30 60" overflow="visible">
+      <circle class="ink med" cx="14" cy="6" r="5.5"/>
+      <line  class="ink med" x1="14" y1="11.5" x2="14" y2="20"/>
+      <path  class="ink med" d="M8 22 L21 22 L19 40 L10 40 Z"/>
+      <line  class="ink med" x1="9"  y1="24" x2="3"  y2="38"/>
+      <line  class="ink med" x1="20" y1="24" x2="26" y2="38"/>
+      <line  class="ink med" x1="10" y1="40" x2="28" y2="42"/>
+      <line  class="ink med" x1="11" y1="40" x2="11" y2="58"/>
+      <line  class="ink med" x1="27" y1="40" x2="27" y2="58"/>
+    </symbol>
+    <symbol id="arch" viewBox="0 0 60 80" overflow="visible">
+      <path class="arch" d="M0 80 V30 Q0 0 30 0 Q60 0 60 30 V80"/>
+      <path class="arch" d="M4 80 V32 Q4 4 30 4 Q56 4 56 32 V80"/>
+    </symbol>
+    <symbol id="tree" viewBox="0 0 40 60" overflow="visible">
+      <line class="arch" x1="20" y1="60" x2="20" y2="32"/>
+      <path class="arch" d="M20 32 Q4 30 4 18 Q4 4 20 4 Q36 4 36 18 Q36 30 20 32 Z"/>
+    </symbol>
+    <symbol id="window" viewBox="0 0 30 40" overflow="visible">
+      <rect class="arch" x="0" y="0" width="30" height="40"/>
+      <line class="arch" x1="15" y1="0" x2="15" y2="40"/>
+      <line class="arch" x1="0" y1="20" x2="30" y2="20"/>
+    </symbol>
+    <symbol id="sun" viewBox="0 0 24 24" overflow="visible">
+      <circle class="ink thin" cx="12" cy="12" r="4"/>
+      <line class="ink thin" x1="12" y1="0"  x2="12" y2="3"/>
+      <line class="ink thin" x1="12" y1="21" x2="12" y2="24"/>
+      <line class="ink thin" x1="0"  y1="12" x2="3"  y2="12"/>
+      <line class="ink thin" x1="21" y1="12" x2="24" y2="12"/>
+      <line class="ink thin" x1="3"  y1="3"  x2="5"  y2="5"/>
+      <line class="ink thin" x1="19" y1="3"  x2="21" y2="5"/>
+      <line class="ink thin" x1="3"  y1="21" x2="5"  y2="19"/>
+      <line class="ink thin" x1="19" y1="21" x2="21" y2="19"/>
+    </symbol>
+    <symbol id="lightArrow" viewBox="0 0 40 12" overflow="visible">
+      <line class="light" x1="0" y1="6" x2="36" y2="6"/>
+      <polyline class="light" points="32,2 40,6 32,10"/>
+    </symbol>
+    <symbol id="moveDollyIn" viewBox="0 0 70 18" overflow="visible">
+      <line class="accentS" x1="2"  y1="9" x2="58" y2="9"/>
+      <line class="accentS" x1="14" y1="9" x2="58" y2="9"/>
+      <polyline class="accentS" points="52,3 60,9 52,15"/>
+      <text x="2" y="22" class="accent" font-size="9" font-weight="700">DOLLY-IN</text>
+    </symbol>
+    <symbol id="moveStatic" viewBox="0 0 30 18" overflow="visible">
+      <circle class="accentS" cx="9" cy="9" r="6"/>
+      <circle class="accent"  cx="9" cy="9" r="1.6"/>
+      <text x="20" y="13" class="accent" font-size="9" font-weight="700">STATIC</text>
+    </symbol>
+    <symbol id="moveCraneUp" viewBox="0 0 28 60" overflow="visible">
+      <path class="accentS" d="M14 56 V14 q0 -4 -8 -4"/>
+      <polyline class="accentS" points="2,16 6,10 10,16"/>
+      <text x="-6" y="68" class="accent" font-size="9" font-weight="700">CRANE-UP</text>
+    </symbol>
+    <symbol id="movePanR" viewBox="0 0 70 18" overflow="visible">
+      <path class="accentS" d="M2 9 Q35 0 60 9"/>
+      <polyline class="accentS" points="54,3 62,9 54,15"/>
+      <text x="2" y="22" class="accent" font-size="9" font-weight="700">PAN-R</text>
+    </symbol>
+    <symbol id="frame16x9" viewBox="0 0 760 428" overflow="visible">
+      <rect class="frame" x="0" y="0" width="760" height="428"/>
+      <line class="grid" x1="253" y1="0" x2="253" y2="428"/>
+      <line class="grid" x1="507" y1="0" x2="507" y2="428"/>
+      <line class="grid" x1="0" y1="143" x2="760" y2="143"/>
+      <line class="grid" x1="0" y1="285" x2="760" y2="285"/>
+    </symbol>
+  </defs>
+
+  <!-- HEADER -->
+  <rect x="0" y="0" width="1700" height="76" fill="#111"/>
+  <text x="32" y="34" fill="#fff" font-size="22" font-weight="800" letter-spacing="0.5">پرده‌ی آخر · The Final Curtain</text>
+  <text x="32" y="58" fill="#bbb" font-size="13">Scene 4 · INT. COURTYARD — AFTERNOON, ISFAHAN 1357</text>
+  <text x="1668" y="32" fill="#fff" font-size="13" text-anchor="end" font-weight="700">Page 1/1</text>
+  <text x="1668" y="52" fill="#bbb" font-size="11" text-anchor="end">Director: M. · Board: pardeh-negaar · 1404-02-25</text>
+  <text x="1668" y="70" fill="#888" font-size="10" text-anchor="end">Aspect: 16:9 · Scope: sample</text>
+
+  <rect class="legendBox" x="0" y="76" width="1700" height="36"/>
+  <text x="20" y="98" class="small" font-size="11"><tspan font-weight="700">Shots:</tspan> ELS · LS · MLS · MS · MCU · CU · ECU <tspan dx="14" font-weight="700">Lens:</tspan> 14 · 24 · 35 · 50 · 85 · 135 · 200 mm <tspan dx="14" font-weight="700">Height:</tspan> low · eye · high · overhead <tspan dx="14" font-weight="700">Angle:</tspan> level · canted · POV · OTS <tspan dx="14" font-weight="700">Move:</tspan> static · pan · tilt · dolly · truck · crane · arc · handheld</text>
+
+  <!-- ============ PANEL 1 ============ -->
+  <g transform="translate(40,130)">
+    <rect x="-10" y="-10" width="780" height="650" fill="#fff" stroke="#aaa" stroke-width="0.6"/>
+    <rect fill="#111" x="0" y="0" width="760" height="42" rx="3"/>
+    <text x="14" y="20" class="metaT">SC 4 · SH 1</text>
+    <text x="14" y="34" class="metaT" fill="#bbb" font-size="10">Establishing — empty courtyard</text>
+    <text x="380" y="20" class="metaT" text-anchor="middle">LS · 24mm · eye · level</text>
+    <text x="380" y="34" class="metaT" text-anchor="middle" fill="#bbb" font-size="10">master / coverage A</text>
+    <text x="746" y="20" class="metaT" text-anchor="end">5s</text>
+    <text x="746" y="34" class="metaT" text-anchor="end" fill="#bbb" font-size="10">SFX</text>
+    <circle class="badge" cx="-2" cy="0" r="18"/>
+    <text x="-2" y="5" text-anchor="middle" class="badgeT">1</text>
+    <g transform="translate(0,52)">
+      <use href="#frame16x9"/>
+      <line class="horizon" x1="0" y1="240" x2="760" y2="240"/>
+      <line class="ground"  x1="0" y1="370" x2="760" y2="370"/>
+      <!-- light from upper-left -->
+      <g transform="translate(40,30)">
+        <use href="#sun" width="22" height="22"/>
+        <g transform="rotate(35 30 6)"><use href="#lightArrow" x="22" y="0" width="40" height="12"/></g>
+      </g>
+      <!-- archways receding -->
+      <use href="#arch" x="60"  y="160" width="80" height="180"/>
+      <use href="#arch" x="160" y="180" width="60" height="150"/>
+      <use href="#arch" x="240" y="195" width="44" height="125"/>
+      <use href="#arch" x="580" y="160" width="80" height="180"/>
+      <use href="#arch" x="500" y="180" width="60" height="150"/>
+      <use href="#tree" x="690" y="240" width="40" height="120"/>
+      <!-- shadow under arch -->
+      <path class="shadow" d="M60 340 L140 340 L150 360 L50 360 Z"/>
+      <path class="shadow" d="M580 340 L660 340 L670 360 L570 360 Z"/>
+      <!-- camera move overlay -->
+      <g transform="translate(620,16)"><use href="#moveStatic" width="100" height="22"/></g>
+    </g>
+    <g transform="translate(0,492)">
+      <rect class="legendBox" x="0" y="0" width="760" height="148" rx="2"/>
+      <text class="head"   x="10" y="20" font-size="12">ACTION</text>
+      <text class="label"  x="10" y="40">Empty Safavid courtyard, afternoon light. The bench at center holds a folded letter.</text>
+      <text class="head"   x="10" y="64" font-size="12">DIALOGUE</text>
+      <text class="dialog" x="10" y="84">—</text>
+      <text class="head"   x="10" y="108" font-size="12">SOUND</text>
+      <text class="sfx"    x="10" y="126">DIST. AZAN · COURTYARD AMBIENCE · FAINT WIND</text>
+      <text class="small"  x="746" y="142" text-anchor="end">ref: raw/isfahan-courtyard.jpg</text>
+    </g>
+  </g>
+
+  <!-- ============ PANEL 2 ============ -->
+  <g transform="translate(900,130)">
+    <rect x="-10" y="-10" width="780" height="650" fill="#fff" stroke="#aaa" stroke-width="0.6"/>
+    <rect fill="#111" x="0" y="0" width="760" height="42" rx="3"/>
+    <text x="14" y="20" class="metaT">SC 4 · SH 2</text>
+    <text x="14" y="34" class="metaT" fill="#bbb" font-size="10">Maryam enters frame from left</text>
+    <text x="380" y="20" class="metaT" text-anchor="middle">MLS · 35mm · eye · level</text>
+    <text x="380" y="34" class="metaT" text-anchor="middle" fill="#bbb" font-size="10">PAN-R follows action</text>
+    <text x="746" y="20" class="metaT" text-anchor="end">4s</text>
+    <text x="746" y="34" class="metaT" text-anchor="end" fill="#bbb" font-size="10">SFX</text>
+    <circle class="badge" cx="-2" cy="0" r="18"/>
+    <text x="-2" y="5" text-anchor="middle" class="badgeT">2</text>
+    <g transform="translate(0,52)">
+      <use href="#frame16x9"/>
+      <line class="horizon" x1="0" y1="240" x2="760" y2="240"/>
+      <line class="ground"  x1="0" y1="370" x2="760" y2="370"/>
+      <g transform="translate(40,30)">
+        <use href="#sun" width="22" height="22"/>
+        <g transform="rotate(35 30 6)"><use href="#lightArrow" x="22" y="0" width="40" height="12"/></g>
+      </g>
+      <use href="#arch" x="100" y="170" width="68" height="160"/>
+      <use href="#arch" x="600" y="170" width="68" height="160"/>
+      <use href="#tree" x="700" y="230" width="40" height="120"/>
+      <!-- Maryam FG, walking right -->
+      <use href="#figStand" x="250" y="220" width="48" height="160"/>
+      <!-- ghost frame: end of pan -->
+      <rect class="ghost" x="370" y="60" width="320" height="308"/>
+      <g transform="translate(610,16)"><use href="#movePanR" width="120" height="32"/></g>
+    </g>
+    <g transform="translate(0,492)">
+      <rect class="legendBox" x="0" y="0" width="760" height="148" rx="2"/>
+      <text class="head"   x="10" y="20" font-size="12">ACTION</text>
+      <text class="label"  x="10" y="40">Maryam crosses the courtyard. The camera pans right, settling on the bench.</text>
+      <text class="head"   x="10" y="64" font-size="12">DIALOGUE</text>
+      <text class="dialog" x="10" y="84">—</text>
+      <text class="head"   x="10" y="108" font-size="12">SOUND</text>
+      <text class="sfx"    x="10" y="126">FOOTSTEPS ON STONE · DIST. AZAN CONT.</text>
+    </g>
+  </g>
+
+  <!-- ============ PANEL 3 ============ -->
+  <g transform="translate(40,810)">
+    <rect x="-10" y="-10" width="780" height="650" fill="#fff" stroke="#aaa" stroke-width="0.6"/>
+    <rect fill="#111" x="0" y="0" width="760" height="42" rx="3"/>
+    <text x="14" y="20" class="metaT">SC 4 · SH 3</text>
+    <text x="14" y="34" class="metaT" fill="#bbb" font-size="10">She sees the letter on the bench</text>
+    <text x="380" y="20" class="metaT" text-anchor="middle">MS · 50mm · eye · level</text>
+    <text x="380" y="34" class="metaT" text-anchor="middle" fill="#bbb" font-size="10">DOLLY-IN (slow)</text>
+    <text x="746" y="20" class="metaT" text-anchor="end">3s</text>
+    <text x="746" y="34" class="metaT" text-anchor="end" fill="#bbb" font-size="10">silence</text>
+    <circle class="badge" cx="-2" cy="0" r="18"/>
+    <text x="-2" y="5" text-anchor="middle" class="badgeT">3</text>
+    <g transform="translate(0,52)">
+      <use href="#frame16x9"/>
+      <line class="horizon" x1="0" y1="240" x2="760" y2="240"/>
+      <line class="ground"  x1="0" y1="370" x2="760" y2="370"/>
+      <g transform="translate(40,30)">
+        <use href="#sun" width="22" height="22"/>
+        <g transform="rotate(35 30 6)"><use href="#lightArrow" x="22" y="0" width="40" height="12"/></g>
+      </g>
+      <!-- bench -->
+      <rect class="arch" x="320" y="330" width="160" height="14"/>
+      <line class="arch" x1="335" y1="344" x2="335" y2="378"/>
+      <line class="arch" x1="465" y1="344" x2="465" y2="378"/>
+      <!-- folded letter on bench -->
+      <rect class="ink med" x="395" y="320" width="18" height="12" fill="#fff"/>
+      <!-- Maryam, slightly off-thirds left, facing right toward bench -->
+      <use href="#figStand" x="220" y="220" width="50" height="170"/>
+      <!-- ghost dolly-in end frame -->
+      <rect class="ghost" x="160" y="40" width="440" height="328"/>
+      <g transform="translate(610,16)"><use href="#moveDollyIn" width="120" height="32"/></g>
+    </g>
+    <g transform="translate(0,492)">
+      <rect class="legendBox" x="0" y="0" width="760" height="148" rx="2"/>
+      <text class="head"   x="10" y="20" font-size="12">ACTION</text>
+      <text class="label"  x="10" y="40">She stops mid-stride. The folded letter is on the bench. Camera dollies in.</text>
+      <text class="head"   x="10" y="64" font-size="12">DIALOGUE</text>
+      <text class="dialog" x="10" y="84">—</text>
+      <text class="head"   x="10" y="108" font-size="12">SOUND</text>
+      <text class="sfx"    x="10" y="126">AMBIENCE DROPS · SUDDEN INTERIOR-SILENCE</text>
+    </g>
+  </g>
+
+  <!-- ============ PANEL 4 ============ -->
+  <g transform="translate(900,810)">
+    <rect x="-10" y="-10" width="780" height="650" fill="#fff" stroke="#aaa" stroke-width="0.6"/>
+    <rect fill="#111" x="0" y="0" width="760" height="42" rx="3"/>
+    <text x="14" y="20" class="metaT">SC 4 · SH 4 · TURN</text>
+    <text x="14" y="34" class="metaT" fill="#bbb" font-size="10">Insert — the letter, dust on it</text>
+    <text x="380" y="20" class="metaT" text-anchor="middle">ECU · 135mm · overhead · down</text>
+    <text x="380" y="34" class="metaT" text-anchor="middle" fill="#bbb" font-size="10">insert / value-shift point</text>
+    <text x="746" y="20" class="metaT" text-anchor="end">2s</text>
+    <text x="746" y="34" class="metaT" text-anchor="end" fill="#bbb" font-size="10">SFX</text>
+    <circle class="badge" cx="-2" cy="0" r="18"/>
+    <text x="-2" y="5" text-anchor="middle" class="badgeT">4</text>
+    <g transform="translate(0,52)">
+      <use href="#frame16x9"/>
+      <!-- table-top surface -->
+      <rect class="arch" x="0" y="180" width="760" height="248" fill="#f5f1e7"/>
+      <!-- the letter, big, off-center on right third -->
+      <g transform="translate(380,140)">
+        <rect class="ink med" x="0" y="0" width="280" height="170" fill="#fffbe8"/>
+        <line class="arch" x1="40" y1="40" x2="240" y2="40"/>
+        <line class="arch" x1="40" y1="70" x2="240" y2="70"/>
+        <line class="arch" x1="40" y1="100" x2="200" y2="100"/>
+        <line class="arch" x1="40" y1="130" x2="240" y2="130"/>
+        <!-- dust marks -->
+        <circle class="shadow" cx="60" cy="20" r="1"/>
+        <circle class="shadow" cx="180" cy="50" r="1"/>
+        <circle class="shadow" cx="220" cy="120" r="1"/>
+        <circle class="shadow" cx="100" cy="155" r="1"/>
+      </g>
+      <!-- her fingertip entering from left -->
+      <path class="ink med" d="M40 250 L120 250 L130 240 L150 245 L155 260 L130 265 L120 260 L40 260 Z"/>
+      <g transform="translate(610,16)"><use href="#moveStatic" width="100" height="22"/></g>
+    </g>
+    <g transform="translate(0,492)">
+      <rect class="legendBox" x="0" y="0" width="760" height="148" rx="2"/>
+      <text class="head"   x="10" y="20" font-size="12">ACTION</text>
+      <text class="label"  x="10" y="40">Her fingertip enters frame. The folded paper. Dust on the surface. She hesitates.</text>
+      <text class="head"   x="10" y="64" font-size="12">DIALOGUE</text>
+      <text class="dialog" x="10" y="84">—</text>
+      <text class="head"   x="10" y="108" font-size="12">SOUND</text>
+      <text class="sfx"    x="10" y="126">BREATH · PAPER FAINT-CRINKLE</text>
+    </g>
+  </g>
+
+  <!-- ============ PANEL 5 ============ -->
+  <g transform="translate(40,1490)">
+    <rect x="-10" y="-10" width="780" height="650" fill="#fff" stroke="#aaa" stroke-width="0.6"/>
+    <rect fill="#111" x="0" y="0" width="760" height="42" rx="3"/>
+    <text x="14" y="20" class="metaT">SC 4 · SH 5</text>
+    <text x="14" y="34" class="metaT" fill="#bbb" font-size="10">Reaction — she reads the first line</text>
+    <text x="380" y="20" class="metaT" text-anchor="middle">MCU · 85mm · low · up</text>
+    <text x="380" y="34" class="metaT" text-anchor="middle" fill="#bbb" font-size="10">turning-point CU coverage</text>
+    <text x="746" y="20" class="metaT" text-anchor="end">4s</text>
+    <text x="746" y="34" class="metaT" text-anchor="end" fill="#bbb" font-size="10">V.O.</text>
+    <circle class="badge" cx="-2" cy="0" r="18"/>
+    <text x="-2" y="5" text-anchor="middle" class="badgeT">5</text>
+    <g transform="translate(0,52)">
+      <use href="#frame16x9"/>
+      <line class="horizon" x1="0" y1="200" x2="760" y2="200"/>
+      <g transform="translate(40,30)">
+        <use href="#sun" width="22" height="22"/>
+        <g transform="rotate(35 30 6)"><use href="#lightArrow" x="22" y="0" width="40" height="12"/></g>
+      </g>
+      <!-- low angle: figure tall in frame, sky-side -->
+      <use href="#figElder" x="280" y="60" width="180" height="350"/>
+      <g transform="translate(610,16)"><use href="#moveStatic" width="100" height="22"/></g>
+    </g>
+    <g transform="translate(0,492)">
+      <rect class="legendBox" x="0" y="0" width="760" height="148" rx="2"/>
+      <text class="head"   x="10" y="20" font-size="12">ACTION</text>
+      <text class="label"  x="10" y="40">Her eyes find the first line. Something inside her shifts. She does not lower the paper.</text>
+      <text class="head"   x="10" y="64" font-size="12">DIALOGUE</text>
+      <text class="dialog" x="10" y="84">MARYAM (V.O., whisper): "پدر آمد. اما دیر آمد."</text>
+      <text class="head"   x="10" y="108" font-size="12">SOUND</text>
+      <text class="sfx"    x="10" y="126">SILENCE · AZAN ENDS · STRING-BED BEGINS</text>
+    </g>
+  </g>
+
+  <!-- ============ PANEL 6 ============ -->
+  <g transform="translate(900,1490)">
+    <rect x="-10" y="-10" width="780" height="650" fill="#fff" stroke="#aaa" stroke-width="0.6"/>
+    <rect fill="#111" x="0" y="0" width="760" height="42" rx="3"/>
+    <text x="14" y="20" class="metaT">SC 4 · SH 6 · OUT</text>
+    <text x="14" y="34" class="metaT" fill="#bbb" font-size="10">She sits. Alone. Crane up.</text>
+    <text x="380" y="20" class="metaT" text-anchor="middle">LS → ELS · 35mm · crane · down</text>
+    <text x="380" y="34" class="metaT" text-anchor="middle" fill="#bbb" font-size="10">out-shot, transitions to Sc 5</text>
+    <text x="746" y="20" class="metaT" text-anchor="end">6s</text>
+    <text x="746" y="34" class="metaT" text-anchor="end" fill="#bbb" font-size="10">MUSIC</text>
+    <circle class="badge" cx="-2" cy="0" r="18"/>
+    <text x="-2" y="5" text-anchor="middle" class="badgeT">6</text>
+    <g transform="translate(0,52)">
+      <use href="#frame16x9"/>
+      <line class="horizon" x1="0" y1="160" x2="760" y2="160"/>
+      <line class="ground"  x1="0" y1="380" x2="760" y2="380"/>
+      <g transform="translate(40,30)">
+        <use href="#sun" width="22" height="22"/>
+        <g transform="rotate(35 30 6)"><use href="#lightArrow" x="22" y="0" width="40" height="12"/></g>
+      </g>
+      <!-- wide courtyard from above -->
+      <use href="#arch" x="50"  y="180" width="60" height="140"/>
+      <use href="#arch" x="640" y="180" width="60" height="140"/>
+      <use href="#tree" x="80"  y="270" width="36" height="110"/>
+      <use href="#tree" x="660" y="270" width="36" height="110"/>
+      <!-- bench center, Maryam seated -->
+      <rect class="arch" x="340" y="335" width="80" height="6"/>
+      <use href="#figSit" x="370" y="265" width="36" height="80"/>
+      <!-- ghost crane-up end frame: wider -->
+      <rect class="ghost" x="120" y="20" width="520" height="380"/>
+      <g transform="translate(680,12)"><use href="#moveCraneUp" width="22" height="44"/></g>
+    </g>
+    <g transform="translate(0,492)">
+      <rect class="legendBox" x="0" y="0" width="760" height="148" rx="2"/>
+      <text class="head"   x="10" y="20" font-size="12">ACTION</text>
+      <text class="label"  x="10" y="40">She sits on the bench, alone. Camera cranes up. The courtyard absorbs her.</text>
+      <text class="head"   x="10" y="64" font-size="12">DIALOGUE</text>
+      <text class="dialog" x="10" y="84">—</text>
+      <text class="head"   x="10" y="108" font-size="12">SOUND</text>
+      <text class="sfx"    x="10" y="126">SOLO TAR · WIND BUILDS · FADE TO SC 5</text>
+    </g>
+  </g>
+
+  <text x="40" y="2180" class="small">Scene total: ~24s · Coverage: master + singles + insert + crane-out · Notes: turning point on SH 5; CU is earned.</text>
+  <text x="1660" y="2180" class="small" text-anchor="end">pardeh-negaar · daastansaraa · storyboard 1/1 · sample</text>
+</svg>

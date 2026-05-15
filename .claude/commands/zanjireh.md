@@ -26,7 +26,12 @@ Run sub-agents in parallel whenever steps are independent (e.g. shakhsiat alongs
 
 After each step, post a one-line status update so the user can see progress. At the end, surface the storyboard SVGs and shotlist via `SendUserFile`.
 
-Documentary variant: skip the dialogue step; insert an "interview-design" step that produces `output/senaario/$1/interviews.md` (question banks per subject) and a "b-roll" step that produces `output/senaario/$1/broll.md`.
+Documentary variant: skip the dialogue step. **Do NOT generate interview material by default** — many documentary modes (observational, poetic, archival, essay) don't use interviews. Instead, after the scenario step, post a one-paragraph **suggestion** noting:
+- Whether interviews would suit the chosen documentary mode.
+- If yes, suggest the user run `/mosaahebeh $1` to design them.
+- If the user explicitly asks for interviews in the brief, then include the interview-design step.
+
+Always include the **B-roll** step for documentary — it's useful in every mode.
 
 Tabligh variant: clamp runtime to 60–90s, default aspect 9:16, default to 3-act-in-60s structure.
 
