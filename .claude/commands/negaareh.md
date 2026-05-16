@@ -1,30 +1,37 @@
 ---
-description: نگاره — Hollywood-style drawn storyboard. Detailed figures with faces and clothing, Persian architectural detail, paper-toned hand-drawn aesthetic. Scope is percentage of runtime — say `/negaareh slug 50` for 50%.
-argument-hint: [project-slug] [percentage 1-100] [optional aspect: 16x9 | 9x16 | 1x1 | 2.39x1]
+description: نگاره — Comic-book / Hollywood storyboard with REAL drawn images via Pollinations.ai (free, no API key). Produces an HTML contact-sheet you open in your browser. Scope is percentage of runtime.
+argument-hint: [project-slug] [percentage 1-100] [style: comic | realistic | anime | noir | watercolor | graphic-novel] [aspect: 16x9 | 9x16 | 1x1 | 2.39x1]
 ---
 
-Invoke **negaaregar** to draw a Hollywood-style storyboard for `output/senaario/$1/`.
+Invoke **negaaregar** to plan and prompt a comic-book-grade storyboard.
 
-This is the **presentation-fidelity** board — for pitch decks, festival packages, the director's portfolio. For a quick planning board with no drawn detail, use `/storybord` instead.
+**What this produces:** An HTML contact sheet at `output/negaareh/$1/board.html`. Each panel is rendered as a real drawn image by **Pollinations.ai** (a free image API — no key required) when you open the HTML in any browser. Claude does *not* draw the images; it writes the prompts and assembles the page. The browser does the fetching.
+
+This replaces the previous SVG-based `/negaareh`. For schematic planning boards (clean stick-figure SVGs, low credit), use `/storybord` instead.
 
 Inputs (`$ARGUMENTS`):
 - Slug: `$1` (required).
-- Percentage: `$2` — **integer 1–100**. The fraction of total video runtime to board. The agent selects the most dramatically important scenes whose combined duration adds up to that percentage. Example: `/negaareh pardeye-akhar 50` = board 50% of the film, chosen by dramatic weight.
-- Aspect: `$3` — `16x9` (default), `9x16`, `1x1`, `2.39x1`.
+- Percentage: `$2` — integer 1–100. The fraction of total runtime to board. Scenes are picked by dramatic weight (climax/midpoint/inciting/all-is-lost first, then turning points, then setups) until cumulative duration ≥ target.
+- Style: `$3` — `comic` (default) / `realistic` / `anime` / `noir` / `watercolor` / `graphic-novel`.
+- Aspect: `$4` — `16x9` (default) / `9x16` / `1x1` / `2.39x1`.
 
 Steps:
-1. Verify `output/senaario/$1/05-scenes.md` (or `06-filmnaameh.md`) exists. If neither, halt and direct the user to `/senaario` first.
-2. If percentage (`$2`) is missing, ask via `AskUserQuestion` with options: 10% (key beats), 25% (spine), 50% (extended spine), 100% (whole film). **Default to 25% — never auto-board the whole film.**
-3. Pass percentage + aspect to **negaaregar**.
-4. Negaaregar runs its scene-selection algorithm (score by dramatic weight, greedy-fill until cumulative duration ≥ target).
-5. If projected page count > 4 pages, negaaregar halts and confirms with the user before drawing.
-6. Hard cap: **6 pages (36 panels) per call**. Above that, negaaregar tells the user to lower the percentage.
-7. Outputs:
-   - `output/negaareh/$1/board-NN.svg` — one page per 6 panels.
-   - `output/negaareh/$1/shotlist.md` — single master table.
-   - `output/negaareh/$1/_cast-map.md` — which figure symbol represents which character (for consistency).
-   - `output/negaareh/$1/ai-prompts.md` — companion file with prompts for Bing Image Creator / Leonardo / Flux Schnell if the user wants to upgrade panels to fully-illustrated keyframes via free generators.
-   - `output/negaareh/$1/coverage.md` — what was boarded, what was skipped, the actual percentage achieved.
-8. After completion, surface `board-01.svg` + `shotlist.md` via `SendUserFile`.
+1. Verify `output/senaario/$1/05-scenes.md` and `04-beats.md` exist. If not, halt and direct the user to `/senaario` first — we cannot board what isn't written.
+2. If percentage missing, ask via `AskUserQuestion` with options: 10% (key beats only) · 25% (recommended default — spine) · 50% (extended spine + secondaries) · 100% (whole film, confirm page count first).
+3. Pass to **negaaregar**.
+4. Negaaregar:
+   - Selects scenes by dramatic weight to hit the percentage target.
+   - Builds a `_cast-map.md` so character faces stay consistent across panels (Flux honors repeated character phrases).
+   - Writes 60–120-word optimized comic-book prompts per panel.
+   - URL-encodes each prompt and assembles `board.html` with `<img src="pollinations-url"/>` per panel.
+   - Writes `prompts.tsv` for bulk offline rendering via `tools/render-panels.sh`.
+   - Writes `prompts.md` (human-readable + Bing/Leonardo paste fallback), `shotlist.md`, `coverage.md`.
+5. Hard caps: max **36 panels per call**. Beyond that, halt and confirm.
+6. After completion, surface `board.html` via `SendUserFile`. Tell the user: *"Open board.html in your browser. Each panel loads from Pollinations.ai in 5–15 seconds."*
 
-Use the **negaaregar** sub-agent. Quality bar is Hollywood-presentation grade — paper background, sketch-filtered linework, detailed character silhouettes with faces and clothing, Persian architectural detail (arches, dome, cypress), warm light washes, cross-hatched shadows.
+### How the user views it
+- Open `output/negaareh/$1/board.html` in any modern browser (Chrome, Firefox, Safari, Edge). The browser fetches each image from `image.pollinations.ai` on first load.
+- For an offline archive: run `tools/render-panels.sh output/negaareh/$1/prompts.tsv` to download all panels as JPGs.
+- Fallback if Pollinations is unreachable from the user's network: paste the prompts from `prompts.md` into **Bing Image Creator** (free DALL·E 3), **Leonardo AI free**, or **Krea free**.
+
+Use the **negaaregar** sub-agent. Claude doesn't draw; Pollinations.ai (Flux Schnell) does. We orchestrate.

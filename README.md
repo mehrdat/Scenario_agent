@@ -218,54 +218,82 @@ Examples:
 /storybord pardeye-akhar act 3               # full third act
 ```
 
-### Two storyboard fidelities — `/storybord` vs `/negaareh`
+### Honest disclaimer about images
 
-You have two storyboard commands because they serve different needs:
+**Claude (this CLI) cannot generate raster images.** It's a text/code model. SVG (which is text) Claude can write, but pixel-art with recognizable faces is outside its capability — no amount of prompting changes that.
+
+For real comic-book / Hollywood-style storyboard images, this project orchestrates **Pollinations.ai** — a free image API powered by Flux Schnell that requires **no API key and no signup**. Claude writes optimized prompts and assembles an HTML contact-sheet; your browser fetches each panel from Pollinations when you open the HTML. Zero paid services anywhere in the loop.
+
+If pollinations.ai is unreachable from your network, the agent provides fallback paste-instructions for **Bing Image Creator (DALL·E 3, free)**, **Leonardo AI free tier**, and **Krea AI free**.
+
+### Two storyboard commands — pick the right one
 
 | | `/storybord` (pardeh-negaar) | `/negaareh` (negaaregar) |
 |---|---|---|
-| **Purpose** | Planning the shoot, blocking the day | Pitch deck, festival, portfolio, presentation |
-| **Aesthetic** | Schematic — clean ink lines, stick figures, white background | **Drawn** — paper-toned, sketch-filtered ink, detailed character silhouettes with faces / clothing / hair, Persian architectural detail (arches, domes, cypress trees), warm light washes, cross-hatched shadows |
-| **Scope picker** | `sample` / `key` / `scene N` / `sequence N` / `act N` / `all` | **Percentage of runtime**: `/negaareh slug 25` = 25% of total runtime |
-| **Selection** | What you ask for | Most dramatically important scenes that fit the % budget |
-| **Panels per scene** | 2–10 | 3–6 (denser composition) |
-| **File size per page** | ≤ 25 KB | ≤ 70 KB |
-| **Hard cap per call** | 4 pages (24 panels) | 6 pages (36 panels) |
-| **Bonus output** | `shotlist.md`, `timeline.md` | `shotlist.md` + `_cast-map.md` + `ai-prompts.md` (companion prompts for Bing / Leonardo / Flux Schnell if you want to upgrade panels to fully-illustrated keyframes via free AI generators) |
-| **Credit cost** | Minimal | Medium (~3× of `/storybord` per page) |
+| **What it produces** | SVG file (schematic) | **HTML contact-sheet** with real drawn images |
+| **Who draws** | Claude writes SVG geometry directly | **Pollinations.ai (Flux Schnell)** renders each panel — your browser fetches |
+| **What it looks like** | Clean ink lines, stick figures, white background — a planning document | Comic-book / Hollywood storyboard panels with recognizable faces, action, locations, drawn in pencil / ink / chosen style |
+| **Best for** | Planning the shoot, blocking the day, scratch notes | Pitch deck, festival package, presentation, portfolio |
+| **Scope picker** | `sample` / `key` / `scene N` / `sequence N` / `act N` / `all` | **Percentage of runtime**: `/negaareh slug 25` = 25% |
+| **Style options** | (one style — schematic) | `comic` (default) / `realistic` / `anime` / `noir` / `watercolor` / `graphic-novel` |
+| **Hard cap per call** | 4 pages (24 panels) | 36 panels |
+| **Credit cost** | Minimal | Low — Claude only writes prompts + HTML; image generation happens in your browser |
+| **Network required** | No (SVG renders offline) | Yes — browser must reach pollinations.ai (or use fallback) |
 
-Use one, the other, or both. They write to different folders (`output/storybord/` vs `output/negaareh/`) so they coexist cleanly.
+Use one, the other, or both. They write to different folders (`output/storybord/` vs `output/negaareh/`).
 
-#### `/negaareh` percentage examples
+#### `/negaareh` examples
 ```
-/negaareh pardeye-akhar 10                # 10% — just the absolute spine
-/negaareh pardeye-akhar 25                # 25% — recommended default for pitch decks
-/negaareh pardeye-akhar 50 16x9           # 50% — extended spine + secondary beats
-/negaareh pardeye-akhar 100               # whole film (confirm page count first)
-/negaareh kafe-tehran-1399 70 9x16        # 70% of a vertical short
+/negaareh pardeye-akhar 10                       # 10% — absolute spine, ~6 panels
+/negaareh pardeye-akhar 25                       # 25% — pitch-deck default
+/negaareh pardeye-akhar 50 comic                 # 50% in pencil-sketch comic style
+/negaareh pardeye-akhar 100 graphic-novel        # whole film, bold cel-shaded
+/negaareh kafe-tehran-1399 70 noir 9x16          # 70%, B&W film noir, vertical
 ```
 
-The agent reads your `04-beats.md`, scores each scene by dramatic weight (opening / inciting / midpoint / all-is-lost / climax = 10 points; secondary turning points = 6–7; setups = 4), then greedy-selects scenes from highest score down until cumulative duration ≥ target. Result: a board that always covers the *most important* moments first.
+#### How you actually view the images
+1. After `/negaareh` finishes, open `output/negaareh/<slug>/board.html` in any browser.
+2. Each panel loads from `image.pollinations.ai` in 5–15 seconds. Don't refresh — they fetch in parallel.
+3. Same prompt + same seed = identical image on every load (Pollinations caches by URL).
+4. To download all panels as JPG (for sharing / Keynote / archival): run
+   ```
+   bash tools/render-panels.sh output/negaareh/<slug>/prompts.tsv
+   ```
+   This downloads each panel into `output/negaareh/<slug>/panels/`.
 
-#### Sample comparison
-- `output/storybord/sample-pardeye-akhar/board-01.svg` — schematic, 23 KB
-- `output/negaareh/sample-pardeye-akhar/board-01.svg` — drawn, 49 KB
+#### What if my network blocks pollinations.ai?
+Open `output/negaareh/<slug>/prompts.md` and paste each prompt manually into:
+- **Bing Image Creator** ([copilot.microsoft.com/images](https://copilot.microsoft.com/images)) — free, DALL·E 3 quality
+- **Leonardo AI** free tier — has storyboard style presets
+- **Krea AI** free tier
+- **HuggingFace Spaces** — search "flux schnell"
+- **Local Stable Diffusion** — Automatic1111, ComfyUI, Fooocus
 
-Same scene, same coverage, different fidelity.
+Either way the image generation is free.
 
-### Storyboard quality bar (both commands)
+### `/storybord` panel quality bar (schematic / planning use)
 
-Every panel is generated at production grade:
+Every SVG panel includes:
 - **Metadata bar** at the top: scene · shot · size · lens · height · angle · move · duration · sound tag.
-- **Aspect-correct frame** with letterboxing for 9:16, 2.39:1 inside each panel slot.
-- **Composition on the thirds grid** (faint dashed), with explicit FG/MG/BG depth.
-- **Light direction shown** with a sun symbol + ray arrow in the frame corner.
-- **Camera move arrows** (DOLLY-IN, PAN-R, CRANE-UP, ARC, HANDHELD, STATIC) in the top-right of the frame.
-- **Ghost frames** (dashed red) mark the *end* position of a camera move.
-- **Character symbols** (standing, walking, sitting, child, elder, crowd) from a reusable library — not raw stick figures.
-- **Action + dialogue + sound** captions per panel.
+- **Aspect-correct frame** with letterboxing for 9:16, 2.39:1.
+- **Thirds grid**, horizon, ground line, FG/MG/BG depth.
+- **Light-direction indicator** (sun + ray arrow) so the gaffer reads the key.
+- **Camera move arrows** (DOLLY-IN, PAN-R, CRANE-UP, ARC, HANDHELD, STATIC) inside the frame.
+- **Ghost frames** (dashed red) marking the end of a camera move.
+- **Character symbols** (standing, walking, sitting, child, elder, crowd) — not raw stick lines.
+- **Caption block** with action / dialogue / sound.
 
-The SVG sample at `output/storybord/sample-pardeye-akhar/board-01.svg` shows the bar.
+Sample: `output/storybord/sample-pardeye-akhar/board-01.svg`. Open in any browser.
+
+### `/negaareh` panel quality (drawn / presentation use)
+
+Each panel is a **real raster image rendered by Pollinations.ai (Flux Schnell)** in your browser. Quality depends on:
+- The prompt — written by negaaregar, 60–120 words, period-anchored, character-anchored.
+- The seed — deterministic per panel so the same prompt always produces the same image.
+- The style key — `comic`, `realistic`, `anime`, `noir`, `watercolor`, `graphic-novel`.
+- Face continuity across panels — the `_cast-map.md` defines a single character phrase that gets pasted into every panel where that character appears, so Flux gives them the same face throughout.
+
+Sample contact-sheet: `output/negaareh/sample-pardeye-akhar/board.html` — open in your browser. Real drawings will appear over the first ~30 seconds as Pollinations renders.
 
 ### Documentary interviews — opt-in
 
