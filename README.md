@@ -187,7 +187,8 @@ Type any of these in Claude Code. All commands accept a `<slug>` argument (kebab
 | `/behtar <slug> [focus]` | بهتر · improve | Story-doctors an existing draft |
 | `/naghd <slug>` | نقد · critique | Diagnosis without rewriting |
 | `/gooneh <slug or idea>` | گونه · genre | Maps genre conventions + 5 reference works |
-| `/storybord <slug> [scope] [aspect]` | استوری‌بورد | Professional SVG storyboard + shot-list. **Scope picker is mandatory** — see below |
+| `/storybord <slug> [scope] [aspect]` | استوری‌بورد · planning board | Schematic SVG storyboard for planning the shoot. Low credit, clean lines. Scope picker is mandatory |
+| `/negaareh <slug> <percentage> [aspect]` | نگاره · drawn board | **Hollywood-style drawn storyboard.** Paper background, sketchy ink, real character silhouettes with faces & clothing, Persian arch / dome / cypress detail. Scope is % of runtime |
 | `/mosaahebeh <slug> [subject]` | مصاحبه · interview | **Opt-in.** Design documentary interview question banks. Skip if your doc doesn't use interviews |
 | `/prompt-video <slug> [engine]` | پرامپت ویدئو | Per-shot AI-video prompts (free engines) |
 | `/zanjireh <slug> [variant]` | زنجیره · pipeline | Runs the full chain end-to-end |
@@ -217,7 +218,42 @@ Examples:
 /storybord pardeye-akhar act 3               # full third act
 ```
 
-### Storyboard quality bar
+### Two storyboard fidelities — `/storybord` vs `/negaareh`
+
+You have two storyboard commands because they serve different needs:
+
+| | `/storybord` (pardeh-negaar) | `/negaareh` (negaaregar) |
+|---|---|---|
+| **Purpose** | Planning the shoot, blocking the day | Pitch deck, festival, portfolio, presentation |
+| **Aesthetic** | Schematic — clean ink lines, stick figures, white background | **Drawn** — paper-toned, sketch-filtered ink, detailed character silhouettes with faces / clothing / hair, Persian architectural detail (arches, domes, cypress trees), warm light washes, cross-hatched shadows |
+| **Scope picker** | `sample` / `key` / `scene N` / `sequence N` / `act N` / `all` | **Percentage of runtime**: `/negaareh slug 25` = 25% of total runtime |
+| **Selection** | What you ask for | Most dramatically important scenes that fit the % budget |
+| **Panels per scene** | 2–10 | 3–6 (denser composition) |
+| **File size per page** | ≤ 25 KB | ≤ 70 KB |
+| **Hard cap per call** | 4 pages (24 panels) | 6 pages (36 panels) |
+| **Bonus output** | `shotlist.md`, `timeline.md` | `shotlist.md` + `_cast-map.md` + `ai-prompts.md` (companion prompts for Bing / Leonardo / Flux Schnell if you want to upgrade panels to fully-illustrated keyframes via free AI generators) |
+| **Credit cost** | Minimal | Medium (~3× of `/storybord` per page) |
+
+Use one, the other, or both. They write to different folders (`output/storybord/` vs `output/negaareh/`) so they coexist cleanly.
+
+#### `/negaareh` percentage examples
+```
+/negaareh pardeye-akhar 10                # 10% — just the absolute spine
+/negaareh pardeye-akhar 25                # 25% — recommended default for pitch decks
+/negaareh pardeye-akhar 50 16x9           # 50% — extended spine + secondary beats
+/negaareh pardeye-akhar 100               # whole film (confirm page count first)
+/negaareh kafe-tehran-1399 70 9x16        # 70% of a vertical short
+```
+
+The agent reads your `04-beats.md`, scores each scene by dramatic weight (opening / inciting / midpoint / all-is-lost / climax = 10 points; secondary turning points = 6–7; setups = 4), then greedy-selects scenes from highest score down until cumulative duration ≥ target. Result: a board that always covers the *most important* moments first.
+
+#### Sample comparison
+- `output/storybord/sample-pardeye-akhar/board-01.svg` — schematic, 23 KB
+- `output/negaareh/sample-pardeye-akhar/board-01.svg` — drawn, 49 KB
+
+Same scene, same coverage, different fidelity.
+
+### Storyboard quality bar (both commands)
 
 Every panel is generated at production grade:
 - **Metadata bar** at the top: scene · shot · size · lens · height · angle · move · duration · sound tag.

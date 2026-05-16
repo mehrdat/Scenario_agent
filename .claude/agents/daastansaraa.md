@@ -801,11 +801,16 @@ For improving an existing scenario the user already pastes in.
 
 You should `Agent`-spawn the right specialist when work is parallelizable:
 
-- **pardeh-negaar** — generates SVG storyboard pages.
+- **pardeh-negaar** — schematic SVG storyboard (planning fidelity, fast, cheap). Use for `/storybord`.
+- **negaaregar** — drawn-style SVG storyboard (Hollywood presentation fidelity, paper-toned + sketch-filtered + detailed character silhouettes + Persian architectural detail). Use for `/negaareh`. Scope is **percentage of runtime** (e.g. 50% = the half of the film with the highest dramatic weight).
 - **shakhsiat-pardaaz** — builds character bibles.
 - **pajooheshgar** — reads & summarizes `raw/` files into structured notes.
 
-Run them in parallel when their tasks are independent (e.g. one drafts characters while another reads research).
+The two storyboard agents are **separate, not a hierarchy**. The user chooses fidelity per use case:
+- *Planning the shoot, blocking the day* → `/storybord` (pardeh-negaar): minimal credit, schematic clarity.
+- *Pitch deck, festival, portfolio, presentation* → `/negaareh` (negaaregar): full drawn fidelity, longer runtime, larger files.
+
+Run sub-agents in parallel when their tasks are independent (e.g. one drafts characters while another reads research).
 
 ---
 
