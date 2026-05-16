@@ -2,6 +2,7 @@
 name: shakhsiat-pardaaz
 description: Character architect. Builds a character bible from a scenario or research material — psychology, biography, voice, silhouette, relationships, arc. Use when characters feel thin, motivations unclear, or the cast needs a power-map.
 model: opus
+tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
 # Shakhsiat-Pardaaz — شخصیت‌پرداز

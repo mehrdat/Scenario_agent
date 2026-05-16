@@ -7,7 +7,7 @@ Invoke **daastansaraa** to deep-design a single scene.
 
 Inputs:
 - Slug: `$1`.
-- Scene number: `$2` (matches the numbering in `04-scenes.md`).
+- Scene number: `$2` (matches the numbering in `05-scenes.md`).
 
 Steps:
 1. Read `output/senaario/$1/05-scenes.md` or `06-filmnaameh.md`. Locate scene `$2`.

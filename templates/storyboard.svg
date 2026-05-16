@@ -1,143 +1,532 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  storyboard.svg — base template for pardeh-negaar
-  6 panels (2 cols × 3 rows) on a 1600×1200 canvas at 16:9 panels.
-  Replace TEXT placeholders. Add stick-figure groups inside each panel <g>.
+  storyboard.svg — professional template for pardeh-negaar.
+  6 panels (2 cols × 3 rows) on a 1700×2200 canvas. 16:9 frame ratio inside each panel.
+  Pardeh-negaar should:
+    1. Copy this whole file.
+    2. Replace TITLE/SCENE/PAGE in the header.
+    3. For each panel, drop <use> calls referencing the symbol library in <defs>.
+       Reuse keeps per-page SVG small (≤ 25KB) and visually consistent.
+    4. Fill the metadata block (shot size · lens · move · duration · sound).
+    5. Write action + dialogue captions under each panel.
+
+  Coordinate system per panel (set by translate()):
+    Frame inside panel: x=0, y=70, w=760, h=428  (760×428 = 16:9)
+    Metadata bar:       x=0, y=20, w=760, h=42
+    Caption block:      x=0, y=510, w=760, h=110
 -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" font-family="sans-serif" font-size="14">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 2200" font-family="Helvetica, Arial, sans-serif" font-size="13">
+
+  <!-- ============================================================== -->
+  <!--  STYLES                                                          -->
+  <!-- ============================================================== -->
   <style>
-    .frame  { fill: #ffffff; stroke: #111; stroke-width: 2; }
-    .label  { fill: #111; }
-    .small  { font-size: 11px; fill: #444; }
-    .badge  { fill: #111; }
-    .badgeT { fill: #fff; font-size: 11px; font-weight: 700; }
-    .dialog { font-style: italic; fill: #222; }
-    .legend { fill: #f6f6f6; stroke: #ccc; stroke-width: 1; }
-    .guide  { stroke: #ddd; stroke-width: 1; stroke-dasharray: 3,3; fill: none; }
-    .stick  { stroke: #111; stroke-width: 2; fill: none; stroke-linecap: round; }
-    .accent { fill: #c0392b; }
-    .ground { stroke: #666; stroke-width: 1; }
+    .ink         { stroke: #111; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .thin        { stroke-width: 1; }
+    .med         { stroke-width: 1.5; }
+    .bold        { stroke-width: 2.2; }
+    .frame       { stroke: #111; stroke-width: 2.5; fill: #ffffff; }
+    .letterbox   { fill: #efefef; }
+    .grid        { stroke: #d0d0d0; stroke-width: 0.7; stroke-dasharray: 3 3; fill: none; }
+    .ground      { stroke: #777; stroke-width: 0.9; fill: none; }
+    .horizon     { stroke: #888; stroke-width: 0.7; stroke-dasharray: 5 4; fill: none; }
+    .arch        { stroke: #333; stroke-width: 1; fill: none; }
+    .light       { stroke: #d09a3a; stroke-width: 1.4; fill: none; }
+    .shadowFill  { fill: rgba(0,0,0,0.15); }
+    .meta        { fill: #111; }
+    .metaT       { fill: #ffffff; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; }
+    .label       { fill: #111; font-size: 13px; }
+    .small       { fill: #555; font-size: 11px; }
+    .badge       { fill: #111; }
+    .badgeT      { fill: #fff; font-size: 13px; font-weight: 800; }
+    .accent      { fill: #c0392b; }
+    .accentS     { stroke: #c0392b; stroke-width: 1.5; fill: none; }
+    .dialog      { fill: #1a1a1a; font-style: italic; font-size: 12px; }
+    .sfx         { fill: #6a3d00; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+    .vo          { fill: #404060; font-size: 11px; font-style: italic; }
+    .head        { fill: #111; font-weight: 800; }
+    .legendBox   { fill: #fafafa; stroke: #ccc; stroke-width: 0.6; }
+    .ghost       { stroke: #c0392b; stroke-width: 1.2; stroke-dasharray: 4 3; fill: none; }
   </style>
 
-  <!-- Title bar -->
-  <rect x="0" y="0" width="1600" height="56" fill="#111"/>
-  <text x="24" y="36" fill="#fff" font-size="20" font-weight="700">PROJECT TITLE — Scene N — Page 1/?</text>
-  <text x="1576" y="36" fill="#fff" font-size="14" text-anchor="end">Daastansaraa · Pardeh-Negaar</text>
+  <!-- ============================================================== -->
+  <!--  SYMBOL LIBRARY — re-use these in every panel via <use>          -->
+  <!-- ============================================================== -->
+  <defs>
 
-  <!-- Legend strip -->
-  <rect x="0" y="56" width="1600" height="34" class="legend"/>
-  <text x="16" y="78" class="small">Shots: ELS · LS · MLS · MS · MCU · CU · ECU  |  Move: → pan  ↑↓ tilt  ⟶⟶ dolly-in  ↻ arc  ~~~ handheld  ▲▼ crane  ⊙ static  |  Lens: 24/35/50/85/135mm</text>
+    <!-- soft shadow for depth -->
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="0.6"/>
+    </filter>
 
-  <!-- ============== PANEL 1 ============== -->
-  <g transform="translate(40,110)">
-    <rect class="frame" x="0" y="0" width="740" height="320"/>
-    <!-- rule-of-thirds guides -->
-    <line class="guide" x1="246" y1="0" x2="246" y2="320"/>
-    <line class="guide" x1="493" y1="0" x2="493" y2="320"/>
-    <line class="guide" x1="0" y1="106" x2="740" y2="106"/>
-    <line class="guide" x1="0" y1="213" x2="740" y2="213"/>
-    <!-- ground -->
-    <line class="ground" x1="0" y1="280" x2="740" y2="280"/>
-    <!-- stick figure (replace position freely) -->
-    <g transform="translate(370,200)">
-      <circle class="stick" cx="0" cy="0" r="10"/>
-      <line class="stick" x1="0" y1="10" x2="0" y2="50"/>
-      <line class="stick" x1="0" y1="20" x2="-16" y2="38"/>
-      <line class="stick" x1="0" y1="20" x2="16" y2="38"/>
-      <line class="stick" x1="0" y1="50" x2="-12" y2="78"/>
-      <line class="stick" x1="0" y1="50" x2="12" y2="78"/>
+    <!-- light ray gradient (warm) -->
+    <linearGradient id="lightRay" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#fff3c4" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#fff3c4" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- ADULT STANDING, front-3/4, ~6 head heights tall -->
+    <symbol id="figStand" viewBox="0 0 24 84" overflow="visible">
+      <circle class="ink med" cx="12" cy="6" r="5.5"/>
+      <line  class="ink med" x1="12" y1="11.5" x2="12" y2="20"/>
+      <path  class="ink med" d="M5.5 22 L18.5 22 L17 50 L7 50 Z"/>
+      <line  class="ink med" x1="6.5" y1="24" x2="2.5" y2="44"/>
+      <line  class="ink med" x1="17.5" y1="24" x2="21.5" y2="44"/>
+      <line  class="ink med" x1="8"  y1="50" x2="6"  y2="82"/>
+      <line  class="ink med" x1="16" y1="50" x2="18" y2="82"/>
+    </symbol>
+
+    <!-- ADULT WALKING (legs apart, arms swing) -->
+    <symbol id="figWalk" viewBox="0 0 28 84" overflow="visible">
+      <circle class="ink med" cx="14" cy="6" r="5.5"/>
+      <line  class="ink med" x1="14" y1="11.5" x2="13" y2="20"/>
+      <path  class="ink med" d="M7 22 L20 22 L18 50 L8 50 Z"/>
+      <line  class="ink med" x1="8"  y1="24" x2="2"  y2="40"/>
+      <line  class="ink med" x1="19" y1="24" x2="26" y2="44"/>
+      <line  class="ink med" x1="9"  y1="50" x2="3"  y2="82"/>
+      <line  class="ink med" x1="17" y1="50" x2="23" y2="82"/>
+    </symbol>
+
+    <!-- ADULT SITTING -->
+    <symbol id="figSit" viewBox="0 0 30 60" overflow="visible">
+      <circle class="ink med" cx="14" cy="6" r="5.5"/>
+      <line  class="ink med" x1="14" y1="11.5" x2="14" y2="20"/>
+      <path  class="ink med" d="M8 22 L21 22 L19 40 L10 40 Z"/>
+      <line  class="ink med" x1="9"  y1="24" x2="3"  y2="38"/>
+      <line  class="ink med" x1="20" y1="24" x2="26" y2="38"/>
+      <line  class="ink med" x1="10" y1="40" x2="28" y2="42"/>
+      <line  class="ink med" x1="11" y1="40" x2="11" y2="58"/>
+      <line  class="ink med" x1="27" y1="40" x2="27" y2="58"/>
+    </symbol>
+
+    <!-- CHILD (smaller, 4 head heights) -->
+    <symbol id="figChild" viewBox="0 0 22 56" overflow="visible">
+      <circle class="ink med" cx="11" cy="6" r="5.5"/>
+      <line  class="ink med" x1="11" y1="11.5" x2="11" y2="18"/>
+      <path  class="ink med" d="M6 20 L16 20 L15 36 L7 36 Z"/>
+      <line  class="ink med" x1="7"  y1="22" x2="3"  y2="34"/>
+      <line  class="ink med" x1="15" y1="22" x2="19" y2="34"/>
+      <line  class="ink med" x1="9"  y1="36" x2="8"  y2="54"/>
+      <line  class="ink med" x1="13" y1="36" x2="14" y2="54"/>
+    </symbol>
+
+    <!-- ELDERLY (slight stoop) -->
+    <symbol id="figElder" viewBox="0 0 26 80" overflow="visible">
+      <circle class="ink med" cx="14" cy="8" r="5.5"/>
+      <line  class="ink med" x1="14" y1="13.5" x2="12" y2="22"/>
+      <path  class="ink med" d="M6 23 L19 23 L17 48 L9 48 Z"/>
+      <line  class="ink med" x1="7"  y1="25" x2="3"  y2="42"/>
+      <line  class="ink med" x1="18" y1="25" x2="24" y2="45"/>
+      <line  class="ink med" x1="10" y1="48" x2="9"  y2="78"/>
+      <line  class="ink med" x1="16" y1="48" x2="17" y2="78"/>
+      <line  class="ink med" x1="24" y1="45" x2="26" y2="78"/>
+    </symbol>
+
+    <!-- CROWD CLUSTER (3 silhouettes, BG use) -->
+    <symbol id="figCrowd" viewBox="0 0 60 40" overflow="visible">
+      <path class="ink thin" d="M8 38 V12 a5 5 0 0 1 10 0 V38"/>
+      <circle class="ink thin" cx="13" cy="7" r="4"/>
+      <path class="ink thin" d="M24 38 V14 a5 5 0 0 1 10 0 V38"/>
+      <circle class="ink thin" cx="29" cy="9" r="4"/>
+      <path class="ink thin" d="M40 38 V13 a5 5 0 0 1 10 0 V38"/>
+      <circle class="ink thin" cx="45" cy="8" r="4"/>
+    </symbol>
+
+    <!-- DOOR (with frame) -->
+    <symbol id="door" viewBox="0 0 24 60" overflow="visible">
+      <rect class="arch" x="0" y="0" width="24" height="60"/>
+      <rect class="arch" x="3" y="3" width="18" height="55"/>
+      <circle class="ink thin" cx="18" cy="32" r="0.8" fill="#111"/>
+    </symbol>
+
+    <!-- ARCHWAY (Persian arch) -->
+    <symbol id="arch" viewBox="0 0 60 80" overflow="visible">
+      <path class="arch" d="M0 80 V30 Q0 0 30 0 Q60 0 60 30 V80"/>
+      <path class="arch" d="M4 80 V32 Q4 4 30 4 Q56 4 56 32 V80"/>
+    </symbol>
+
+    <!-- WINDOW -->
+    <symbol id="window" viewBox="0 0 30 40" overflow="visible">
+      <rect class="arch" x="0" y="0" width="30" height="40"/>
+      <line class="arch" x1="15" y1="0" x2="15" y2="40"/>
+      <line class="arch" x1="0" y1="20" x2="30" y2="20"/>
+    </symbol>
+
+    <!-- TABLE + 2 CHAIRS overhead -->
+    <symbol id="tableSet" viewBox="0 0 80 50" overflow="visible">
+      <ellipse class="arch" cx="40" cy="25" rx="30" ry="10"/>
+      <rect class="arch" x="2"  y="20" width="10" height="14"/>
+      <rect class="arch" x="68" y="20" width="10" height="14"/>
+    </symbol>
+
+    <!-- CAR (side, simple) -->
+    <symbol id="car" viewBox="0 0 80 32" overflow="visible">
+      <path class="arch" d="M2 26 L10 16 L26 12 L54 12 L66 16 L78 18 L78 26 Z"/>
+      <circle class="ink med" cx="20" cy="28" r="5" fill="#fff"/>
+      <circle class="ink med" cx="60" cy="28" r="5" fill="#fff"/>
+    </symbol>
+
+    <!-- TREE (silhouette) -->
+    <symbol id="tree" viewBox="0 0 40 60" overflow="visible">
+      <line class="arch" x1="20" y1="60" x2="20" y2="32"/>
+      <path class="arch" d="M20 32 Q4 30 4 18 Q4 4 20 4 Q36 4 36 18 Q36 30 20 32 Z"/>
+    </symbol>
+
+    <!-- SUN with rays -->
+    <symbol id="sun" viewBox="0 0 24 24" overflow="visible">
+      <circle class="ink thin" cx="12" cy="12" r="4"/>
+      <line class="ink thin" x1="12" y1="0"  x2="12" y2="3"/>
+      <line class="ink thin" x1="12" y1="21" x2="12" y2="24"/>
+      <line class="ink thin" x1="0"  y1="12" x2="3"  y2="12"/>
+      <line class="ink thin" x1="21" y1="12" x2="24" y2="12"/>
+      <line class="ink thin" x1="3"  y1="3"  x2="5"  y2="5"/>
+      <line class="ink thin" x1="19" y1="3"  x2="21" y2="5"/>
+      <line class="ink thin" x1="3"  y1="21" x2="5"  y2="19"/>
+      <line class="ink thin" x1="19" y1="21" x2="21" y2="19"/>
+    </symbol>
+
+    <!-- LIGHT RAY (use rotated to indicate key direction) -->
+    <symbol id="lightArrow" viewBox="0 0 40 12" overflow="visible">
+      <line class="light" x1="0" y1="6" x2="36" y2="6"/>
+      <polyline class="light" points="32,2 40,6 32,10"/>
+    </symbol>
+
+    <!-- CAMERA MOVE ARROWS -->
+    <symbol id="moveDollyIn" viewBox="0 0 70 18" overflow="visible">
+      <line class="accentS" x1="2"  y1="9" x2="58" y2="9"/>
+      <line class="accentS" x1="14" y1="9" x2="58" y2="9"/>
+      <polyline class="accentS" points="52,3 60,9 52,15"/>
+      <text x="2" y="22" class="accent" font-size="9" font-weight="700">DOLLY-IN</text>
+    </symbol>
+    <symbol id="moveDollyOut" viewBox="0 0 70 18" overflow="visible">
+      <line class="accentS" x1="12" y1="9" x2="68" y2="9"/>
+      <line class="accentS" x1="12" y1="9" x2="56" y2="9"/>
+      <polyline class="accentS" points="18,3 10,9 18,15"/>
+      <text x="2" y="22" class="accent" font-size="9" font-weight="700">DOLLY-OUT</text>
+    </symbol>
+    <symbol id="movePanR" viewBox="0 0 70 18" overflow="visible">
+      <path class="accentS" d="M2 9 Q35 0 60 9"/>
+      <polyline class="accentS" points="54,3 62,9 54,15"/>
+      <text x="2" y="22" class="accent" font-size="9" font-weight="700">PAN-R</text>
+    </symbol>
+    <symbol id="movePanL" viewBox="0 0 70 18" overflow="visible">
+      <path class="accentS" d="M60 9 Q35 0 2 9"/>
+      <polyline class="accentS" points="8,3 0,9 8,15"/>
+      <text x="2" y="22" class="accent" font-size="9" font-weight="700">PAN-L</text>
+    </symbol>
+    <symbol id="moveTiltUp" viewBox="0 0 18 70" overflow="visible">
+      <line class="accentS" x1="9" y1="62" x2="9" y2="6"/>
+      <polyline class="accentS" points="3,12 9,4 15,12"/>
+      <text x="-4" y="74" class="accent" font-size="9" font-weight="700">TILT-UP</text>
+    </symbol>
+    <symbol id="moveStatic" viewBox="0 0 30 18" overflow="visible">
+      <circle class="accentS" cx="9" cy="9" r="6"/>
+      <circle class="accent"  cx="9" cy="9" r="1.6"/>
+      <text x="20" y="13" class="accent" font-size="9" font-weight="700">STATIC</text>
+    </symbol>
+    <symbol id="moveHandheld" viewBox="0 0 70 18" overflow="visible">
+      <path class="accentS" d="M2 9 q4 -5 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0"/>
+      <text x="2" y="22" class="accent" font-size="9" font-weight="700">HANDHELD</text>
+    </symbol>
+    <symbol id="moveCraneUp" viewBox="0 0 28 60" overflow="visible">
+      <path class="accentS" d="M14 56 V14 q0 -4 -8 -4"/>
+      <polyline class="accentS" points="2,16 6,10 10,16"/>
+      <text x="-6" y="68" class="accent" font-size="9" font-weight="700">CRANE-UP</text>
+    </symbol>
+    <symbol id="moveArc" viewBox="0 0 50 50" overflow="visible">
+      <path class="accentS" d="M25 5 A 20 20 0 1 1 24.99 5"/>
+      <polyline class="accentS" points="20,7 26,2 30,9"/>
+      <text x="0" y="56" class="accent" font-size="9" font-weight="700">ARC</text>
+    </symbol>
+
+    <!-- CONTINUITY ARROW (panel → next panel) -->
+    <symbol id="continuity" viewBox="0 0 22 14" overflow="visible">
+      <line class="ink thin" x1="0" y1="7" x2="18" y2="7"/>
+      <polyline class="ink thin" points="14,2 20,7 14,12"/>
+    </symbol>
+
+    <!-- ASPECT FRAME 16:9 (760 × 428 — drop straight into the panel) -->
+    <symbol id="frame16x9" viewBox="0 0 760 428" overflow="visible">
+      <rect class="frame" x="0" y="0" width="760" height="428"/>
+      <!-- thirds grid -->
+      <line class="grid" x1="253" y1="0" x2="253" y2="428"/>
+      <line class="grid" x1="507" y1="0" x2="507" y2="428"/>
+      <line class="grid" x1="0" y1="143" x2="760" y2="143"/>
+      <line class="grid" x1="0" y1="285" x2="760" y2="285"/>
+    </symbol>
+
+    <!-- ASPECT FRAME 9:16 (with letterbox bars inside a 760 × 428 panel slot) -->
+    <symbol id="frame9x16" viewBox="0 0 760 428" overflow="visible">
+      <rect class="letterbox" x="0" y="0" width="760" height="428"/>
+      <rect class="frame" x="260" y="0" width="240" height="428"/>
+      <line class="grid" x1="340" y1="0" x2="340" y2="428"/>
+      <line class="grid" x1="420" y1="0" x2="420" y2="428"/>
+      <line class="grid" x1="260" y1="143" x2="500" y2="143"/>
+      <line class="grid" x1="260" y1="285" x2="500" y2="285"/>
+    </symbol>
+
+    <!-- ASPECT FRAME 2.39:1 (letterboxed top/bottom) -->
+    <symbol id="frame239" viewBox="0 0 760 428" overflow="visible">
+      <rect class="letterbox" x="0" y="0" width="760" height="428"/>
+      <rect class="frame" x="0" y="55" width="760" height="318"/>
+      <line class="grid" x1="253" y1="55" x2="253" y2="373"/>
+      <line class="grid" x1="507" y1="55" x2="507" y2="373"/>
+      <line class="grid" x1="0" y1="161" x2="760" y2="161"/>
+      <line class="grid" x1="0" y1="267" x2="760" y2="267"/>
+    </symbol>
+
+  </defs>
+
+  <!-- ============================================================== -->
+  <!--  HEADER                                                          -->
+  <!-- ============================================================== -->
+  <rect x="0" y="0" width="1700" height="76" fill="#111"/>
+  <text x="32" y="34" fill="#fff" font-size="22" font-weight="800" letter-spacing="0.5">
+    {{TITLE}}
+  </text>
+  <text x="32" y="58" fill="#bbb" font-size="13">
+    Scene {{SCENE_NO}} · {{SCENE_SLUG}}
+  </text>
+  <text x="1668" y="32" fill="#fff" font-size="13" text-anchor="end" font-weight="700">
+    Page {{PAGE}}/{{PAGES_TOTAL}}
+  </text>
+  <text x="1668" y="52" fill="#bbb" font-size="11" text-anchor="end">
+    Director: {{DIRECTOR}}  ·  Board: pardeh-negaar  ·  {{DATE}}
+  </text>
+  <text x="1668" y="70" fill="#888" font-size="10" text-anchor="end">
+    Aspect: {{ASPECT}}  ·  Scope: {{SCOPE}}
+  </text>
+
+  <!-- LEGEND STRIP -->
+  <rect class="legendBox" x="0" y="76" width="1700" height="36"/>
+  <text x="20" y="98" class="small" font-size="11">
+    <tspan font-weight="700">Shots:</tspan> ELS · LS · MLS · MS · MCU · CU · ECU
+    <tspan dx="14" font-weight="700">Lens:</tspan> 14 · 24 · 35 · 50 · 85 · 135 · 200 mm
+    <tspan dx="14" font-weight="700">Height:</tspan> low · eye · high · overhead
+    <tspan dx="14" font-weight="700">Angle:</tspan> level · canted · POV · OTS
+    <tspan dx="14" font-weight="700">Move:</tspan> static · pan · tilt · dolly · truck · crane · arc · handheld
+  </text>
+
+  <!-- ============================================================== -->
+  <!--  PANEL 1  (col 1, row 1) — 800 × 660 cell, panel at (40,130)     -->
+  <!-- ============================================================== -->
+  <g transform="translate(40,130)">
+    <!-- panel chrome -->
+    <rect x="-10" y="-10" width="780" height="650" fill="#fff" stroke="#aaa" stroke-width="0.6"/>
+
+    <!-- metadata bar -->
+    <rect class="meta" x="0" y="0" width="760" height="42" rx="3"/>
+    <text x="14" y="20" class="metaT">SC {{SCENE_NO}} · SH {{SHOT_NO}}</text>
+    <text x="14" y="34" class="metaT" fill="#bbb" font-size="10">{{SHOT_DESC}}</text>
+    <text x="380" y="20" class="metaT" text-anchor="middle">{{SHOT_SIZE}} · {{LENS}}mm · {{HEIGHT}} · {{ANGLE}}</text>
+    <text x="380" y="34" class="metaT" text-anchor="middle" fill="#bbb" font-size="10">{{COVERAGE}}</text>
+    <text x="746" y="20" class="metaT" text-anchor="end">{{DURATION}}s</text>
+    <text x="746" y="34" class="metaT" text-anchor="end" fill="#bbb" font-size="10">{{SOUND_TAG}}</text>
+
+    <!-- numbered badge (overlaps top-left) -->
+    <circle class="accent" cx="-2" cy="0" r="18"/>
+    <text x="-2" y="5" text-anchor="middle" class="badgeT">{{PANEL_NO}}</text>
+
+    <!-- frame area: 16:9 by default -->
+    <g transform="translate(0,52)">
+      <use href="#frame16x9"/>
+
+      <!-- horizon line + ground -->
+      <line class="horizon" x1="0" y1="240" x2="760" y2="240"/>
+      <line class="ground"  x1="0" y1="370" x2="760" y2="370"/>
+
+      <!-- light direction indicator (top-left, key from upper-left) -->
+      <g transform="translate(40,30)">
+        <use href="#sun"   width="22" height="22"/>
+        <use href="#lightArrow" x="22" y="6" width="36" height="12" transform="rotate(30 22 12)"/>
+      </g>
+
+      <!-- ====== BLOCKING: drop characters & props with <use> ====== -->
+      <!--   Example placements — edit per shot:                       -->
+      <use href="#figStand" x="340" y="180" width="50" height="170"/>
+      <!--   <use href="#figWalk"  x="200" y="200" width="56" height="170"/>  -->
+      <!--   <use href="#tree"     x="660" y="180" width="60" height="180"/>  -->
+      <!--   <use href="#window"   x="120" y="80"  width="50" height="68"/>   -->
+
+      <!-- camera move indicator overlay (top-right) -->
+      <g transform="translate(620,16)">
+        <use href="#moveDollyIn" width="120" height="32"/>
+      </g>
+
+      <!-- ghost frame for camera move (faint, indicates end position) -->
+      <!-- <rect class="ghost" x="120" y="60" width="520" height="308"/> -->
     </g>
-    <!-- panel number badge -->
-    <rect class="badge" x="6" y="6" width="36" height="22" rx="3"/>
-    <text class="badgeT" x="24" y="22" text-anchor="middle">01</text>
-    <!-- shot-size + lens -->
-    <text class="label" x="730" y="22" text-anchor="end" font-weight="700">MS · 50mm</text>
-    <!-- camera move glyph -->
-    <text class="accent" x="730" y="42" text-anchor="end" font-size="18" font-weight="700">⟶⟶</text>
-    <!-- duration -->
-    <text class="small" x="730" y="58" text-anchor="end">4s</text>
-  </g>
-  <!-- captions -->
-  <text class="label" x="40" y="450" font-weight="700">[Action caption, ≤12 words, present tense.]</text>
-  <text class="dialog" x="40" y="470">[CHAR] "Dialogue snippet here." <tspan class="small">(ref: raw/...)</tspan></text>
 
-  <!-- ============== PANEL 2 ============== -->
-  <g transform="translate(820,110)">
-    <rect class="frame" x="0" y="0" width="740" height="320"/>
-    <line class="guide" x1="246" y1="0" x2="246" y2="320"/>
-    <line class="guide" x1="493" y1="0" x2="493" y2="320"/>
-    <line class="guide" x1="0" y1="106" x2="740" y2="106"/>
-    <line class="guide" x1="0" y1="213" x2="740" y2="213"/>
-    <line class="ground" x1="0" y1="280" x2="740" y2="280"/>
-    <rect class="badge" x="6" y="6" width="36" height="22" rx="3"/>
-    <text class="badgeT" x="24" y="22" text-anchor="middle">02</text>
-    <text class="label" x="730" y="22" text-anchor="end" font-weight="700">CU · 85mm</text>
-    <text class="accent" x="730" y="42" text-anchor="end" font-size="18" font-weight="700">⊙</text>
-    <text class="small" x="730" y="58" text-anchor="end">2s</text>
-  </g>
-  <text class="label" x="820" y="450" font-weight="700">[Action caption.]</text>
-  <text class="dialog" x="820" y="470">[CHAR] "Subtext line."</text>
-
-  <!-- ============== PANEL 3 ============== -->
-  <g transform="translate(40,500)">
-    <rect class="frame" x="0" y="0" width="740" height="320"/>
-    <line class="guide" x1="246" y1="0" x2="246" y2="320"/>
-    <line class="guide" x1="493" y1="0" x2="493" y2="320"/>
-    <line class="guide" x1="0" y1="106" x2="740" y2="106"/>
-    <line class="guide" x1="0" y1="213" x2="740" y2="213"/>
-    <line class="ground" x1="0" y1="280" x2="740" y2="280"/>
-    <rect class="badge" x="6" y="6" width="36" height="22" rx="3"/>
-    <text class="badgeT" x="24" y="22" text-anchor="middle">03</text>
-    <text class="label" x="730" y="22" text-anchor="end" font-weight="700">LS · 24mm</text>
-    <text class="accent" x="730" y="42" text-anchor="end" font-size="18" font-weight="700">→</text>
-    <text class="small" x="730" y="58" text-anchor="end">5s</text>
-  </g>
-  <text class="label" x="40" y="840" font-weight="700">[Action caption.]</text>
-  <text class="dialog" x="40" y="860">[no dialogue]</text>
-
-  <!-- ============== PANEL 4 ============== -->
-  <g transform="translate(820,500)">
-    <rect class="frame" x="0" y="0" width="740" height="320"/>
-    <line class="guide" x1="246" y1="0" x2="246" y2="320"/>
-    <line class="guide" x1="493" y1="0" x2="493" y2="320"/>
-    <line class="guide" x1="0" y1="106" x2="740" y2="106"/>
-    <line class="guide" x1="0" y1="213" x2="740" y2="213"/>
-    <line class="ground" x1="0" y1="280" x2="740" y2="280"/>
-    <rect class="badge" x="6" y="6" width="36" height="22" rx="3"/>
-    <text class="badgeT" x="24" y="22" text-anchor="middle">04</text>
-    <text class="label" x="730" y="22" text-anchor="end" font-weight="700">MCU · 50mm</text>
-    <text class="accent" x="730" y="42" text-anchor="end" font-size="18" font-weight="700">~~~</text>
-    <text class="small" x="730" y="58" text-anchor="end">3s</text>
-  </g>
-  <text class="label" x="820" y="840" font-weight="700">[Action caption.]</text>
-  <text class="dialog" x="820" y="860">[CHAR] "Line."</text>
-
-  <!-- ============== PANEL 5 ============== -->
-  <g transform="translate(40,890)">
-    <rect class="frame" x="0" y="0" width="740" height="260"/>
-    <line class="guide" x1="246" y1="0" x2="246" y2="260"/>
-    <line class="guide" x1="493" y1="0" x2="493" y2="260"/>
-    <line class="ground" x1="0" y1="230" x2="740" y2="230"/>
-    <rect class="badge" x="6" y="6" width="36" height="22" rx="3"/>
-    <text class="badgeT" x="24" y="22" text-anchor="middle">05</text>
-    <text class="label" x="730" y="22" text-anchor="end" font-weight="700">ECU · 135mm</text>
-    <text class="accent" x="730" y="42" text-anchor="end" font-size="18" font-weight="700">⊙</text>
-    <text class="small" x="730" y="58" text-anchor="end">2s</text>
+    <!-- caption block -->
+    <g transform="translate(0,492)">
+      <rect class="legendBox" x="0" y="0" width="760" height="148" rx="2"/>
+      <text class="head"   x="10" y="20" font-size="12">ACTION</text>
+      <text class="label"  x="10" y="40">{{ACTION_LINE}}</text>
+      <text class="head"   x="10" y="64" font-size="12">DIALOGUE</text>
+      <text class="dialog" x="10" y="84">{{DIALOGUE_LINE}}</text>
+      <text class="head"   x="10" y="108" font-size="12">SOUND</text>
+      <text class="sfx"    x="10" y="126">{{SOUND_LINE}}</text>
+      <text class="small"  x="746" y="142" text-anchor="end">ref: {{REF_FILE}}</text>
+    </g>
   </g>
 
-  <!-- ============== PANEL 6 ============== -->
-  <g transform="translate(820,890)">
-    <rect class="frame" x="0" y="0" width="740" height="260"/>
-    <line class="guide" x1="246" y1="0" x2="246" y2="260"/>
-    <line class="guide" x1="493" y1="0" x2="493" y2="260"/>
-    <line class="ground" x1="0" y1="230" x2="740" y2="230"/>
-    <rect class="badge" x="6" y="6" width="36" height="22" rx="3"/>
-    <text class="badgeT" x="24" y="22" text-anchor="middle">06</text>
-    <text class="label" x="730" y="22" text-anchor="end" font-weight="700">LS · 35mm</text>
-    <text class="accent" x="730" y="42" text-anchor="end" font-size="18" font-weight="700">↻</text>
-    <text class="small" x="730" y="58" text-anchor="end">4s</text>
+  <!-- ============================================================== -->
+  <!--  PANEL 2                                                         -->
+  <!-- ============================================================== -->
+  <g transform="translate(900,130)">
+    <rect x="-10" y="-10" width="780" height="650" fill="#fff" stroke="#aaa" stroke-width="0.6"/>
+    <rect class="meta" x="0" y="0" width="760" height="42" rx="3"/>
+    <text x="14" y="20" class="metaT">SC {{SCENE_NO}} · SH {{SHOT_NO}}</text>
+    <text x="14" y="34" class="metaT" fill="#bbb" font-size="10">{{SHOT_DESC}}</text>
+    <text x="380" y="20" class="metaT" text-anchor="middle">{{SHOT_SIZE}} · {{LENS}}mm · {{HEIGHT}} · {{ANGLE}}</text>
+    <text x="380" y="34" class="metaT" text-anchor="middle" fill="#bbb" font-size="10">{{COVERAGE}}</text>
+    <text x="746" y="20" class="metaT" text-anchor="end">{{DURATION}}s</text>
+    <text x="746" y="34" class="metaT" text-anchor="end" fill="#bbb" font-size="10">{{SOUND_TAG}}</text>
+    <circle class="accent" cx="-2" cy="0" r="18"/>
+    <text x="-2" y="5" text-anchor="middle" class="badgeT">{{PANEL_NO}}</text>
+    <g transform="translate(0,52)">
+      <use href="#frame16x9"/>
+      <line class="horizon" x1="0" y1="240" x2="760" y2="240"/>
+      <line class="ground"  x1="0" y1="370" x2="760" y2="370"/>
+    </g>
+    <g transform="translate(0,492)">
+      <rect class="legendBox" x="0" y="0" width="760" height="148" rx="2"/>
+      <text class="head"   x="10" y="20" font-size="12">ACTION</text>
+      <text class="label"  x="10" y="40">{{ACTION_LINE}}</text>
+      <text class="head"   x="10" y="64" font-size="12">DIALOGUE</text>
+      <text class="dialog" x="10" y="84">{{DIALOGUE_LINE}}</text>
+      <text class="head"   x="10" y="108" font-size="12">SOUND</text>
+      <text class="sfx"    x="10" y="126">{{SOUND_LINE}}</text>
+    </g>
   </g>
 
-  <!-- Footer -->
-  <text x="40" y="1180" class="small">Scene total: ~20s · Coverage: master + singles + insert · Notes: …</text>
+  <!-- ============================================================== -->
+  <!--  PANEL 3                                                         -->
+  <!-- ============================================================== -->
+  <g transform="translate(40,810)">
+    <rect x="-10" y="-10" width="780" height="650" fill="#fff" stroke="#aaa" stroke-width="0.6"/>
+    <rect class="meta" x="0" y="0" width="760" height="42" rx="3"/>
+    <text x="14" y="20" class="metaT">SC {{SCENE_NO}} · SH {{SHOT_NO}}</text>
+    <text x="14" y="34" class="metaT" fill="#bbb" font-size="10">{{SHOT_DESC}}</text>
+    <text x="380" y="20" class="metaT" text-anchor="middle">{{SHOT_SIZE}} · {{LENS}}mm · {{HEIGHT}} · {{ANGLE}}</text>
+    <text x="380" y="34" class="metaT" text-anchor="middle" fill="#bbb" font-size="10">{{COVERAGE}}</text>
+    <text x="746" y="20" class="metaT" text-anchor="end">{{DURATION}}s</text>
+    <text x="746" y="34" class="metaT" text-anchor="end" fill="#bbb" font-size="10">{{SOUND_TAG}}</text>
+    <circle class="accent" cx="-2" cy="0" r="18"/>
+    <text x="-2" y="5" text-anchor="middle" class="badgeT">{{PANEL_NO}}</text>
+    <g transform="translate(0,52)">
+      <use href="#frame16x9"/>
+      <line class="horizon" x1="0" y1="240" x2="760" y2="240"/>
+      <line class="ground"  x1="0" y1="370" x2="760" y2="370"/>
+    </g>
+    <g transform="translate(0,492)">
+      <rect class="legendBox" x="0" y="0" width="760" height="148" rx="2"/>
+      <text class="head"   x="10" y="20" font-size="12">ACTION</text>
+      <text class="label"  x="10" y="40">{{ACTION_LINE}}</text>
+      <text class="head"   x="10" y="64" font-size="12">DIALOGUE</text>
+      <text class="dialog" x="10" y="84">{{DIALOGUE_LINE}}</text>
+      <text class="head"   x="10" y="108" font-size="12">SOUND</text>
+      <text class="sfx"    x="10" y="126">{{SOUND_LINE}}</text>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!--  PANEL 4                                                         -->
+  <!-- ============================================================== -->
+  <g transform="translate(900,810)">
+    <rect x="-10" y="-10" width="780" height="650" fill="#fff" stroke="#aaa" stroke-width="0.6"/>
+    <rect class="meta" x="0" y="0" width="760" height="42" rx="3"/>
+    <text x="14" y="20" class="metaT">SC {{SCENE_NO}} · SH {{SHOT_NO}}</text>
+    <text x="14" y="34" class="metaT" fill="#bbb" font-size="10">{{SHOT_DESC}}</text>
+    <text x="380" y="20" class="metaT" text-anchor="middle">{{SHOT_SIZE}} · {{LENS}}mm · {{HEIGHT}} · {{ANGLE}}</text>
+    <text x="380" y="34" class="metaT" text-anchor="middle" fill="#bbb" font-size="10">{{COVERAGE}}</text>
+    <text x="746" y="20" class="metaT" text-anchor="end">{{DURATION}}s</text>
+    <text x="746" y="34" class="metaT" text-anchor="end" fill="#bbb" font-size="10">{{SOUND_TAG}}</text>
+    <circle class="accent" cx="-2" cy="0" r="18"/>
+    <text x="-2" y="5" text-anchor="middle" class="badgeT">{{PANEL_NO}}</text>
+    <g transform="translate(0,52)">
+      <use href="#frame16x9"/>
+      <line class="horizon" x1="0" y1="240" x2="760" y2="240"/>
+      <line class="ground"  x1="0" y1="370" x2="760" y2="370"/>
+    </g>
+    <g transform="translate(0,492)">
+      <rect class="legendBox" x="0" y="0" width="760" height="148" rx="2"/>
+      <text class="head"   x="10" y="20" font-size="12">ACTION</text>
+      <text class="label"  x="10" y="40">{{ACTION_LINE}}</text>
+      <text class="head"   x="10" y="64" font-size="12">DIALOGUE</text>
+      <text class="dialog" x="10" y="84">{{DIALOGUE_LINE}}</text>
+      <text class="head"   x="10" y="108" font-size="12">SOUND</text>
+      <text class="sfx"    x="10" y="126">{{SOUND_LINE}}</text>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!--  PANEL 5                                                         -->
+  <!-- ============================================================== -->
+  <g transform="translate(40,1490)">
+    <rect x="-10" y="-10" width="780" height="650" fill="#fff" stroke="#aaa" stroke-width="0.6"/>
+    <rect class="meta" x="0" y="0" width="760" height="42" rx="3"/>
+    <text x="14" y="20" class="metaT">SC {{SCENE_NO}} · SH {{SHOT_NO}}</text>
+    <text x="14" y="34" class="metaT" fill="#bbb" font-size="10">{{SHOT_DESC}}</text>
+    <text x="380" y="20" class="metaT" text-anchor="middle">{{SHOT_SIZE}} · {{LENS}}mm · {{HEIGHT}} · {{ANGLE}}</text>
+    <text x="380" y="34" class="metaT" text-anchor="middle" fill="#bbb" font-size="10">{{COVERAGE}}</text>
+    <text x="746" y="20" class="metaT" text-anchor="end">{{DURATION}}s</text>
+    <text x="746" y="34" class="metaT" text-anchor="end" fill="#bbb" font-size="10">{{SOUND_TAG}}</text>
+    <circle class="accent" cx="-2" cy="0" r="18"/>
+    <text x="-2" y="5" text-anchor="middle" class="badgeT">{{PANEL_NO}}</text>
+    <g transform="translate(0,52)">
+      <use href="#frame16x9"/>
+      <line class="horizon" x1="0" y1="240" x2="760" y2="240"/>
+      <line class="ground"  x1="0" y1="370" x2="760" y2="370"/>
+    </g>
+    <g transform="translate(0,492)">
+      <rect class="legendBox" x="0" y="0" width="760" height="148" rx="2"/>
+      <text class="head"   x="10" y="20" font-size="12">ACTION</text>
+      <text class="label"  x="10" y="40">{{ACTION_LINE}}</text>
+      <text class="head"   x="10" y="64" font-size="12">DIALOGUE</text>
+      <text class="dialog" x="10" y="84">{{DIALOGUE_LINE}}</text>
+      <text class="head"   x="10" y="108" font-size="12">SOUND</text>
+      <text class="sfx"    x="10" y="126">{{SOUND_LINE}}</text>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!--  PANEL 6                                                         -->
+  <!-- ============================================================== -->
+  <g transform="translate(900,1490)">
+    <rect x="-10" y="-10" width="780" height="650" fill="#fff" stroke="#aaa" stroke-width="0.6"/>
+    <rect class="meta" x="0" y="0" width="760" height="42" rx="3"/>
+    <text x="14" y="20" class="metaT">SC {{SCENE_NO}} · SH {{SHOT_NO}}</text>
+    <text x="14" y="34" class="metaT" fill="#bbb" font-size="10">{{SHOT_DESC}}</text>
+    <text x="380" y="20" class="metaT" text-anchor="middle">{{SHOT_SIZE}} · {{LENS}}mm · {{HEIGHT}} · {{ANGLE}}</text>
+    <text x="380" y="34" class="metaT" text-anchor="middle" fill="#bbb" font-size="10">{{COVERAGE}}</text>
+    <text x="746" y="20" class="metaT" text-anchor="end">{{DURATION}}s</text>
+    <text x="746" y="34" class="metaT" text-anchor="end" fill="#bbb" font-size="10">{{SOUND_TAG}}</text>
+    <circle class="accent" cx="-2" cy="0" r="18"/>
+    <text x="-2" y="5" text-anchor="middle" class="badgeT">{{PANEL_NO}}</text>
+    <g transform="translate(0,52)">
+      <use href="#frame16x9"/>
+      <line class="horizon" x1="0" y1="240" x2="760" y2="240"/>
+      <line class="ground"  x1="0" y1="370" x2="760" y2="370"/>
+    </g>
+    <g transform="translate(0,492)">
+      <rect class="legendBox" x="0" y="0" width="760" height="148" rx="2"/>
+      <text class="head"   x="10" y="20" font-size="12">ACTION</text>
+      <text class="label"  x="10" y="40">{{ACTION_LINE}}</text>
+      <text class="head"   x="10" y="64" font-size="12">DIALOGUE</text>
+      <text class="dialog" x="10" y="84">{{DIALOGUE_LINE}}</text>
+      <text class="head"   x="10" y="108" font-size="12">SOUND</text>
+      <text class="sfx"    x="10" y="126">{{SOUND_LINE}}</text>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!--  FOOTER                                                          -->
+  <!-- ============================================================== -->
+  <text x="40" y="2180" class="small">
+    Scene total runtime: ~{{SCENE_RUNTIME}}s  ·  Coverage: {{COVERAGE_NOTE}}  ·  Notes: {{NOTES}}
+  </text>
+  <text x="1660" y="2180" class="small" text-anchor="end">
+    pardeh-negaar · daastansaraa  ·  storyboard {{PAGE}}/{{PAGES_TOTAL}}
+  </text>
 </svg>

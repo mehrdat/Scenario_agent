@@ -5,9 +5,9 @@ argument-hint: [project-slug] [optional: free-text brief]
 
 Invoke the **daastansaraa** agent to develop a scenario.
 
-Inputs:
-- Project slug: `$1` (use kebab-case Latin). If missing, ask.
-- Free-text brief (everything after `$1`): `$ARGUMENTS` minus `$1`.
+Inputs (`$ARGUMENTS` holds the full argument string):
+- First whitespace-separated token = project slug (kebab-case Latin). If missing, ask.
+- Everything after the first token = free-text brief. If empty, ask the user for one.
 
 Steps the agent must take:
 1. Run **pajooheshgar** first if `danesh/<slug>-research.md` does not yet exist and `raw/` is non-empty.
