@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  contact-sheet.html — negaaregar deliverable template.
+
+  How this works:
+    Each <img> tag points directly to https://image.pollinations.ai/prompt/...
+    When you open this HTML in any browser, the browser fetches each panel
+    image from Pollinations.ai (free, no API key). Real drawn images appear.
+
+    Pollinations.ai uses Flux Schnell underneath. First fetch of each panel
+    takes 5-15 seconds. After that the same URL is cached on their CDN.
+
+    No paid API. No image generation runs locally. The browser does it all.
+
+  negaaregar fills in the {{PLACEHOLDERS}} below by reading your scenes
+  and writing one prompt per panel.
+-->
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{{TITLE}} — Storyboard</title>
+  <style>
+    :root {
+      --bg: #f4ebd5;
+      --paper: #fffaef;
+      --ink: #2a2520;
+      --accent: #8c2a1a;
+      --muted: #5a4d35;
+      --line: #b8a884;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      padding: 24px;
+    }
+    header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 18px 28px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    header .title { font-size: 22px; font-weight: 800; letter-spacing: 0.4px; }
+    header .sub { color: #c4b88a; font-size: 13px; margin-top: 4px; }
+    header .meta { font-size: 12px; color: #c4b88a; text-align: right; }
+    header .meta b { color: var(--paper); }
+    .strip {
+      background: #ede1c2;
+      border: 1px solid var(--line);
+      padding: 8px 16px;
+      font-size: 11px;
+      color: var(--muted);
+      margin: 10px 0 24px 0;
+      border-radius: 3px;
+    }
+    .strip b { color: var(--ink); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(40,30,20,0.06);
+      position: relative;
+    }
+    .panel .meta {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 10px 14px;
+      font-size: 11px;
+      letter-spacing: 0.4px;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: center;
+    }
+    .panel .meta .ident { font-weight: 800; }
+    .panel .meta .sub { color: #c4b88a; font-size: 10px; }
+    .panel .meta .move { color: #f3a690; font-weight: 700; }
+    .panel .meta .dur { font-weight: 800; }
+    .panel .badge {
+      position: absolute;
+      top: -2px; left: -8px;
+      background: var(--accent);
+      color: var(--paper);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+    .panel .frame {
+      width: 100%;
+      aspect-ratio: var(--ratio, 16/9);
+      background: #1a1612 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 56'><rect width='100' height='56' fill='%23241e18'/><text x='50' y='30' fill='%23a89868' font-size='4' text-anchor='middle' font-family='sans-serif'>loading from pollinations.ai…</text></svg>") center/cover;
+      display: block;
+      border-bottom: 1px solid var(--line);
+    }
+    .panel .frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .panel .caption {
+      padding: 12px 14px 16px;
+      background: #ede1c2;
+    }
+    .panel .caption .row { margin: 4px 0; font-size: 13px; line-height: 1.4; }
+    .panel .caption .row b { color: var(--ink); font-weight: 800; margin-right: 6px; font-size: 11px; letter-spacing: 0.4px; }
+    .panel .caption .dialog { font-style: italic; color: #2a2520; }
+    .panel .caption .sfx { color: #5a3a10; font-weight: 700; font-size: 11px; letter-spacing: 0.4px; }
+    footer {
+      margin-top: 32px;
+      padding: 14px 28px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .scene-divider {
+      grid-column: 1 / -1;
+      padding: 12px 18px;
+      background: var(--ink);
+      color: var(--paper);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border-radius: 3px;
+      margin-top: 16px;
+    }
+    .scene-divider .small { color: #c4b88a; font-weight: 400; font-size: 11px; margin-left: 10px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="title">{{TITLE}}</div>
+    <div class="sub">{{LOG_LINE}}</div>
+  </div>
+  <div class="meta">
+    <div><b>{{SCOPE_PCT}}%</b> of runtime · {{N_SCENES}} scenes · {{N_PANELS}} panels</div>
+    <div>{{ASPECT}} · {{STYLE}} · {{N_PAGES}} page(s)</div>
+    <div>Director: {{DIRECTOR}} · negaaregar · {{DATE}}</div>
+  </div>
+</header>
+
+<div class="strip">
+  <b>How to view:</b> Each panel below is fetched live from
+  <code>image.pollinations.ai</code> (free, no API key). First load: 5–15s per
+  panel. Refresh once if a panel doesn't appear — Pollinations occasionally
+  drops a request under load. Same prompt + seed = identical image on every
+  load (Pollinations caches by URL).
+  &nbsp;·&nbsp;
+  <b>Style:</b> {{STYLE_DESCRIPTION}}
+</div>
+
+<div class="grid">
+{{PANELS}}
+</div>
+
+<footer>
+  <div>negaaregar · daastansaraa · contact sheet · {{DATE}}</div>
+  <div>Images rendered by Pollinations.ai (Flux Schnell). Free, no API key. <a href="https://pollinations.ai/" style="color: var(--accent);">pollinations.ai</a></div>
+</footer>
+
+</body>
+</html>
+<!--
+  PANEL BLOCK TEMPLATE (negaaregar fills one of these per panel into {{PANELS}}):
+
+  <div class="panel" style="--ratio: 16/9;">
+    <div class="badge">NN</div>
+    <div class="meta">
+      <span><span class="ident">SC M · SH S</span> <span class="sub">— {{SHOT_DESC}}</span></span>
+      <span class="move">{{SHOT_SIZE}} · {{LENS}}mm · {{HEIGHT}} · {{MOVE}}</span>
+      <span class="dur">{{DURATION}}s</span>
+    </div>
+    <div class="frame">
+      <img loading="lazy"
+           src="https://image.pollinations.ai/prompt/{URL_ENCODED_PROMPT}?width=1024&height=576&model=flux&nologo=true&seed={DETERMINISTIC_SEED}&enhance=true"
+           alt="Panel NN — {{SHOT_DESC}}"/>
+    </div>
+    <div class="caption">
+      <div class="row"><b>ACTION</b> {{ACTION}}</div>
+      <div class="row dialog"><b>DIALOGUE</b> {{DIALOGUE}}</div>
+      <div class="row sfx"><b>SOUND</b> {{SOUND}}</div>
+    </div>
+  </div>
+
+  SCENE DIVIDER (between scenes):
+  <div class="scene-divider">Scene M — {{SLUGLINE}} <span class="small">{{SCENE_DESC}}</span></div>
+-->

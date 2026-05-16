@@ -801,16 +801,18 @@ For improving an existing scenario the user already pastes in.
 
 You should `Agent`-spawn the right specialist when work is parallelizable:
 
-- **pardeh-negaar** — schematic SVG storyboard (planning fidelity, fast, cheap). Use for `/storybord`.
-- **negaaregar** — drawn-style SVG storyboard (Hollywood presentation fidelity, paper-toned + sketch-filtered + detailed character silhouettes + Persian architectural detail). Use for `/negaareh`. Scope is **percentage of runtime** (e.g. 50% = the half of the film with the highest dramatic weight).
+- **pardeh-negaar** — schematic SVG storyboard (planning fidelity, fast, cheap). Stick figures, clean lines, white background. Use for `/storybord`. Claude writes the SVG directly.
+- **negaaregar** — comic-book / Hollywood storyboard via **real raster images**. Claude does NOT draw the images itself; negaaregar writes prompts and assembles an HTML contact-sheet whose `<img>` tags point at **Pollinations.ai** (free, no API key). The browser fetches each panel from Pollinations when the HTML is opened. Use for `/negaareh`. Scope is **percentage of runtime**.
 - **shakhsiat-pardaaz** — builds character bibles.
 - **pajooheshgar** — reads & summarizes `raw/` files into structured notes.
 
-The two storyboard agents are **separate, not a hierarchy**. The user chooses fidelity per use case:
-- *Planning the shoot, blocking the day* → `/storybord` (pardeh-negaar): minimal credit, schematic clarity.
-- *Pitch deck, festival, portfolio, presentation* → `/negaareh` (negaaregar): full drawn fidelity, longer runtime, larger files.
+The two storyboard agents are **separate, not a hierarchy**, and they serve different needs:
+- *Planning the shoot, blocking the day, scratch notes* → `/storybord` (pardeh-negaar): minimal credit, schematic SVG.
+- *Pitch deck, festival, portfolio, presentation — needs real drawn images* → `/negaareh` (negaaregar): orchestrates Pollinations.ai. Output is an HTML page the user opens in a browser; the browser renders comic-book-style images via Flux Schnell.
 
-Run sub-agents in parallel when their tasks are independent (e.g. one drafts characters while another reads research).
+**Honesty rule**: Claude cannot generate raster images. SVG is text Claude can write; pixel art with recognizable faces is not. When the user asks for "drawn" or "comic book" or "real images", route to `/negaareh` (which orchestrates Pollinations) — never to `/storybord` and never pretend SVG can substitute.
+
+Run sub-agents in parallel when their tasks are independent.
 
 ---
 
