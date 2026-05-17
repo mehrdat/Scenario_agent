@@ -21,19 +21,18 @@ Then in Claude Code:
 
 ---
 
-## فقط هفت دستور / Just seven commands
+## هشت دستور / Just eight commands
 
 | Command | Meaning | What it does |
 |---|---|---|
-| **`/rahnama`** | راهنما · guide | Tutorial, decision-tree routing, topic deep-dives. Run with no args for a quick decision tree; `tutorial` for the full walkthrough; `<topic>` for deep dives on Visual Bible / critique loop / storyboards / prompts / taste / YouTube / documentary. |
-| **`/salighe`** | سلیقه · taste | Persistent memory of who you are as a creator — genres, directors, themes, language register, visual style defaults. Read by every other command. Subcommands: `view` · `update` · `learn` · `reset`. |
-| **`/tahghigh`** | تحقیق · research | Distills `raw/<slug>/` (PDFs, photos, transcripts) into `danesh/<slug>-research.md`. |
-| **`/dastan`** | داستان · story | All story development. Subcommands: `new` (scenario), `char` (characters), `scene N` (deep-design one scene), `dialog`, `gooneh` (genre / category), `mosaahebeh` (documentary interviews — opt-in). |
-| **`/eslaah`** | اصلاح · fix | **Critique-and-fix loop.** Default mode runs critique → rewrite → re-critique → re-rewrite. Numbered critique points get marked `✓ FIXED` / `⏸ DEFERRED` / `✗ REJECTED`. Subcommands: `loop` (default) · `naghd` · `behtar` · `scene N` · `dialog`. |
-| **`/tasvir`** | تصویر · visual | Visual hub. Subcommands: `bible` (lock style/palette/light/cast for consistency), `bord` (schematic SVG storyboard), `negaareh` (drawn HTML studio via Bing IC / NightCafe / Mage / Stable Horde / local SD), `prompts` (comprehensive prompts bundle), `all`. |
-| **`/zanjireh`** | زنجیره · pipeline | End-to-end pipeline. Variants: `kaameleh` (feature, default — includes critique-fix loop), `documentary`, `koutaah` (YouTube/Shorts/Reels/TikTok), `tabligh` (ad/music-video), `bazneveshtan` (rewrite existing). |
-
-Down from 16 commands → 7 with subcommands. Every function preserved.
+| **`/rahnama`** | راهنما · guide | Tutorial, decision-tree routing, topic deep-dives |
+| **`/salighe`** | سلیقه · taste | Persistent taste profile — read by every other command |
+| **`/tahghigh`** | تحقیق · research | Distills `raw/<slug>/` → `danesh/<slug>-research.md` |
+| **`/tarh`** | طرح · plan | **Planning gate.** Locks narrator personality, studies popular styles in your format, builds a plan, critique-fix loop on the plan, **user approval required** before scenario stage |
+| **`/dastan`** | داستان · story | Story dev: `new` (scenario), `char`, `scene N`, `dialog`, `gooneh`, `mosaahebeh`. Halts if no approved plan exists |
+| **`/eslaah`** | اصلاح · fix | **Critique-fix loop on the scenario.** Numbered points `[C-N.k]` end as FIXED / DEFERRED / REJECTED. Default 2 rounds |
+| **`/tasvir`** | تصویر · visual | `bible` (lock consistency + critique constraints), `bord` (schematic SVG), `negaareh` (drawn HTML studio), `prompts` (extreme-detail two-track bundle with geography/culture/motion/sensory/light/camera packs injected) |
+| **`/zanjireh`** | زنجیره · pipeline | End-to-end. Variants: `kaameleh` (default, with both critique loops + planning gate), `documentary`, `koutaah`, `tabligh`, `bazneveshtan` |
 
 ---
 
@@ -57,6 +56,42 @@ Or just type `/rahnama route` and describe your situation — the agent tells yo
 
 ---
 
+## The full pipeline with two critique gates
+
+```
+/tahghigh        research (raw/ → danesh/)
+   ↓
+/tarh new        ★ planning gate
+                   · lock narrator personality (POV, voice, register, tone)
+                   · study popular styles in chosen format
+                   · build plan (idea, audience, structure, geographic +
+                     cultural anchors, narrative spine, visual + video styles)
+   ↓
+/tarh loop 2     ★ CRITIQUE-FIX LOOP #1 — on the plan
+                   catches "wrong format for the idea", "narrator doesn't fit",
+                   "generic anchor", "structural mismatch"
+   ↓
+/tarh approve    USER GATE — explicit approval required
+   ↓
+/dastan new      scenario informed by approved plan
+   ↓
+/dastan char     characters (parallel)
+   ↓
+/eslaah loop 2   ★ CRITIQUE-FIX LOOP #2 — on the scenario
+                   catches "missing inciting incident", "passive protagonist",
+                   "on-the-nose dialogue", "unearned climax"
+   ↓                  ↓
+   ↓           critique constraints
+   ↓                  ↓
+/tasvir bible    Visual Bible inherits narrator + plan + critique constraints
+   ↓
+/tasvir prompts  ★ extreme-detail prompts:
+                   style fragment + Bible locks + detail packs + critique
+                   constraints injected into every prompt
+```
+
+The **two critique loops at different scales** are why this system produces work that holds together. Loop 1 prevents you from writing a scenario for the wrong film. Loop 2 prevents the right scenario from coming out shapeless.
+
 ## The five user-driven features that make this work
 
 ### 1. The critique-and-fix loop (`/eslaah loop`)
@@ -70,13 +105,35 @@ The critique file becomes a **checklist** — every point ends as `✓ FIXED`, `
 
 Built into `/zanjireh kaameleh` by default. Standalone: `/eslaah loop <slug> 2`.
 
-### 2. The Visual Bible (`/tasvir bible`) — locks consistency across the whole film
-The single file that makes 30 panels in 3 different image generators still look like one film. It locks:
-- **One style fragment** (e.g. 40 words of Kiarostami aesthetic) → prepended to every image prompt.
-- **One phrase per character** → pasted byte-identical into every panel/shot that includes them. Result: the character has the same face across every prompt.
-- **One phrase per location** + light direction + color palette per act + lens plan + aspect ratio + atmospheric mood per act.
+### 2. The Visual Bible + critique-constraint propagation (`/tasvir bible`)
+The single file set that makes 30 panels in 3 different image generators still look like one film. It locks:
+- **One style fragment** → prepended to every image prompt.
+- **One phrase per character** → pasted byte-identical into every panel/shot that includes them. Same face across every prompt.
+- **One phrase per location** + light direction per scene-cluster + color palette per act + lens plan + aspect ratio + atmospheric mood per act.
+- **Critique constraints** — every must-fix critique point that is visually expressible gets recorded in `10-critique-constraints.md` and injected into matching prompts. The critique propagates from the script into the visual artifacts.
 
 Read by every prompt the system writes. Update once → re-emit all prompts with the new locked phrases via `/tasvir prompts <slug>`.
+
+### 2b. Detail-pack injection — the source of extreme prompt specificity
+
+Every prompt is composed from **five inputs**:
+1. The style fragment (storyboard or video).
+2. The Visual Bible locks (cast / location / palette / light / lens).
+3. **Detail packs from [`templates/detail-packs.md`](templates/detail-packs.md)** — Iran-emphasized.
+4. **Critique constraints** from the latest critique round.
+5. Shot-level specifics.
+
+The detail-pack library covers:
+- **Geography**: `iran-tehran`, `iran-isfahan`, `iran-shiraz`, `iran-tabriz`, `iran-yazd`, `iran-rasht-caspian`, `iran-ahvaz-khuzestan`, `iran-kurdistan-sanandaj`, `generic-iran-rural`, `paris-1970s`, `nyc-brooklyn`. Each pack carries architectural elements (Safavid pointed arch, Qajar mirror-work, badgir windcatchers), materials (turquoise tile, ochre adobe), vegetation (cypress, chenar, jasmine), and soundscape.
+- **Culture**: `iranian-traditional-religious-female/-male`, `iranian-secular-urban-female-young/-male-young`, `iranian-elderly-rural`, `iranian-diaspora-westernized`, `kurdish-traditional`, `azeri-iranian`. Each carries specific dress with names (chador, manteau, qaba, kolah), gesture norms, taboo zones, language register.
+- **Motion**: `slow-motion-cinematic-120fps`, `slow-motion-extreme-480fps`, `real-time-natural-24fps`, `time-lapse`, `whip-pan-kinetic`, `slow-and-steady`, `frantic-handheld`, `floating-steadicam`. Speed, weight, hesitation, motion blur all named.
+- **Sensory atmosphere**: `dusty-afternoon-iran`, `bazaar-press-isfahan`, `caspian-mist-rasht`, `desert-night-yazd`, `sandstorm-ahvaz`, `nowruz-air`, `cafe-interior-tehran-modern`, `mosque-silence`, `bazaar-tehran-grand`. Wind direction and intensity, fog density 0-5, smells (jasmine, hot stone, saffron, petrol, kebab smoke), specific ambient sounds with distance.
+- **Light**: `golden-hour-iranian-courtyard`, `blue-hour-tehran-rooftop`, `noon-harsh-bazaar-exit`, `window-shaft-interior-isfahan`, `practical-only-night-cafe`, `overcast-rasht-soft`, `magic-hour-mountain`, `dappled-cypress-garden`. Direction with angle, quality, color temperature, shadow length and color, contrast ratio.
+- **Camera language**: `kiarostami-observational-static`, `farhadi-handheld-intimate`, `slow-push-in-cinematic`, `crane-up-reveal-elegiac`, `whip-pan-edgar-wright`, `dolly-zoom-hitchcock`, `steadicam-long-take-cuaron`, `drone-aerial-establish`, `handheld-vérité-immediate`, `arc-orbit-obsessive`. Movement type, speed, easing, motivation.
+
+When `/tasvir prompts` writes a prompt for a scene set in Isfahan with an elderly woman in chador, slow movement, golden hour, dolly-in — it injects six packs (geography-isfahan + culture-iranian-traditional-religious-female + motion-slow-and-steady + sensory-dusty-afternoon-iran + light-golden-hour-iranian-courtyard + camera-slow-push-in-cinematic) plus the Visual Bible locks plus the critique constraints. The result is a prompt that contains every visible element, every sensory layer, every motion vector, every cultural marker — named explicitly.
+
+User edits this file directly. Add packs your project needs. The agent picks the right ones based on the scene's location/culture/motion/time/light/camera notes.
 
 ### 3. Two prompt tracks — storyboard AND photorealistic-YouTube-video
 `/tasvir prompts <slug>` writes **two distinct prompt tracks**. They share the locked cast / location / palette / light from the Visual Bible, but optimize differently:

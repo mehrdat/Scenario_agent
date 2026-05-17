@@ -20,23 +20,78 @@ Parse `$ARGUMENTS` as `<slug> [variant] [brief...]`. Default variant: `kaameleh`
 
 ## Variant: `kaameleh` (feature, default)
 
+The full pipeline now includes a **planning gate** (`/tarh`) between research and scenario. The plan must be approved by the user before the scenario stage is unlocked. This prevents the system from writing a scenario before the writer has decided what film they are making.
+
 ```
 1. /tahghigh <slug>                    (if raw/<slug>/ has material)
-2. /dastan new <slug>  [brief]         (logline → synopsis → treatment → beats → scenes → script)
-3. /dastan char <slug>                 (character bible — parallel with step 4 if possible)
-4. /eslaah loop <slug> 2               ★ CRITIQUE-AND-FIX LOOP: 2 rounds
-                                       Round 1: critique → fix every must-fix point
-                                       Round 2: re-critique (catches issues from round 1) → fix
-5. /tasvir bible <slug>                (lock style + palette + light + lens + cast + locations)
-6. /tasvir bord <slug> key             (schematic SVG of the spine — fast/cheap)
-7. /tasvir negaareh <slug> 25          (drawn HTML studio — 25% of runtime, by dramatic weight)
-8. /tasvir prompts <slug>              ★ COMPREHENSIVE PROMPTS BUNDLE
-                                       8 files: sequence + scene + shot + video + audio
-                                       + comparison-to-footage guide + consistency audit
-9. Final /eslaah naghd <slug>          (one more critique on the post-pipeline state)
+
+2. /tarh new <slug>                    ★ PLANNING GATE
+                                       2a. Lock narrator personality
+                                           (POV, reliability, voice register,
+                                            emotional tone, cultural anchor,
+                                            generation if Iran-set)
+                                       2b. Style study — survey 3-5 popular
+                                           reference works in the chosen format,
+                                           identify what works
+                                       2c. Build the plan: big idea, audience,
+                                           genre/tone, structural model,
+                                           geographic + cultural anchors,
+                                           narrative spine, visual + video
+                                           style directions
+
+3. /tarh loop <slug> 2                 ★ CRITIQUE-FIX LOOP ON THE PLAN
+                                       Round 1 critique → fix → Round 2 critique
+                                       → fix. Each [CP-N.k] point ends as FIXED
+                                       or DEFERRED.
+
+4. ASK USER: "/tarh approve <slug>?"   Pipeline pauses here. User reviews the
+                                       plan and explicitly approves. Without
+                                       approval, the scenario stage does NOT run.
+
+5. /dastan new <slug>                  (logline → synopsis → treatment → beats →
+                                        scenes → script — informed by the
+                                        approved plan)
+
+6. /dastan char <slug>                 (character bible — parallel with step 7)
+
+7. /eslaah loop <slug> 2               ★ CRITIQUE-FIX LOOP ON THE SCENARIO
+                                       Round 1 → round 2. Each [C-N.k] point.
+
+8. /tasvir bible <slug>                (Visual Bible inheriting from /tarh's
+                                        locked anchors: narrator voice,
+                                        geography, culture, visual style,
+                                        video style — plus per-act palette,
+                                        light, lens, locked cast phrases,
+                                        locked location phrases. Also reads the
+                                        critique log and writes
+                                        10-critique-constraints.md)
+
+9. /tasvir bord <slug> key             (schematic SVG of the spine)
+
+10. /tasvir negaareh <slug> 25         (drawn HTML studio — 25% by weight)
+
+11. /tasvir prompts <slug>             ★ EXTREME-DETAIL PROMPTS BUNDLE
+                                       Track 1 storyboard prompts + Track 2
+                                       photoreal video prompts, each composed
+                                       from:
+                                         • Visual Bible locks (cast / location
+                                           / palette / light / lens)
+                                         • Detail packs (geography, culture,
+                                           motion, sensory, light, camera
+                                           language)
+                                         • Critique constraints from step 7
+                                         • Shot-level specifics
+                                       Per-engine variants for 9 free video
+                                       generators (Sora 2, Veo 3, Kling, Hailuo,
+                                       Pika, Luma, Runway, Wan, Pixverse).
+                                       Audio companion (narration, music, SFX).
+
+12. Final /eslaah naghd <slug>         (post-pipeline critique)
 ```
 
-Run steps 3 + 4 in parallel where independent. Run step 6 + 7 in parallel.
+Run steps 6 + 7 in parallel where independent. Run step 9 + 10 in parallel.
+
+**The planning gate is mandatory** in `kaameleh`. To skip it (e.g. you already have a finished plan or you trust the agent), pass the explicit flag `kaameleh-skip-plan`. Otherwise the pipeline halts at step 4 until the plan is approved.
 
 ## Variant: `documentary`
 

@@ -100,96 +100,118 @@ output/prompt/<slug>/
 
 ---
 
-## Track 1 — Storyboard prompts (aesthetic, preproduction)
+## Extreme-detail prompt anatomy (both tracks)
 
-Each prompt uses the **Visual Bible style fragment** (e.g. "Hollywood storyboard panel, hand-drawn pencil-and-ink…") at the start. Optimized for free image generators that produce drawn/stylized output:
-- **Bing Image Creator** (DALL·E 3, free with Microsoft account — best storyboard quality)
-- **Mage.space**, **NightCafe**, **Ideogram**, **Leonardo**, **HuggingFace Flux Schnell**
-- **Stable Horde** (in-browser, anonymous, free)
-- Local Stable Diffusion via `tools/render-local.py`
+Every prompt in both tracks is composed from **five inputs**:
+1. **The style fragment** (Visual Bible `01-style.md` for Track 1; video-style package for Track 2).
+2. **The Visual Bible locks** (`06-cast-visual.md` phrase per character byte-identical; `07-locations.md` phrase per location; `02-palette.md` per act; `03-light.md` key direction; `04-lens.md` plan; `05-aspect.md`).
+3. **Detail packs from `templates/detail-packs.md`** — see below. Pick the right packs based on scene location, character culture, motion notes, time/weather, and camera move.
+4. **Critique constraints from `output/naghd/<slug>/round-*.md`** — if a critique point demanded "Maryam's solitude must read in every wide shot", that phrase becomes a constraint in every wide-shot prompt featuring her.
+5. **The shot-level specifics** from the scene/shot list.
 
-Anatomy (per panel):
+### Detail pack categories (from `templates/detail-packs.md`)
+
+| Pack type | Examples | When to inject |
+|---|---|---|
+| **Geography** | `iran-isfahan`, `iran-tehran`, `iran-shiraz`, `iran-tabriz`, `iran-yazd`, `iran-rasht-caspian`, `iran-ahvaz-khuzestan`, `iran-kurdistan-sanandaj`, `paris-1970s`, `nyc-brooklyn`, `generic-iran-rural` | Per scene location |
+| **Culture** | `iranian-traditional-religious-female`, `iranian-secular-urban-female-young`, `iranian-traditional-religious-male`, `iranian-secular-urban-male-young`, `iranian-elderly-rural`, `iranian-diaspora-westernized`, `kurdish-traditional`, `azeri-iranian` | Per character (matches the cast phrase from `06-cast-visual.md`) |
+| **Motion** | `slow-motion-cinematic-120fps`, `slow-motion-extreme-480fps`, `real-time-natural-24fps`, `time-lapse`, `whip-pan-kinetic`, `slow-and-steady`, `frantic-handheld`, `floating-steadicam` | Per shot's motion behavior |
+| **Sensory atmosphere** | `dusty-afternoon-iran`, `bazaar-press-isfahan`, `caspian-mist-rasht`, `desert-night-yazd`, `sandstorm-ahvaz`, `nowruz-air`, `cafe-interior-tehran-modern`, `mosque-silence`, `bazaar-tehran-grand` | Per scene's time/weather/setting |
+| **Light** | `golden-hour-iranian-courtyard`, `blue-hour-tehran-rooftop`, `noon-harsh-bazaar-exit`, `window-shaft-interior-isfahan`, `practical-only-night-cafe`, `overcast-rasht-soft`, `magic-hour-mountain`, `dappled-cypress-garden` | Per shot's lighting (matches Visual Bible `03-light.md`) |
+| **Camera language** | `kiarostami-observational-static`, `farhadi-handheld-intimate`, `slow-push-in-cinematic`, `crane-up-reveal-elegiac`, `whip-pan-edgar-wright`, `dolly-zoom-hitchcock`, `steadicam-long-take-cuaron`, `drone-aerial-establish`, `handheld-vérité-immediate`, `arc-orbit-obsessive` | Per shot's camera movement |
+
+Open `templates/detail-packs.md` for the full inject phrases.
+
+### Full prompt anatomy (Track 1 — storyboard, single frozen image)
+
 ```
-{STORYBOARD_STYLE from 01-style.md}: {CAST_PHRASE from 06-cast-visual.md}
-{ACTION} {INTERACTION} in {LOCATION from 07-locations.md}, {PERIOD/MOOD}.
-{SHOT_SIZE} shot, {LENS}mm perspective, {HEIGHT/ANGLE},
-{LIGHT_DIRECTION from 03-light.md} {COLOR_TEMP}. {GENRE_TONE}.
-{ASPECT_TAG from 05-aspect.md}, professional composition,
-no text overlay, no watermark.
-```
+{STORYBOARD_STYLE_FRAGMENT from Visual Bible 01-style.md}:
 
-60–120 words. Cast phrase is byte-identical across every prompt featuring the character.
+{CULTURE_PACK matching this character}: {CAST_PHRASE locked from 06-cast-visual.md}
+{POSTURE: standing/sitting/walking/leaning, weight distribution, facial expression}.
 
----
+{ACTION_VERB} {OBJECT/INTERACTION} — present tense, what this one frozen frame captures.
 
-## Track 2 — Photorealistic video prompts (highest quality, YouTube-ready)
+{GEOGRAPHY_PACK for the scene's location}.
+{PERIOD: year, season, time-of-day specific (4:45pm late afternoon)}.
 
-**Different optimization**: instead of the Visual Bible's aesthetic style, every prompt opens with a **video-style package** (from `templates/video-styles.md`) — a technical cinematography directive (film stock, camera body, lens, lighting motivation). The rest of the prompt (cast, location, action, palette, light direction) still reads from the Visual Bible, so consistency holds.
+{SENSORY_PACK for atmosphere}.
 
-Default package: **`photoreal-cinema`**:
-```
-Cinematic film production, photorealistic, shot on Arri Alexa Mini LF with
-anamorphic prime lens, 35mm large-format sensor, natural skin texture with
-visible pores, shallow depth of field with creamy bokeh and natural lens
-breathing, professional color grading, subtle organic film grain, 24fps
-cinematic motion blur, IMAX-quality detail, director-of-photography aesthetic,
-no stylization, no animation, fully photorealistic
-```
+{LIGHT_PACK for this scene's light setup} — direction angle, quality, temperature, shadow length and color, contrast ratio.
 
-Other available packages (see `templates/video-styles.md` for full text):
-- `photoreal-cinema` (default — premium feature film)
-- `photoreal-youtube-doc` (broadcast documentary)
-- `photoreal-vlog` (YouTube vlog / personal channel)
-- `photoreal-music-video` (cinematic music video)
-- `photoreal-commercial` (commercial advertising)
-- `photoreal-handheld-realism` (cinéma vérité)
-- `photoreal-8k-prestige` (HBO/Apple TV+ aesthetic)
-- `photoreal-archival` (period 35mm Kodak Vision3)
-- Or any storyboard style key if user wants stylized video (anime, ghibli, comic, etc.)
+{FOREGROUND/MIDGROUND/BACKGROUND description: depth layers, what's happening in each, implied motion via blur or pose}.
 
-Anatomy (per shot):
-```
-{VIDEO_STYLE_PACKAGE}: {CAST_PHRASE} {ACTION_VERB + manner} {OBJECT/INTERACTION}
-in {LOCATION_PHRASE}, {PERIOD/CULTURE} {ATMOSPHERE}. {SHOT_SIZE} shot,
-{LENS}mm {APERTURE if relevant}, {CAMERA_HEIGHT/ANGLE},
-{CAMERA_MOVEMENT description with motion verbs},
-{LIGHT_DIRECTION from 03-light.md} {LIGHT_QUALITY} {COLOR_TEMP},
-palette {PALETTE_HEX from 02-palette.md}. {ASPECT}, {FPS}fps, {DURATION}s.
+{SHOT_SIZE} shot, {LENS}mm perspective ({LENS_PACK}: e.g. "shot on 85mm portrait lens, shallow depth of field, classical composition"),
+{CAMERA_HEIGHT}/{ANGLE}, rule-of-thirds composition, headroom and lead room according to gaze.
 
-{UNIVERSAL_NEGATIVE_PROMPT}
+{GENRE/MOOD_TONE from Visual Bible 08-mood.md}.
+
+{CRITIQUE_CONSTRAINTS from latest critique round — if any apply}.
+
+{ASPECT_TAG from 05-aspect.md}, professional composition, no text overlay, no watermark.
 ```
 
-150–250 words. Motion verbs are critical (Kling, Pika, Luma honor them).
+### Full prompt anatomy (Track 2 — video, motion over time)
 
-### Per-engine variants
-For every shot, the agent also writes a tweaked version for each engine that has notable behavior:
-- **Sora**: natural-language version, with audio cues if dialogue/SFX matter.
-- **Veo 3**: with explicit audio direction (Veo generates audio).
-- **Kling**: motion-heavy version with detailed camera-move description.
-- **Hailuo**: condensed under 150 words.
-- **Pika**: focus on short-clip consistency.
-- **Luma**: physics-explicit ("water falls naturally", "fabric moves with gravity").
-- **Runway Gen-4**: heavy on cinematography terms (T-stop, ISO, focal length).
-- **Wan**: detailed long-form (open-source, no length cap).
-- **Pixverse**: explicit "photorealistic, no stylization" because Pixverse drifts toward anime.
-
-### Universal negative prompt
-Always appended at end of every video prompt:
 ```
-low quality, blurry, watermark, text overlay, captions, subtitles, low resolution,
-distorted faces, extra limbs, plastic skin, uncanny valley, anime, cartoon,
-illustration, painting, drawing, 3D render, CGI, video game, oversaturated,
-AI artifacts, deformed hands, missing fingers, melting faces, motion artifacts,
-frame stuttering, jittery motion, fake-looking, mannequin, stylized
+{VIDEO_STYLE_PACKAGE from templates/video-styles.md — default photoreal-cinema}.
+
+{CULTURE_PACK}: {CAST_PHRASE locked from 06-cast-visual.md}.
+
+{ACTION_VERB + MANNER} ({MOTION_PACK} — slow-motion 120fps / real-time / time-lapse / etc., speed indicator, weight, hesitation, frame rate hint).
+Start position: {...}. End position: {...}. Motivation: {emotional or narrative reason for the motion}.
+
+{GEOGRAPHY_PACK} {PERIOD}.
+
+{SENSORY_PACK} — wind direction and intensity (3mph from west / dust stirred), fog level 0-5, smell (jasmine / hot stone / wet earth / petrol / saffron), atmospheric particles (dust motes in sunbeam / smoke).
+
+{LIGHT_PACK} — key direction with angle, quality, color temperature, shadow length and color, contrast ratio.
+Light dynamics over the shot: does light shift? cloud passes? subject moves through a light pool? practicals visible (candle flicker, neon hum)?
+
+{FG/MG/BG MOTION}:
+- FG: what's moving in foreground (hair shifts in wind, hand traveling).
+- MG: subject's motion through the frame.
+- BG: what's happening behind (someone passes, vehicle moves, curtains stir).
+- Parallax: faster foreground motion than background as camera moves.
+
+{BODY LANGUAGE OVER THE SHOT}: how does posture change? micro-expressions? breath visible? hands during the action?
+
+{SHOT_SIZE} shot, {LENS}mm at {APERTURE} f/{f-stop}, {CAMERA_HEIGHT}/{ANGLE},
+{CAMERA_LANGUAGE_PACK} — movement type, speed (slow/medium/fast/whip), start framing → end framing, easing (linear/ease-in/ease-out/hold-then-move), motivation.
+
+{FOCUS}: plane of focus (subject's eyes / hands / background detail), depth of field (shallow f/1.8 / medium f/4 / deep f/11), rack focus moves during shot (focus pulls from A to B at second N), focus breathing acknowledged.
+
+{SOUND DESIGN (if engine generates audio — Veo 3, Sora 2)}:
+- Ambient bed with specifics.
+- Diegetic sounds with distance (footsteps near / azan distant / paper rustle close).
+- Off-screen sound if it motivates action.
+- Dialogue only if the exact line matters; otherwise reserved for `05-audio/narration.md`.
+
+{CRITIQUE_CONSTRAINTS} from latest critique round.
+
+Frame rate: {24fps cinematic / 30fps smooth / 60fps slo-mo}. Duration: {N} seconds.
+{ASPECT_TAG}. {UNIVERSAL_NEGATIVE_PROMPT from templates/video-styles.md}.
 ```
 
-If the user explicitly picked a stylized video-style package (anime / ghibli / comic), drop the matching exclusions from the negative.
+Both prompt types deliver **extreme detail**: every visible element, every sensory layer, every motion vector named explicitly so the AI generator has the information it needs to render with specificity.
 
-### Audio companion prompts (`video/05-audio/`)
-Per scene, write:
-- **Narration / dialogue** — for ElevenLabs / Tortoise / coqui-TTS. Speaker description, delivery direction, pacing, exact lines.
-- **Music** — for Suno / Udio / MusicGen. Genre + tempo + mood matching `08-mood.md`. Cue points if syncing.
-- **SFX** — for AudioGen / Freesound. Diegetic sounds + ambient bed + special punctuation per scene.
+### Critique propagation into prompts
+
+When `/eslaah` produces a critique with points marked `[C-N.k]`, each must-fix point that is **visually expressible** gets recorded in `output/visual-bible/<slug>/10-critique-constraints.md` during `/tasvir bible`:
+
+```markdown
+# Critique-derived visual constraints — <slug>
+
+Constraints that every prompt for this project must honor:
+
+- **[from C-2.3]** Maryam's solitude must read in every wide shot — frame her alone in vast architectural space, never with a busy crowd unless ironically.
+- **[from C-2.5]** The letter (story object) must be visible or its absence felt in every scene after Sc 4.
+- **[from C-3.1]** No shot using the right-side OTS — the critique flagged that pattern as flattening the geometry.
+```
+
+`/tasvir prompts <slug>` reads this file and injects the relevant constraint into the prompts that match (e.g. all wide shots featuring Maryam, all scenes after Scene 4).
+
+This is how the critique propagates: not just into the script, but into the visual artifacts.
 
 ---
 

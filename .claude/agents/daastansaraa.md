@@ -785,17 +785,74 @@ Many documentary modes do not use interviews at all (observational, poetic, arch
 
 ---
 
-## The seven user-facing commands
+## The eight user-facing commands
 
 | Command | Subcommands | What it produces |
 |---|---|---|
 | `/rahnama` | `tutorial`, `commands`, `route`, `<topic>` | Long-form tutorial, decision-tree routing, topic deep-dives |
 | `/salighe` | `view`, `update`, `learn`, `reset` | The user's persistent taste profile in `salighe/profile.md` |
 | `/tahghigh` | (none) | Distills `raw/<slug>/` → `danesh/<slug>-research.md` via pajooheshgar |
-| `/dastan` | `new`, `char`, `scene`, `dialog`, `gooneh`, `mosaahebeh` | All story development: scenario, characters, scene-deep-design, dialogue, genre, opt-in documentary interviews |
-| `/eslaah` | `loop` (default), `naghd`, `behtar`, `scene`, `dialog` | **Critique-and-fix loop**. Numbered critique points `[C-N.k]`, each marked `✓ FIXED` / `⏸ DEFERRED` / `✗ REJECTED`. Default 2 rounds |
-| `/tasvir` | `bible`, `bord`, `negaareh`, `prompts`, `video`, `all` | Visual Bible (locks consistency), schematic SVG storyboard, drawn HTML studio, **comprehensive prompts bundle** (sequence + scene + shot + video + audio + comparison-to-footage guide), all-in-one |
-| `/zanjireh` | `kaameleh` (default), `documentary`, `koutaah`, `tabligh`, `bazneveshtan` | End-to-end pipelines. `kaameleh` includes the critique-fix loop |
+| `/tarh` | `new`, `critique`, `fix`, `loop`, `approve`, `show` | **Planning gate** between research and scenario. Locks narrator personality, studies popular styles, builds plan, critique-fix loop, user approval required before scenario stage |
+| `/dastan` | `new`, `char`, `scene`, `dialog`, `gooneh`, `mosaahebeh` | All story development. `new` checks for `output/tarh/<slug>/_approved.md` and halts if absent (planning not done) |
+| `/eslaah` | `loop` (default), `naghd`, `behtar`, `scene`, `dialog` | **Critique-and-fix loop on scenario**. Numbered critique points `[C-N.k]`, each marked `✓ FIXED` / `⏸ DEFERRED` / `✗ REJECTED`. Default 2 rounds. **Critique points propagate into Visual Bible and into prompts** |
+| `/tasvir` | `bible`, `bord`, `negaareh`, `prompts`, `video`, `all` | Visual Bible (locks consistency, reads critique constraints), schematic SVG storyboard, drawn HTML studio, two-track prompts bundle with **extreme-detail injection** via geography/culture/motion/sensory/light/camera detail packs |
+| `/zanjireh` | `kaameleh` (default), `documentary`, `koutaah`, `tabligh`, `bazneveshtan` | End-to-end pipelines. `kaameleh` includes both critique-fix loops (plan + scenario) and the planning gate |
+
+## Pipeline flow with two critique loops
+
+```
+/tahghigh (research)
+   ↓
+/tarh new (narrator + style study + plan)
+   ↓
+/tarh loop 2  ← CRITIQUE-FIX LOOP #1 (on the plan)
+   ↓
+/tarh approve ← USER GATE (explicit approval required)
+   ↓
+/dastan new (scenario informed by approved plan)
+   ↓
+/dastan char (characters in parallel)
+   ↓
+/eslaah loop 2  ← CRITIQUE-FIX LOOP #2 (on the scenario)
+   ↓                ↓
+   ↓        critique constraints
+   ↓                ↓
+/tasvir bible ← reads narrator + plan + scenario + critique constraints
+   ↓                ↓
+   ↓        output/visual-bible/<slug>/10-critique-constraints.md
+   ↓                ↓
+/tasvir prompts ← injects style + Bible locks + detail packs + critique constraints
+```
+
+The two critique loops are at different scales:
+- **Loop #1 (`/tarh loop`)** critiques the *plan*. Catches "wrong format for the idea", "narrator doesn't fit material", "generic geographic anchor", "structural model mismatch".
+- **Loop #2 (`/eslaah loop`)** critiques the *scenario*. Catches "missing inciting incident", "passive protagonist", "on-the-nose dialogue", "unearned climax".
+
+## Detail-pack injection (extreme-detail prompts)
+
+Every prompt that `/tasvir prompts` writes pulls from **`templates/detail-packs.md`** — a library of Iran-emphasized geography packs, culture packs, motion packs, sensory atmosphere packs, light packs, and camera-language packs. The agent picks the right packs based on:
+
+- Scene location → geography pack (`iran-isfahan`, `iran-tehran`, `iran-yazd`, etc.).
+- Character → culture pack (`iranian-traditional-religious-female`, `kurdish-traditional`, etc.).
+- Shot's motion notes → motion pack (`slow-motion-cinematic-120fps`, `whip-pan-kinetic`, etc.).
+- Scene's time / weather / setting → sensory pack (`dusty-afternoon-iran`, `mosque-silence`, etc.).
+- Visual Bible's light direction → light pack (`golden-hour-iranian-courtyard`, etc.).
+- Shot's camera move → camera-language pack (`kiarostami-observational-static`, `slow-push-in-cinematic`, etc.).
+
+Result: prompts contain the geographic specificity, cultural accuracy, motion physics, sensory atmosphere, light dynamics, and camera language that free AI generators need to produce convincing output. **Every visible element, every sensory layer, every motion vector named explicitly.**
+
+## Critique constraint propagation
+
+After `/eslaah loop`, any critique point that is visually expressible gets recorded by `/tasvir bible` as a **visual constraint** in `output/visual-bible/<slug>/10-critique-constraints.md`. Example:
+
+```markdown
+- [from C-2.3] Maryam's solitude must read in every wide shot — frame her
+  alone in vast architectural space, never with a busy crowd.
+- [from C-2.5] The letter (story object) must be visible or its absence
+  felt in every scene after Sc 4.
+```
+
+`/tasvir prompts` reads this file and injects matching constraints into prompts that fit (all wide shots featuring Maryam; all post-Sc-4 scenes). The critique propagates from the script into the prompts, not just into the rewrite.
 
 ## The Visual Bible — consistency contract
 
