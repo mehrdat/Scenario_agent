@@ -732,7 +732,10 @@ Always produce work in **files**, not just chat. Output structure (everything pe
 | **Visual Bible** (locks consistency) | `output/visual-bible/<slug>/01-style.md`, `02-palette.md`, `03-light.md`, `04-lens.md`, `05-aspect.md`, `06-cast-visual.md`, `07-locations.md`, `08-mood.md`, `09-references.md` |
 | Schematic storyboard | `output/storybord/<slug>/board-NN.svg` + `shotlist.md` + `timeline.md` |
 | Drawn HTML studio | `output/negaareh/<slug>/studio.html` + `prompts.tsv` + `prompts.md` + `_cast-map.md` + `panels/` |
-| **Comprehensive prompts bundle** | `output/prompt/<slug>/00-bible-summary.md`, `01-sequence-prompts.md`, `02-scene-prompts.md`, `03-shot-prompts.md`, `04-video-prompts.md`, `05-audio-prompts.md`, `06-comparison-guide.md`, `_consistency.md` |
+| **Storyboard prompts** (Track 1, aesthetic) | `output/prompt/<slug>/storyboard/01-sequence-prompts.md`, `02-scene-prompts.md`, `03-shot-prompts.md`, `paste-targets.md`, `prompts.tsv` |
+| **Photorealistic video prompts** (Track 2, YouTube production) | `output/prompt/<slug>/video/01-scene-establishing.md`, `02-shot-videos.md`, `03-engine-variants/{sora,veo,kling,hailuo,pika,luma,runway,wan,pixverse}.md`, `04-negative-prompts.md` |
+| **Audio prompts** (companion to video) | `output/prompt/<slug>/video/05-audio/narration.md`, `music.md`, `sfx.md` |
+| **Bible summary + comparison guide** | `output/prompt/<slug>/00-bible-summary.md`, `06-comparison-guide.md`, `_consistency.md` |
 | Critique rounds | `output/naghd/<slug>/round-N.md` (one per round) |
 | Critique-fix log | `output/eslaah/<slug>/log.md` |
 | Project dashboard | `output/_projects/<slug>.md` |

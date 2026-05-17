@@ -1,140 +1,226 @@
 ---
-description: تصویر — Visual hub. Builds the Visual Bible (style/palette/light/cast locked once for the whole film), schematic SVG storyboard, drawn HTML studio, and the comprehensive prompts bundle (scene + sequence + shot + video + audio + comparison guide). Subcommands or `all`.
-argument-hint: <subcommand> <project-slug> [args...]  ·  subcommands: bible | bord | negaareh | prompts | video | all
+description: تصویر — Visual hub. Builds Visual Bible (consistency contract), schematic SVG storyboard, drawn HTML studio, and TWO prompt tracks — storyboard prompts (in chosen artistic style) and video prompts (photorealistic, YouTube-ready).
+argument-hint: <subcommand> <project-slug> [args...]  ·  subcommands: bible | bord | negaareh | prompts | video | storyboard-prompts | all
 ---
 
-# /tasvir — visual production hub
+# /tasvir — visual production hub (two prompt tracks)
 
-This command produces every visual artifact your project needs: the Visual Bible that locks consistency, the schematic SVG storyboard for planning, the drawn HTML studio for presentation, and the comprehensive prompts bundle that lets you compare your existing footage to the planned shots.
+This command produces everything visual: the Visual Bible (consistency), the schematic SVG planning board, the drawn HTML presentation studio, and **two distinct prompt tracks** — one for storyboard visualization, one for the final YouTube-ready video.
 
-Parse `$ARGUMENTS` as `<subcommand> <slug> [args...]`. If first token isn't a known subcommand, default to `all`. If `<slug>` is missing, ask via `AskUserQuestion`.
+Parse `$ARGUMENTS` as `<subcommand> <slug> [args...]`. Default subcommand: `all`. If `<slug>` is missing, ask via `AskUserQuestion`.
 
-## The Visual Bible — why everything starts here
+---
 
-**Critical concept**: For your film to *look* like one film (not 18 disconnected scenes), every prompt must share the same visual DNA. The Visual Bible is that DNA, locked once.
+## The Visual Bible — read by every prompt this command writes
 
-It lives at `output/visual-bible/<slug>/` and contains:
-- **01-style.md** — chosen style key + style fragment (the exact ~30–50-word phrase injected into every image prompt).
-- **02-palette.md** — color palette per act (3–4 hex codes), color arc across the film.
-- **03-light.md** — key direction, light quality (hard/soft/diffuse), color temperature per scene-cluster.
-- **04-lens.md** — focal length plan (which scenes use 24/35/50/85/135 mm).
-- **05-aspect.md** — aspect ratio + framing rules.
-- **06-cast-visual.md** — for each character, the locked prompt-phrase (byte-identical across every panel/shot).
-- **07-locations.md** — for each location, the locked description phrase.
-- **08-mood.md** — overall atmospheric tone per act.
-- **09-references.md** — list of `raw/` reference images and external film references the bible draws from.
+Lives at `output/visual-bible/<slug>/`. Nine locked files: `01-style.md` (style fragment for storyboard track), `02-palette.md` (color per act), `03-light.md` (key direction + temperature), `04-lens.md` (focal-length plan), `05-aspect.md`, `06-cast-visual.md` (one prompt-phrase per character, byte-identical across every prompt), `07-locations.md`, `08-mood.md`, `09-references.md`.
 
-**Every subsequent subcommand reads the Visual Bible first** and injects the locked phrases into prompts. That's how consistency happens.
+**Both prompt tracks share the cast / location / palette / light / lens locks** — that's how a character looks the same in the storyboard AND the final video. **Only the style fragment differs** between the two tracks:
+- Storyboard track style = the Visual Bible's `01-style.md` (e.g. comic, noir, kiarostami, ghibli).
+- Video track style = a separate **video-style package** (default `photoreal-cinema`) from `templates/video-styles.md`.
 
 ---
 
 ## Subcommands
 
-### `bible <slug> [style-key]` — build / update the Visual Bible
-1. Read `output/senaario/<slug>/` (full scenario), `output/shakhsiat/<slug>.md`, `danesh/<slug>-research.md`, `salighe/profile.md`.
-2. If `style-key` is missing, present the 20-preset picker via `AskUserQuestion` (comic / real / noir / anime / ghibli / watercolor / pencil / graphic-novel / pixar / wes-anderson / kiarostami / farhadi / kubrick / fincher / wong-kar-wai / deakins / del-toro / lynch / marvel / bw-photo / custom). Default first option to the user's taste-profile preference.
-3. Write all nine `0N-*.md` files. The style fragment from the picker is locked into `01-style.md` and will be the *first sentence* of every image prompt this project produces.
-4. For each named character in the scenario, write a locked "prompt phrase" in `06-cast-visual.md`. Once locked, this phrase appears byte-identical in every panel/shot prompt that includes the character — Flux / DALL·E 3 / SDXL will then produce a consistent likeness.
-5. For each location, write a locked description phrase in `07-locations.md`.
-6. Surface `01-style.md` via `SendUserFile` and ask: *"Locking this Visual Bible. Run `tasvir bord <slug>` next for the planning board, or `tasvir all <slug>` to produce everything."*
-
-**Re-run rules**: Running `tasvir bible` again will *update* not overwrite. The locked phrases stay unless the user explicitly asks to change the style. If they change the style, all downstream artifacts (storyboards, prompts) become out-of-date — the agent flags this and offers to re-generate them.
+### `bible <slug> [storyboard-style-key]` — lock the Visual Bible
+1. Read `output/senaario/<slug>/`, `output/shakhsiat/<slug>.md`, `danesh/<slug>-research.md`, `salighe/profile.md`.
+2. Pick storyboard style via `AskUserQuestion` if not given (20-preset library: comic / real / noir / anime / ghibli / watercolor / pencil / graphic-novel / pixar / wes-anderson / kiarostami / farhadi / kubrick / fincher / wong-kar-wai / deakins / del-toro / lynch / marvel / bw-photo / custom).
+3. Write 9 files from `templates/visual-bible.md`. Lock character/location phrases.
+4. Surface `01-style.md` via `SendUserFile`.
 
 ### `bord <slug> [scope] [aspect] [ink-style]` — schematic SVG storyboard
-For planning the shoot. Low credit, clean ink lines, opens in any browser. Delegates to **pardeh-negaar**.
-- `scope` — required, ask via `AskUserQuestion` if missing. Options: `sample` (recommended default — 1 page) · `key` (the spine) · `scene N` · `scene N-M` · `sequence N` · `act N` · `all`.
-- `aspect` — `16x9` (default) / `9x16` / `1x1` / `2.39x1`.
-- `ink-style` — optional. `clean` (default) / `sketchy` (hand-drawn wobble) / `cinematic` (toned + shaded).
-- Hard cap: 4 pages (24 panels) per call.
-- Reads the Visual Bible if present (for aspect default, character silhouette hints).
-- Output: `output/storybord/<slug>/board-NN.svg` + `shotlist.md` + `timeline.md`.
+Planning fidelity. Delegates to **pardeh-negaar**. Hard cap 4 pages. See template `storyboard.svg`.
 
 ### `negaareh <slug> [%] [style-key] [aspect]` — drawn HTML studio
-For pitch deck / festival / portfolio. Delegates to **negaaregar**.
-- `%` — percentage of runtime to board (1–100). Scenes selected by dramatic weight. Ask via `AskUserQuestion` if missing (default 25%).
-- `style-key` — must match the Visual Bible's locked style. If the user passes a different one, the agent **warns** that this breaks consistency and asks: "Override the Visual Bible style for just this board, or update the Bible to the new style?"
-- `aspect` — matches Visual Bible by default.
-- Hard cap: 36 panels per call.
-- Output: `output/negaareh/<slug>/studio.html` (multi-backend interactive page) + `prompts.tsv` + `prompts.md` + `_cast-map.md` + `shotlist.md` + `coverage.md`.
+Presentation fidelity. Delegates to **negaaregar**. Hard cap 36 panels. Multi-backend (Bing IC / Mage / NightCafe / Stable Horde / local SD).
 
-### `prompts <slug>` — **the comprehensive prompts bundle** (NEW)
-This is the file set that lets you compare your finished footage to the planned shots — even if the video is already shot.
+### `storyboard-prompts <slug>` (alias `sb-prompts`) — Track 1 only
+Just the storyboard prompts (no video prompts). Useful when you only need preproduction visualization.
 
-Reads the Visual Bible + scenario + storyboard data (if present). Writes to `output/prompt/<slug>/`:
+### `video <slug> [video-style-key] [aspect]` — Track 2 only
+Just the photorealistic video prompts (no storyboard prompts). For users who already have a board and need only the YouTube video prompts.
+- `video-style-key` defaults to `photoreal-cinema`. Pick via `AskUserQuestion` if not given. See package list below.
+- `aspect` defaults to Visual Bible's aspect, or 16:9 for YouTube.
 
-| File | What it contains |
-|---|---|
-| `00-bible-summary.md` | One-page distillation of the Visual Bible. Read this first when comparing footage. |
-| `01-sequence-prompts.md` | One image prompt per **sequence** (groups of scenes that flow together). Describes the sequence's overall feel — color, light, mood. Useful for comparing "does my Act-2 opener feel like this?". |
-| `02-scene-prompts.md` | One image prompt per **scene** — a key-frame description of what the scene should look like as a whole. With locked cast/location/style phrases injected. |
-| `03-shot-prompts.md` | One image prompt per **shot** (every shot in the film). Each shot inherits the scene's prompt but adds shot-specific framing (size, lens, angle, movement). |
-| `04-video-prompts.md` | AI-video generation prompts per shot, optimized for free engines (Hailuo / Kling / Pika / Runway free / Luma / Sora-via-Bing / Veo / Wan / Pixverse). Each block lists engine-specific tweaks. |
-| `05-audio-prompts.md` | Per scene: music description, ambient SFX list, dialogue tonal markers, silence beats. For free music generators (Suno free / Udio free / MusicGen on HF / ElevenLabs free). |
-| `06-comparison-guide.md` | **How to compare your footage to the plan.** For each shot: the prompt + 5-question rubric (Does the framing match? Does the light direction match? Does the color palette hold? Is the character's bearing right? Does the duration feel earned?). Includes a markdown checklist the user can tick. |
-| `_consistency.md` | An audit report: which prompts share the same locked phrases (cast/location/style), where the locked phrases drifted, and what the user should re-lock in the Bible. |
+### `prompts <slug> [video-style-key]` — BOTH tracks
+Writes the comprehensive prompts bundle below. **This is the primary deliverable for production planning.**
 
-The point: you can flip through `06-comparison-guide.md` while watching your own footage on the other monitor and tick off whether each shot lands. If a shot fails, the corresponding `03-shot-prompts.md` entry tells you what to re-shoot or what to ask a colorist to fix.
-
-### `video <slug> [engine]` — alias for `tasvir prompts <slug>` then surface `04-video-prompts.md`
-For users who only want the AI-video generation prompts (skip storyboards). Still builds the Visual Bible first if missing.
-
-### `all <slug>` — runs everything in order (default)
-Full visual workflow:
-1. `bible` (if `01-style.md` doesn't exist; otherwise read existing).
-2. `bord <slug> key` (the spine, schematic — cheap planning board).
-3. `negaareh <slug> 25` (25% drawn — pitch board).
-4. `prompts <slug>` (the comprehensive bundle).
-Reports each step's output as it completes.
+### `all <slug>` — full visual workflow
+1. `bible` (if not exists).
+2. `bord <slug> key` (schematic — planning board, fast).
+3. `negaareh <slug> 25` (drawn HTML studio — pitch board).
+4. `prompts <slug>` (both tracks).
 
 ---
 
-## Consistency contract — how the Visual Bible flows through every prompt
-
-Every prompt in the bundle has this anatomy:
+## TWO PROMPT TRACKS — what `prompts` writes
 
 ```
-{STYLE_FRAGMENT from 01-style.md}: {CAST_PHRASE from 06-cast-visual.md}
-{ACTION_VERB} {OBJECT/INTERACTION} in {LOCATION_PHRASE from 07-locations.md},
-{PERIOD/CULTURE} {ATMOSPHERE from 08-mood.md}. {SHOT_SIZE} shot,
-{LENS from 04-lens.md} perspective, {CAMERA_HEIGHT/ANGLE},
-{LIGHT_DIRECTION from 03-light.md} {COLOR_TEMP}, palette
-{PALETTE from 02-palette.md}. {GENRE_TONE}. {ASPECT_TAG from 05-aspect.md},
-professional composition, no text overlay, no watermark.
-```
-
-The bracketed phrases are **byte-identical** across every prompt in the project. That is the consistency contract. If the user wants to change anything across the whole film, they update one file in the Bible and re-run `tasvir prompts <slug>` to re-emit all prompts with the new locked phrase.
-
----
-
-## Output structure
-
-```
-output/visual-bible/<slug>/
-  01-style.md   02-palette.md   03-light.md   04-lens.md   05-aspect.md
-  06-cast-visual.md   07-locations.md   08-mood.md   09-references.md
-
-output/storybord/<slug>/
-  board-NN.svg   shotlist.md   timeline.md   coverage.md
-
-output/negaareh/<slug>/
-  studio.html   prompts.tsv   prompts.md   _cast-map.md   shotlist.md   coverage.md
-  panels/
-
 output/prompt/<slug>/
-  00-bible-summary.md   01-sequence-prompts.md   02-scene-prompts.md
-  03-shot-prompts.md   04-video-prompts.md   05-audio-prompts.md
-  06-comparison-guide.md   _consistency.md
+├── 00-bible-summary.md              ← one-page Visual Bible distillation (read first)
+│
+├── storyboard/                      ★ TRACK 1: STORYBOARD PROMPTS
+│   │                                    Aesthetic = Visual Bible's chosen style
+│   │                                    For free IMAGE generators
+│   │                                    Use to preview / pitch / portfolio
+│   ├── 01-sequence-prompts.md       one image prompt per sequence (overall feel)
+│   ├── 02-scene-prompts.md          one image prompt per scene (key-frame)
+│   ├── 03-shot-prompts.md           one image prompt per shot
+│   ├── paste-targets.md             where to paste (Bing IC, Mage, NightCafe, ...)
+│   └── prompts.tsv                  bulk-render input for tools/render-panels.sh
+│
+├── video/                           ★ TRACK 2: PHOTOREALISTIC VIDEO PROMPTS
+│   │                                    Aesthetic = photoreal-cinema (default) or chosen package
+│   │                                    For free AI VIDEO generators
+│   │                                    For the actual final YouTube video
+│   ├── 01-scene-establishing.md     one establishing video prompt per scene
+│   ├── 02-shot-videos.md            per-shot photoreal video prompts (the main file)
+│   ├── 03-engine-variants/
+│   │   ├── sora.md                  Sora 2 (via ChatGPT/Bing) — natural language tweaks
+│   │   ├── veo.md                   Veo 3 (Google AI Studio) — with audio cues
+│   │   ├── kling.md                 Kling 2 — motion-heavy
+│   │   ├── hailuo.md                Hailuo MiniMax 2 — short-prompt optimized
+│   │   ├── pika.md                  Pika 2.2
+│   │   ├── luma.md                  Luma Dream Machine — physics-aware
+│   │   ├── runway.md                Runway Gen-4 — cinema-term-heavy
+│   │   ├── wan.md                   Wan 2.2 (open-source, local)
+│   │   └── pixverse.md              Pixverse
+│   ├── 04-negative-prompts.md       universal anti-AI-artifact negative
+│   └── 05-audio/
+│       ├── narration.md             ElevenLabs / Tortoise / coqui-TTS prompts per scene
+│       ├── music.md                 Suno / Udio / MusicGen prompts per scene / sequence
+│       └── sfx.md                   AudioGen / Freesound prompts per scene
+│
+├── 06-comparison-guide.md           AUDIT CHECKLIST — open while watching your edit
+│                                    5-question rubric per shot:
+│                                    framing? light? color? bearing? duration?
+└── _consistency.md                  audit report — Visual Bible adherence
 ```
+
+---
+
+## Track 1 — Storyboard prompts (aesthetic, preproduction)
+
+Each prompt uses the **Visual Bible style fragment** (e.g. "Hollywood storyboard panel, hand-drawn pencil-and-ink…") at the start. Optimized for free image generators that produce drawn/stylized output:
+- **Bing Image Creator** (DALL·E 3, free with Microsoft account — best storyboard quality)
+- **Mage.space**, **NightCafe**, **Ideogram**, **Leonardo**, **HuggingFace Flux Schnell**
+- **Stable Horde** (in-browser, anonymous, free)
+- Local Stable Diffusion via `tools/render-local.py`
+
+Anatomy (per panel):
+```
+{STORYBOARD_STYLE from 01-style.md}: {CAST_PHRASE from 06-cast-visual.md}
+{ACTION} {INTERACTION} in {LOCATION from 07-locations.md}, {PERIOD/MOOD}.
+{SHOT_SIZE} shot, {LENS}mm perspective, {HEIGHT/ANGLE},
+{LIGHT_DIRECTION from 03-light.md} {COLOR_TEMP}. {GENRE_TONE}.
+{ASPECT_TAG from 05-aspect.md}, professional composition,
+no text overlay, no watermark.
+```
+
+60–120 words. Cast phrase is byte-identical across every prompt featuring the character.
+
+---
+
+## Track 2 — Photorealistic video prompts (highest quality, YouTube-ready)
+
+**Different optimization**: instead of the Visual Bible's aesthetic style, every prompt opens with a **video-style package** (from `templates/video-styles.md`) — a technical cinematography directive (film stock, camera body, lens, lighting motivation). The rest of the prompt (cast, location, action, palette, light direction) still reads from the Visual Bible, so consistency holds.
+
+Default package: **`photoreal-cinema`**:
+```
+Cinematic film production, photorealistic, shot on Arri Alexa Mini LF with
+anamorphic prime lens, 35mm large-format sensor, natural skin texture with
+visible pores, shallow depth of field with creamy bokeh and natural lens
+breathing, professional color grading, subtle organic film grain, 24fps
+cinematic motion blur, IMAX-quality detail, director-of-photography aesthetic,
+no stylization, no animation, fully photorealistic
+```
+
+Other available packages (see `templates/video-styles.md` for full text):
+- `photoreal-cinema` (default — premium feature film)
+- `photoreal-youtube-doc` (broadcast documentary)
+- `photoreal-vlog` (YouTube vlog / personal channel)
+- `photoreal-music-video` (cinematic music video)
+- `photoreal-commercial` (commercial advertising)
+- `photoreal-handheld-realism` (cinéma vérité)
+- `photoreal-8k-prestige` (HBO/Apple TV+ aesthetic)
+- `photoreal-archival` (period 35mm Kodak Vision3)
+- Or any storyboard style key if user wants stylized video (anime, ghibli, comic, etc.)
+
+Anatomy (per shot):
+```
+{VIDEO_STYLE_PACKAGE}: {CAST_PHRASE} {ACTION_VERB + manner} {OBJECT/INTERACTION}
+in {LOCATION_PHRASE}, {PERIOD/CULTURE} {ATMOSPHERE}. {SHOT_SIZE} shot,
+{LENS}mm {APERTURE if relevant}, {CAMERA_HEIGHT/ANGLE},
+{CAMERA_MOVEMENT description with motion verbs},
+{LIGHT_DIRECTION from 03-light.md} {LIGHT_QUALITY} {COLOR_TEMP},
+palette {PALETTE_HEX from 02-palette.md}. {ASPECT}, {FPS}fps, {DURATION}s.
+
+{UNIVERSAL_NEGATIVE_PROMPT}
+```
+
+150–250 words. Motion verbs are critical (Kling, Pika, Luma honor them).
+
+### Per-engine variants
+For every shot, the agent also writes a tweaked version for each engine that has notable behavior:
+- **Sora**: natural-language version, with audio cues if dialogue/SFX matter.
+- **Veo 3**: with explicit audio direction (Veo generates audio).
+- **Kling**: motion-heavy version with detailed camera-move description.
+- **Hailuo**: condensed under 150 words.
+- **Pika**: focus on short-clip consistency.
+- **Luma**: physics-explicit ("water falls naturally", "fabric moves with gravity").
+- **Runway Gen-4**: heavy on cinematography terms (T-stop, ISO, focal length).
+- **Wan**: detailed long-form (open-source, no length cap).
+- **Pixverse**: explicit "photorealistic, no stylization" because Pixverse drifts toward anime.
+
+### Universal negative prompt
+Always appended at end of every video prompt:
+```
+low quality, blurry, watermark, text overlay, captions, subtitles, low resolution,
+distorted faces, extra limbs, plastic skin, uncanny valley, anime, cartoon,
+illustration, painting, drawing, 3D render, CGI, video game, oversaturated,
+AI artifacts, deformed hands, missing fingers, melting faces, motion artifacts,
+frame stuttering, jittery motion, fake-looking, mannequin, stylized
+```
+
+If the user explicitly picked a stylized video-style package (anime / ghibli / comic), drop the matching exclusions from the negative.
+
+### Audio companion prompts (`video/05-audio/`)
+Per scene, write:
+- **Narration / dialogue** — for ElevenLabs / Tortoise / coqui-TTS. Speaker description, delivery direction, pacing, exact lines.
+- **Music** — for Suno / Udio / MusicGen. Genre + tempo + mood matching `08-mood.md`. Cue points if syncing.
+- **SFX** — for AudioGen / Freesound. Diegetic sounds + ambient bed + special punctuation per scene.
+
+---
+
+## How the user uses both tracks
+
+**Storyboard track** (preproduction visualization):
+1. Open `storyboard/03-shot-prompts.md`.
+2. Per panel, click the "Bing IC" / "Mage" / "NightCafe" link or copy the prompt.
+3. Generate the image. Drag back into `output/negaareh/<slug>/studio.html` (the multi-backend studio page).
+4. Result: a drawn storyboard you can show producers / festival jury.
+
+**Video track** (final YouTube video generation):
+1. Open `video/02-shot-videos.md` (the main file with the photoreal version of every shot).
+2. For each shot, decide which engine to use based on the per-engine variants in `video/03-engine-variants/`.
+3. Paste the prompt into the chosen engine — Sora 2 via Bing, Veo 3 via Google AI Studio, Kling / Hailuo / Pika / Luma / Runway / Wan / Pixverse via their free tiers.
+4. Download the rendered clip.
+5. Cut together in your NLE (DaVinci Resolve free, CapCut, Premiere).
+6. Use `video/05-audio/` prompts for narration (ElevenLabs free), music (Suno free), SFX (AudioGen free).
+
+**Already have footage?** Open `06-comparison-guide.md` while watching your edit. 5-question rubric per shot tells you which to re-shoot / re-grade / re-cut.
 
 ---
 
 ## Reporting
 
-After `all`, report ≤8 lines:
-- Visual Bible: locked style + cast/location phrases count.
-- Schematic board: pages + panels.
-- Drawn board: panels at X% scope.
-- Prompts bundle: number of sequence / scene / shot prompts written.
-- Next step: open `output/prompt/<slug>/06-comparison-guide.md` to audit your footage.
+After `prompts` or `all`, report ≤8 lines:
+- Visual Bible: locked style + cast count + location count.
+- Storyboard track: N sequence + N scene + N shot prompts written.
+- Video track: N scene-establishing + N shot prompts + per-engine variants written.
+- Audio track: N narration + N music + N SFX prompts written.
+- Path to comparison guide.
+- Next step: usually "open `studio.html` for the drawn board, then `video/02-shot-videos.md` for the final video generation."
 
-Use the **daastansaraa** sub-agent as orchestrator. Delegates to **pardeh-negaar** for SVG and **negaaregar** for the HTML studio.
+Use the **daastansaraa** sub-agent as orchestrator. Delegate to **pardeh-negaar** (SVG board) and **negaaregar** (HTML studio + Track 1 prompts).

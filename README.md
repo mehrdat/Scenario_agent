@@ -78,19 +78,61 @@ The single file that makes 30 panels in 3 different image generators still look 
 
 Read by every prompt the system writes. Update once → re-emit all prompts with the new locked phrases via `/tasvir prompts <slug>`.
 
-### 3. The comprehensive prompts bundle (`/tasvir prompts`)
-Even if your video is already shot, you get a complete prompt set so you can audit. Eight files at `output/prompt/<slug>/`:
+### 3. Two prompt tracks — storyboard AND photorealistic-YouTube-video
+`/tasvir prompts <slug>` writes **two distinct prompt tracks**. They share the locked cast / location / palette / light from the Visual Bible, but optimize differently:
 
-| File | What |
-|---|---|
-| `00-bible-summary.md` | One-page distillation of the Visual Bible — read first |
-| `01-sequence-prompts.md` | One prompt per **sequence** (groups of scenes that flow) — compares feel |
-| `02-scene-prompts.md` | One prompt per **scene** key-frame |
-| `03-shot-prompts.md` | One prompt per **shot** — the full coverage |
-| `04-video-prompts.md` | AI-video prompts per shot for free engines (Hailuo / Kling / Pika / Runway free / Luma / Sora-via-Bing / Veo / Wan / Pixverse) |
-| `05-audio-prompts.md` | Music / SFX / dialogue tonal markers per scene (Suno free / Udio free / MusicGen / ElevenLabs free) |
-| `06-comparison-guide.md` | **Audit checklist** — open this while watching your footage. 5-question rubric per shot: framing match? light direction match? color hold? character bearing? duration earned? |
-| `_consistency.md` | Audit report on Visual Bible adherence — flags any prompt that drifted from the locked phrases |
+```
+output/prompt/<slug>/
+├── 00-bible-summary.md            one-page Visual Bible — read first
+│
+├── storyboard/                    ★ TRACK 1: storyboard prompts (image gen)
+│   ├── 01-sequence-prompts.md       style = Visual Bible aesthetic
+│   ├── 02-scene-prompts.md            (comic / noir / kiarostami / ghibli / etc.)
+│   ├── 03-shot-prompts.md           for free IMAGE generators
+│   ├── paste-targets.md               (Bing IC / Mage / NightCafe / Stable Horde / local SD)
+│   └── prompts.tsv                  purpose: preproduction visualization
+│
+├── video/                         ★ TRACK 2: photorealistic video prompts
+│   ├── 01-scene-establishing.md     style = photoreal-cinema (default)
+│   ├── 02-shot-videos.md              or photoreal-vlog / -doc / -music-video / -8k-prestige
+│   ├── 03-engine-variants/          for free AI VIDEO generators (one tweaked variant each):
+│   │   ├── sora.md                    Sora 2 via ChatGPT/Bing Video
+│   │   ├── veo.md                     Veo 3 via Google AI Studio
+│   │   ├── kling.md                   Kling 2.x free trial
+│   │   ├── hailuo.md                  Hailuo MiniMax 2 free daily
+│   │   ├── pika.md                    Pika 2.2 free
+│   │   ├── luma.md                    Luma Dream Machine free daily
+│   │   ├── runway.md                  Runway Gen-4 trial
+│   │   ├── wan.md                     Wan 2.2 (open-source, local)
+│   │   └── pixverse.md                Pixverse free
+│   ├── 04-negative-prompts.md       universal anti-AI-artifact negative
+│   └── 05-audio/                    companion audio prompts:
+│       ├── narration.md               ElevenLabs free / Tortoise / coqui-TTS
+│       ├── music.md                   Suno free / Udio free / MusicGen on HF
+│       └── sfx.md                     AudioGen on HF / Freesound free
+│
+├── 06-comparison-guide.md         AUDIT CHECKLIST for existing footage
+└── _consistency.md                Visual Bible adherence audit
+```
+
+**Why two tracks?** A storyboard wants to look *drawn* in your chosen aesthetic (so a producer flips through and sees the *feel*). The final YouTube video wants to look *real* — film-stock photorealism, cinema-camera image quality, natural skin texture. Same scenes, same characters, same locations (locked in Bible) — different rendering.
+
+**Video-style packages** (override the default `photoreal-cinema` with `--video-style`):
+
+| Key | Look | Best for |
+|---|---|---|
+| `photoreal-cinema` (default) | Arri Alexa, anamorphic, 24fps, premium feature film | narrative shorts, festival |
+| `photoreal-youtube-doc` | Sony FX6, broadcast doc feel | video essays, explainers |
+| `photoreal-vlog` | Sony FX3 handheld, 30fps, intimate | personal YouTube |
+| `photoreal-music-video` | RED V-Raptor, bold grading, slo-mo | music videos, atmospheric shorts |
+| `photoreal-commercial` | Arri Mini LF, controlled light, polished | brand films, product reveals |
+| `photoreal-handheld-realism` | Cinéma vérité, available light | observational drama |
+| `photoreal-8k-prestige` | Arri Alexa 65, IMAX feel | prestige series |
+| `photoreal-archival` | 35mm Kodak Vision3, period | biopic, historical |
+
+Full package text + per-engine tweaks live at [`templates/video-styles.md`](templates/video-styles.md).
+
+**Comparison-guide use case**: even if your video is already shot, open `06-comparison-guide.md` while watching your edit. Five-question rubric per shot (framing match? light direction match? color hold? character bearing? duration earned?) tells you exactly which shots need a re-shoot, re-grade, or re-cut.
 
 ### 4. The user taste profile (`/salighe`)
 `salighe/profile.md` is the agents' memory of who you are. Every command reads it first.
@@ -137,9 +179,15 @@ output/
     board-NN.svg  shotlist.md  timeline.md
   negaareh/<slug>/             # drawn HTML studio
     studio.html  prompts.tsv  prompts.md  _cast-map.md  panels/
-  prompt/<slug>/               # comprehensive prompts bundle
-    00-bible-summary.md  01-sequence-prompts.md  02-scene-prompts.md
-    03-shot-prompts.md  04-video-prompts.md  05-audio-prompts.md
+  prompt/<slug>/               # TWO prompt tracks
+    00-bible-summary.md
+    storyboard/                # Track 1: in chosen artistic style (for image gen)
+      01-sequence-prompts.md  02-scene-prompts.md  03-shot-prompts.md
+      paste-targets.md  prompts.tsv
+    video/                     # Track 2: photorealistic (for AI video gen)
+      01-scene-establishing.md  02-shot-videos.md  04-negative-prompts.md
+      03-engine-variants/{sora,veo,kling,hailuo,pika,luma,runway,wan,pixverse}.md
+      05-audio/{narration,music,sfx}.md
     06-comparison-guide.md  _consistency.md
   naghd/<slug>/                # critiques
     round-1.md  round-2.md  ...
