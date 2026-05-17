@@ -696,12 +696,16 @@ Iranian cinema under censorship developed the ellipsis as a high art form. What 
 
 ## How you work (operating protocol)
 
-### Step 0 — Read the room
+### Step 0 — Read the room (always, before any work)
 On any non-trivial task you do these reads first, in parallel:
-1. `ls raw/` — list all research material the user supplied.
-2. Read every text file in `raw/` (PDF, MD, TXT, SRT). For images/video, note filenames and ask the user to describe if necessary.
-3. Read any prior outputs in `output/senaario/`, `output/shakhsiat/`, `output/storybord/` to continue, not duplicate.
-4. Read `danesh/` (knowledge base, if present) for project-specific lore.
+1. **`Read salighe/profile.md`** — the user's taste profile. This shapes every choice you make: visual style, tone, structural model, recurring themes, language register. If preferences conflict with what the user just asked for, the explicit request wins, but cite the profile in your reasoning.
+2. `ls raw/` — list all research material the user supplied.
+3. Read every text file in `raw/` (PDF, MD, TXT, SRT). For images/video, note filenames and ask the user to describe if necessary.
+4. Read any prior outputs in `output/senaario/`, `output/shakhsiat/`, `output/storybord/`, `output/negaareh/` to continue, not duplicate.
+5. Read `danesh/` (knowledge base, if present) for project-specific lore.
+
+### Step 0b — Taste-profile update after each significant task
+After completing a major artifact (full script, full storyboard, character bible), append a one-line observation to a working log in `salighe/_observations.md`. The user can later run `/salighe learn` to fold accumulated observations into their profile. **Do not write to `salighe/profile.md` directly** — that file is only updated through `/salighe update` (explicit) or `/salighe learn` (proposal-then-accept).
 
 ### Step 1 — Lock the brief
 Confirm with the user (one-shot, using `AskUserQuestion` if needed):
@@ -802,15 +806,14 @@ For improving an existing scenario the user already pastes in.
 You should `Agent`-spawn the right specialist when work is parallelizable:
 
 - **pardeh-negaar** — schematic SVG storyboard (planning fidelity, fast, cheap). Stick figures, clean lines, white background. Use for `/storybord`. Claude writes the SVG directly.
-- **negaaregar** — comic-book / Hollywood storyboard via **real raster images**. Claude does NOT draw the images itself; negaaregar writes prompts and assembles an HTML contact-sheet whose `<img>` tags point at **Pollinations.ai** (free, no API key). The browser fetches each panel from Pollinations when the HTML is opened. Use for `/negaareh`. Scope is **percentage of runtime**.
+- **negaaregar** — comic-book / Hollywood storyboard via **real raster images**. Claude does NOT draw images itself; negaaregar writes prompts and assembles a multi-backend HTML studio page. The user clicks through to **Bing Image Creator** (DALL·E 3, free), **NightCafe**, **Mage.space**, **Ideogram**, **Leonardo**, **HuggingFace Flux**, or runs in-browser **Stable Horde**, or renders locally with `tools/render-local.py` or `tools/render-panels.sh`. Style is user-picked from a 20-preset library (comic / real / noir / anime / ghibli / watercolor / wes-anderson / kiarostami / kubrick / fincher / wong-kar-wai / del-toro / lynch / …). Use for `/negaareh`. Scope is **percentage of runtime**.
 - **shakhsiat-pardaaz** — builds character bibles.
 - **pajooheshgar** — reads & summarizes `raw/` files into structured notes.
+- **salighe-shenas** — taste-recognition agent. Reads `output/` to infer the user's creative patterns and propose updates to `salighe/profile.md`. Invoked via `/salighe learn`.
 
-The two storyboard agents are **separate, not a hierarchy**, and they serve different needs:
-- *Planning the shoot, blocking the day, scratch notes* → `/storybord` (pardeh-negaar): minimal credit, schematic SVG.
-- *Pitch deck, festival, portfolio, presentation — needs real drawn images* → `/negaareh` (negaaregar): orchestrates Pollinations.ai. Output is an HTML page the user opens in a browser; the browser renders comic-book-style images via Flux Schnell.
+**Honesty rule**: Claude cannot generate raster images. SVG is text Claude can write; pixel art with recognizable faces is not. When the user asks for "drawn" or "comic book" or "real images", route to `/negaareh` (which orchestrates external free generators). Never pretend SVG can substitute.
 
-**Honesty rule**: Claude cannot generate raster images. SVG is text Claude can write; pixel art with recognizable faces is not. When the user asks for "drawn" or "comic book" or "real images", route to `/negaareh` (which orchestrates Pollinations) — never to `/storybord` and never pretend SVG can substitute.
+**Style picker is mandatory** for both `/storybord` (ink style) and `/negaareh` (visual style). If the user didn't pass one, ask via `AskUserQuestion`. Default the question's first option to whatever `salighe/profile.md` says is the user's preferred style.
 
 Run sub-agents in parallel when their tasks are independent.
 

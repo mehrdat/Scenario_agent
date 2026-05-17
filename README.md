@@ -1,364 +1,272 @@
 # Daastansaraa — داستان‌سرا
 
-> A Claude Code agent system for turning ideas into scenarios, scenarios into storyboards, and storyboards into AI-video prompts — **no paid API required**.
+> A Claude Code agent system for turning ideas into scenarios, scenarios into storyboards, storyboards into real drawn images, and images into AI-video prompts — all with **no paid API and no subscription**.
 
 ---
 
-## نصب / Install
+## بزن بریم / Quick start
 
-### Requirements
-- **Claude Code** CLI installed and signed in. Install with:
-  ```bash
-  npm install -g @anthropic-ai/claude-code
-  ```
-  (Or use Claude Code on the web at <https://claude.ai/code> — this repo works there too.)
-- **git** to clone the repo.
-- Any modern OS (Linux / macOS / Windows with WSL).
-- An SVG viewer — every modern browser is one. That's it. No image API, no Python, no Node, no Docker required.
-
-### One-time setup
 ```bash
-git clone https://github.com/<your-account>/Scenario_agent.git
+git clone https://github.com/<you>/Scenario_agent.git
 cd Scenario_agent
-claude            # opens Claude Code in this directory
+claude            # opens Claude Code in this folder
 ```
 
-When Claude Code launches in this folder it auto-discovers the agents under `.claude/agents/` and the slash commands under `.claude/commands/`. There is nothing to register.
-
-Verify it loaded:
+Then in Claude Code:
 ```
-/agents          # should list daastansaraa, pardeh-negaar, shakhsiat-pardaaz, pajooheshgar
-/help            # should show the Farsi commands: senaario, behtar, storybord, …
+/rahnama          # personal decision guide — tells you which commands to run for your situation
+/salighe update   # tell the agents your taste so every output sounds like you
 ```
 
-### Per-project setup
-For each story:
-1. Choose a kebab-case slug, e.g. `pardeye-akhar`.
-2. Drop research material into `raw/pardeye-akhar/` — PDFs, transcripts, notes, photos. (See [`raw/README.md`](raw/README.md).)
-3. Run `/zanjireh pardeye-akhar` for the full pipeline, or individual commands for fine control.
+That's it. The agents auto-discover from `.claude/agents/` and `.claude/commands/`.
 
 ---
 
-## استفاده / Quick start
+## "What command do I need?" — quick decision tree
 
-```text
-> /tahghigh pardeye-akhar
-  Pajooheshgar reads everything in raw/pardeye-akhar/ → writes
-  danesh/pardeye-akhar-research.md with setting, period, dialect, lexicon, quotes.
+| Your situation | Command to run |
+|---|---|
+| I have just an idea, nothing written | `/zanjireh <slug> kaameleh` (full pipeline) |
+| I want a YouTube short / Reel / TikTok | `/koutaah <slug> youtube-shorts 60 <style>` |
+| I want a documentary | `/zanjireh <slug> documentary` |
+| I have a finished script and want a storyboard | `/storybord <slug>` (planning) or `/negaareh <slug> 25` (drawn) |
+| I have a script and want a critique | `/naghd <slug>` |
+| I have a draft that needs improvement | `/naghd <slug>` then `/behtar <slug>` |
+| I have research material in `raw/` | `/tahghigh <slug>` first |
+| I want to know which genre fits my idea | `/gooneh "<your idea>"` |
+| I want to design one specific scene in depth | `/sahneh <slug> <scene-N>` |
+| I want better dialogue | `/dialog <slug>` |
+| I want characters | `/shakhsiat <slug>` |
+| I don't know what I want — ask me questions | `/rahnama` |
 
-> /senaario pardeye-akhar a grandmother in 1357 Isfahan tells her granddaughter the
-  one story she has never told anyone
-  Daastansaraa proposes logline + 3 angles, then writes the full script.
-
-> /shakhsiat pardeye-akhar
-  Shakhsiat-pardaaz builds the character bible.
-
-> /storybord pardeye-akhar 16x9
-  Pardeh-negaar draws SVG storyboard pages + a shot-list.
-
-> /prompt-video pardeye-akhar
-  Daastansaraa generates per-shot prompts for free AI video generators.
-
-> /naghd pardeye-akhar
-  Daastansaraa critiques the draft. Pair with /behtar to apply fixes.
-```
-
-Or run everything in one shot:
-```text
-> /zanjireh pardeye-akhar kaameleh
-```
-
-Open the generated `output/storybord/pardeye-akhar/board-01.svg` in your browser. Paste the prompts from `output/prompt/pardeye-akhar.md` into Hailuo / Kling / Pika / Runway free / Luma free / Bing.
+**Not sure?** Always run `/rahnama` — it tells you the exact sequence of commands for *your* situation, in order.
 
 ---
 
-## استفاده با LLMهای دیگر / Using with other LLMs (Ollama, LM Studio, etc.)
+## Commands (Farsi names in Latin alphabet)
 
-The agents are written as **plain Markdown system-prompts** plus a folder convention. That means most of the system is portable to any chat UI or local LLM. What's **not** portable is the orchestration plumbing (slash commands, parallel sub-agent calls, `AskUserQuestion`) — that part is Claude Code-specific.
-
-### What works everywhere
-- The four agent definitions in `.claude/agents/*.md` — each file's body (below the YAML front-matter) is a complete system prompt you can paste into **any** chat:
-  - Ollama (`llama3.3`, `qwen2.5:32b`, `deepseek-r1`, `gemma2`, `mistral-nemo`, `command-r`)
-  - LM Studio, Jan, Open WebUI
-  - Aider, Continue.dev, Cline, Roo Code, Cursor
-  - Groq free tier, Together AI free credit, HuggingFace Inference, Google AI Studio (free)
-- The folder convention (`raw/`, `danesh/`, `output/`) is just files. Any agent that can read/write files can use it.
-- The SVG storyboard template at `templates/storyboard.svg` is plain XML — any model that can output text can fill it in.
-- The AI-video prompt format in `output/prompt/<slug>.md` is provider-agnostic text — paste into any free generator's web UI.
-
-### What is Claude Code-specific
-- The `/senaario`, `/storybord`, `/zanjireh`, … slash commands and their argument substitution.
-- The `Agent`-tool sub-agent delegation (parallel sub-agents running in isolated contexts).
-- The `AskUserQuestion` confirmation popups.
-
-### Portable mode — using the agents with Ollama or any local LLM
-A repeatable recipe:
-
-1. **Install a local runtime**, e.g.:
-   ```bash
-   # Ollama
-   curl -fsSL https://ollama.com/install.sh | sh
-   ollama pull qwen2.5:32b      # strong on long-form, multilingual, Persian-capable
-   ollama pull llama3.3:70b     # if you have the VRAM
-   ollama pull deepseek-r1:32b  # strong reasoning
-   ```
-2. **Hook it to a code-aware client** that can read/write your project files. Free options:
-   - **Aider** — `aider --model ollama/qwen2.5:32b` from inside the repo. Aider sees the whole tree.
-   - **Continue.dev** in VS Code — point its config at your Ollama endpoint.
-   - **Open WebUI** + the *Files* feature — drop the project as context.
-3. **Load an agent as the system prompt.** Open one of the four `.claude/agents/*.md` files, copy everything below the `---` YAML block, and paste it as the system / instructions / `.aider.conf.yml` `prompt:` field.
-4. **Drive the agent by hand** instead of slash commands. The conventions still apply: ask the LLM to "act as Daastansaraa, run `tahghigh` first, then `senaario`, and write outputs to `output/senaario/<slug>/`". The agent prompt already documents the file layout.
-
-### Suggested model picks for portable mode
-
-| Task | Recommended local model | Why |
-|---|---|---|
-| Long-form scenario in Farsi | `qwen2.5:32b-instruct` or `command-r:35b` | strong multilingual including Persian |
-| Story-doctoring & critique | `deepseek-r1:32b` or `qwen2.5:32b` | strong reasoning |
-| SVG storyboard generation | `qwen2.5-coder:32b` or `deepseek-coder-v2` | reliable structured text / XML |
-| Character bibles | `llama3.3:70b` or `qwen2.5:32b` | good at structured personas |
-| Research summarization | `qwen2.5:32b` or `gemma2:27b` | long context, faithful summary |
-
-### Free hosted alternatives (no install, no card)
-- **Google AI Studio** — Gemini 2.0 Flash / 2.5 free tier, generous quota.
-- **Groq** — free API for `llama-3.3-70b`, `qwen-2.5-32b`, `deepseek-r1-distill-70b`. Very fast.
-- **Together AI** — free trial credit.
-- **HuggingFace Inference Providers** — free monthly credits across many open models.
-- **Mistral Le Chat** — free web UI with strong models.
-
-### Honest caveats
-- Local 8-13B models will struggle with the storyboard SVG step and long-form Farsi consistency. Use 27B+ for serious work.
-- Without `AskUserQuestion`, the LLM may guess at unspecified format/length — be explicit in your prompt.
-- Without parallel sub-agents, you'll run steps sequentially. That's fine; it's just slower.
-
----
-
-## نام عامل / Agent name
-
-**Daastansaraa** (داستان‌سرا) — *the bard, the epic storyteller*. In Persian literature, a `داستان‌سرا` is the one who turns history, myth, and witness into a story worth retelling. That's the job.
-
-Sub-agents:
-
-- **Pardeh-Negaar** (پرده‌نگار) — *storyboard artist*. Draws SVG storyboards.
-- **Shakhsiat-Pardaaz** (شخصیت‌پرداز) — *character architect*. Builds the cast bible.
-- **Pajooheshgar** (پژوهشگر) — *researcher*. Reads everything in `raw/` and writes a knowledge note.
-
----
-
-## Who is the writer?
-
-Daastansaraa is briefed with the craft of:
-
-- **Robert McKee**, **Syd Field**, **Joseph Campbell / Christopher Vogler**, **Blake Snyder**, **Aristotle**, **David Mamet**, **Aaron Sorkin**, **Charlie Kaufman**.
-- Documentary masters: **Errol Morris**, **Werner Herzog**, **Ken Burns**, **Frederick Wiseman**, **Agnès Varda**, **Asif Kapadia**, **Adam Curtis**, **Joshua Oppenheimer**.
-- Iranian cinema: **عباس کیارستمی، اصغر فرهادی، بهرام بیضایی، داریوش مهرجویی، سهراب شهیدثالث، مجید مجیدی، رخشان بنی‌اعتماد، جعفر پناهی**.
-- Persian literary roots: **فردوسی، نظامی، عطار، حافظ، سعدی، فروغ، شاملو، هدایت، گلشیری**.
-
-Full pedigree and skill list lives in [`.claude/agents/daastansaraa.md`](.claude/agents/daastansaraa.md).
-
----
-
-## Different skills
-
-1. **Scenario craft** — logline → synopsis → treatment → beats → scenes → script. Three-act, kishōtenketsu, hero's journey, Save-the-Cat.
-2. **Character design** — Want vs. Need, wound, lie, arc, voice, silhouette, power-map.
-3. **Dialogue** — subtext-first, voice-differentiated, idiomatic Farsi / English / hybrid.
-4. **Visual plan & shot design** — lens, lighting, composition, colour script, continuity.
-5. **Storyboard** — real SVG output, 6 panels/page, stick-figure blocking, camera notation.
-6. **AI-video prompt engineering** — for **free** generators (Hailuo, Kling, Pika, Runway free, Luma free, Sora-via-Bing, Veo, Wan, Pixverse).
-7. **Research integration** — reads `raw/`, builds `danesh/<slug>-research.md`, weaves it into the writing.
-8. **Genre mastery** — fiction genres + documentary categories, with audience-appeal mechanics.
-9. **Geography & cultural context** — climate, dialect, taboos, calendar, gestures. Critical for Iranian stories.
-10. **Story-doctoring** — diagnose then prescribe. Turn ordinary into compelling.
-
----
-
-## دستورها / Commands (Farsi in Latin alphabet)
-
-Type any of these in Claude Code. All commands accept a `<slug>` argument (kebab-case Latin, e.g. `pardeye-akhar`).
-
+### Core scenario commands
 | Command | Meaning | Does |
 |---|---|---|
+| `/rahnama` | راهنما · guide | Decision guide — tells you which commands to run for your situation |
 | `/tahghigh <slug>` | تحقیق · research | Reads `raw/` → `danesh/<slug>-research.md` |
+| `/gooneh <slug or idea>` | گونه · genre | Recommends genre + reference works |
 | `/senaario <slug> [brief]` | سناریو · scenario | Builds logline → synopsis → treatment → beats → scenes → script |
 | `/shakhsiat <slug> [name]` | شخصیت · character | Builds character bible |
-| `/sahneh <slug> <N>` | صحنه · scene | Deep-designs a single scene |
-| `/dialog <slug> [scene/char]` | گفتگو · dialogue | Rewrites dialogue with subtext + voice differentiation |
+| `/sahneh <slug> <N>` | صحنه · scene | Deep-designs one scene |
+| `/dialog <slug> [scope]` | گفتگو · dialogue | Rewrites dialogue with subtext + voice differentiation |
 | `/behtar <slug> [focus]` | بهتر · improve | Story-doctors an existing draft |
 | `/naghd <slug>` | نقد · critique | Diagnosis without rewriting |
-| `/gooneh <slug or idea>` | گونه · genre | Maps genre conventions + 5 reference works |
-| `/storybord <slug> [scope] [aspect]` | استوری‌بورد · planning board | Schematic SVG storyboard for planning the shoot. Low credit, clean lines. Scope picker is mandatory |
-| `/negaareh <slug> <percentage> [aspect]` | نگاره · drawn board | **Hollywood-style drawn storyboard.** Paper background, sketchy ink, real character silhouettes with faces & clothing, Persian arch / dome / cypress detail. Scope is % of runtime |
-| `/mosaahebeh <slug> [subject]` | مصاحبه · interview | **Opt-in.** Design documentary interview question banks. Skip if your doc doesn't use interviews |
-| `/prompt-video <slug> [engine]` | پرامپت ویدئو | Per-shot AI-video prompts (free engines) |
-| `/zanjireh <slug> [variant]` | زنجیره · pipeline | Runs the full chain end-to-end |
+| `/mosaahebeh <slug>` | مصاحبه · interview | **(Opt-in)** Documentary interview question design |
 
-### Storyboard scope picker
-
-`/storybord` will never silently board your whole film. If you don't pass a scope, it asks. Available scopes:
-
-| Scope | What you get | Credit cost |
+### Storyboard commands (two fidelities)
+| Command | Output | Best for |
 |---|---|---|
-| `sample` | 1 page (~6 panels) from the most visually rich scene | minimal — **start here** |
-| `key` | The film's spine: opening, inciting incident, midpoint, all-is-lost, climax, final image | minimal |
-| `scene N` | One scene only | small |
-| `scene N-M` | A range of scenes | proportional |
-| `sequence N` | One of the 8 sequences (Frank Daniel method) | medium |
-| `act N` | Act 1, 2, or 3 | medium-large |
-| `all` | Whole script — only on explicit confirmation, with page-count warning | heavy |
+| `/storybord <slug> [scope] [aspect] [ink-style]` | **SVG** schematic boards | Planning the shoot, day-of director's reference, scratch notes |
+| `/negaareh <slug> <%> [style] [aspect]` | **HTML studio + real drawn images** via Bing IC / Mage / NightCafe / Stable Horde / local SD | Pitch deck, festival package, portfolio, presentation |
 
-Hard cap per `/storybord` call: **4 pages (24 panels)**. Beyond that the agent halts and asks. This is the credit-safety rail.
+### Format-specific pipelines
+| Command | Does |
+|---|---|
+| `/koutaah <slug> <platform> <seconds> [style]` | **Short-form pipeline** for YouTube Shorts / Reels / TikTok. Hook in first 3s, retention beats every 5–7s, payoff in last 5s |
+| `/zanjireh <slug> [variant]` | Full pipeline. Variants: `kaameleh` (feature) · `documentary` · `tabligh` (ad/music-video) · `bazneveshtan` (rewrite) |
 
-Examples:
-```
-/storybord pardeye-akhar sample              # one preview page
-/storybord pardeye-akhar key                 # 6 spine moments
-/storybord pardeye-akhar scene 4             # board just scene 4
-/storybord pardeye-akhar scene 12-15 16x9    # scenes 12-15, widescreen
-/storybord pardeye-akhar act 3               # full third act
-```
+### Output post-production
+| Command | Does |
+|---|---|
+| `/prompt-video <slug>` | Per-shot AI-video prompts for Hailuo, Kling, Pika, Runway free, Luma free, Sora-via-Bing, Veo, Wan, Pixverse |
 
-### Honest disclaimer about images
-
-**Claude (this CLI) cannot generate raster images.** It's a text/code model. SVG (which is text) Claude can write, but pixel-art with recognizable faces is outside its capability — no amount of prompting changes that.
-
-For real comic-book / Hollywood-style storyboard images, this project orchestrates **Pollinations.ai** — a free image API powered by Flux Schnell that requires **no API key and no signup**. Claude writes optimized prompts and assembles an HTML contact-sheet; your browser fetches each panel from Pollinations when you open the HTML. Zero paid services anywhere in the loop.
-
-If pollinations.ai is unreachable from your network, the agent provides fallback paste-instructions for **Bing Image Creator (DALL·E 3, free)**, **Leonardo AI free tier**, and **Krea AI free**.
-
-### Two storyboard commands — pick the right one
-
-| | `/storybord` (pardeh-negaar) | `/negaareh` (negaaregar) |
-|---|---|---|
-| **What it produces** | SVG file (schematic) | **HTML contact-sheet** with real drawn images |
-| **Who draws** | Claude writes SVG geometry directly | **Pollinations.ai (Flux Schnell)** renders each panel — your browser fetches |
-| **What it looks like** | Clean ink lines, stick figures, white background — a planning document | Comic-book / Hollywood storyboard panels with recognizable faces, action, locations, drawn in pencil / ink / chosen style |
-| **Best for** | Planning the shoot, blocking the day, scratch notes | Pitch deck, festival package, presentation, portfolio |
-| **Scope picker** | `sample` / `key` / `scene N` / `sequence N` / `act N` / `all` | **Percentage of runtime**: `/negaareh slug 25` = 25% |
-| **Style options** | (one style — schematic) | `comic` (default) / `realistic` / `anime` / `noir` / `watercolor` / `graphic-novel` |
-| **Hard cap per call** | 4 pages (24 panels) | 36 panels |
-| **Credit cost** | Minimal | Low — Claude only writes prompts + HTML; image generation happens in your browser |
-| **Network required** | No (SVG renders offline) | Yes — browser must reach pollinations.ai (or use fallback) |
-
-Use one, the other, or both. They write to different folders (`output/storybord/` vs `output/negaareh/`).
-
-#### `/negaareh` examples
-```
-/negaareh pardeye-akhar 10                       # 10% — absolute spine, ~6 panels
-/negaareh pardeye-akhar 25                       # 25% — pitch-deck default
-/negaareh pardeye-akhar 50 comic                 # 50% in pencil-sketch comic style
-/negaareh pardeye-akhar 100 graphic-novel        # whole film, bold cel-shaded
-/negaareh kafe-tehran-1399 70 noir 9x16          # 70%, B&W film noir, vertical
-```
-
-#### How you actually view the images
-1. After `/negaareh` finishes, open `output/negaareh/<slug>/board.html` in any browser.
-2. Each panel loads from `image.pollinations.ai` in 5–15 seconds. Don't refresh — they fetch in parallel.
-3. Same prompt + same seed = identical image on every load (Pollinations caches by URL).
-4. To download all panels as JPG (for sharing / Keynote / archival): run
-   ```
-   bash tools/render-panels.sh output/negaareh/<slug>/prompts.tsv
-   ```
-   This downloads each panel into `output/negaareh/<slug>/panels/`.
-
-#### What if my network blocks pollinations.ai?
-Open `output/negaareh/<slug>/prompts.md` and paste each prompt manually into:
-- **Bing Image Creator** ([copilot.microsoft.com/images](https://copilot.microsoft.com/images)) — free, DALL·E 3 quality
-- **Leonardo AI** free tier — has storyboard style presets
-- **Krea AI** free tier
-- **HuggingFace Spaces** — search "flux schnell"
-- **Local Stable Diffusion** — Automatic1111, ComfyUI, Fooocus
-
-Either way the image generation is free.
-
-### `/storybord` panel quality bar (schematic / planning use)
-
-Every SVG panel includes:
-- **Metadata bar** at the top: scene · shot · size · lens · height · angle · move · duration · sound tag.
-- **Aspect-correct frame** with letterboxing for 9:16, 2.39:1.
-- **Thirds grid**, horizon, ground line, FG/MG/BG depth.
-- **Light-direction indicator** (sun + ray arrow) so the gaffer reads the key.
-- **Camera move arrows** (DOLLY-IN, PAN-R, CRANE-UP, ARC, HANDHELD, STATIC) inside the frame.
-- **Ghost frames** (dashed red) marking the end of a camera move.
-- **Character symbols** (standing, walking, sitting, child, elder, crowd) — not raw stick lines.
-- **Caption block** with action / dialogue / sound.
-
-Sample: `output/storybord/sample-pardeye-akhar/board-01.svg`. Open in any browser.
-
-### `/negaareh` panel quality (drawn / presentation use)
-
-Each panel is a **real raster image rendered by Pollinations.ai (Flux Schnell)** in your browser. Quality depends on:
-- The prompt — written by negaaregar, 60–120 words, period-anchored, character-anchored.
-- The seed — deterministic per panel so the same prompt always produces the same image.
-- The style key — `comic`, `realistic`, `anime`, `noir`, `watercolor`, `graphic-novel`.
-- Face continuity across panels — the `_cast-map.md` defines a single character phrase that gets pasted into every panel where that character appears, so Flux gives them the same face throughout.
-
-Sample contact-sheet: `output/negaareh/sample-pardeye-akhar/board.html` — open in your browser. Real drawings will appear over the first ~30 seconds as Pollinations renders.
-
-### Documentary interviews — opt-in
-
-Many documentaries don't use interviews at all (observational/Wiseman, poetic/Reggio, archival/Kapadia, essay/Marker). So **Daastansaraa never writes interview material unless you ask**. After scenario, if interviews would suit your project, the agent posts a suggestion: *"This doc would benefit from interviews. Run `/mosaahebeh <slug>` to design them."* If you don't ask, none get written. B-roll planning is always included for docs because it applies to every mode.
-
-### Pipeline variants for `/zanjireh`
-
-- `kaameleh` (کامله) — full fiction chain (default).
-- `documentary` (مستند) — replaces dialogue with interview-design + B-roll planning.
-- `tabligh` (تبلیغ) — 60–90s ad / music-video / short, 9:16 default.
-- `bazneveshtan` (بازنویسی) — rewrite an existing scenario.
+### User taste / self-improving agents
+| Command | Does |
+|---|---|
+| `/salighe view` | View your taste profile (genres, directors, themes, visual style, register) |
+| `/salighe update "..."` | Add/refine preferences explicitly |
+| `/salighe learn` | Have **salighe-shenas** read your prior work and propose profile updates (you accept/reject before merge) |
+| `/salighe reset` | Archive current profile and start fresh |
 
 ---
 
-## ساختار / Folders
+## The taste profile (سلیقه) — agents that learn you
+
+`salighe/profile.md` is the agents' memory of *who you are as a creator*. Every command reads it first.
+
+- **Tell it explicitly**: `/salighe update "I love Farhadi-style moral dilemmas and Kiarostami long takes. Persian, Tehrani register. Default storyboard style: kiarostami. Hate slapstick."`
+- **Let it learn**: `/salighe learn` reads everything in `output/` and proposes additions — directors you've cited, themes that recur, structural choices you've made, visual styles you've picked. Each proposal cites file paths as evidence. You accept / reject / edit before anything merges.
+
+Once populated, every command tailors its output:
+- `/senaario` writes in your sentence rhythm and vocabulary register.
+- `/storybord` and `/negaareh` default to your preferred visual style if you don't pass one.
+- `/behtar` flags issues against the structural model *you* tend to use.
+- `/koutaah` matches your tone preference.
+
+This is the difference between generic output and output that feels written *for you*.
+
+---
+
+## Storyboard fidelities — `/storybord` vs `/negaareh`
+
+These are two separate commands because they solve different problems.
+
+|  | `/storybord` (pardeh-negaar) | `/negaareh` (negaaregar) |
+|---|---|---|
+| **What it produces** | SVG file (text-based vector) | HTML studio page + real drawn images |
+| **Who draws** | Claude writes SVG geometry | **You pick the generator** (Bing IC, Mage, NightCafe, Stable Horde, local SD …) |
+| **Look** | Clean ink lines, stick figures, white background — a planning document | Real comic-book / Hollywood / noir / Ghibli / Kiarostami images |
+| **Best for** | Planning the shoot, day-of reference | Pitch deck, festival, portfolio |
+| **Scope picker** | `sample` / `key` / `scene N` / `sequence N` / `act N` / `all` | **Percentage of runtime** (1–100) |
+| **Style picker** | clean / sketchy / cinematic ink | 20-preset library (see below) |
+| **Hard cap per call** | 4 pages (24 panels) | 36 panels |
+| **Credit cost** | Minimal | Low (Claude writes prompts + HTML; image work is offloaded) |
+
+### `/negaareh` style library
+
+```
+comic        Hollywood storyboard pencil-and-ink (default)
+real         Photorealistic cinematic 35mm
+noir         B&W chiaroscuro, Sin City inspired
+anime        Anime production cel
+ghibli       Studio Ghibli, painterly Miyazaki
+watercolor   Loose washes, ink over wet paint
+pencil       Graphite sketch, cross-hatched value
+graphic-novel Mignola / Frank Miller bold lines
+pixar        3D animation still
+wes-anderson Symmetrical pastel dollhouse
+kiarostami   Iranian neorealism, dust palette
+farhadi      Contemporary Tehran ensemble realism
+kubrick      Symmetric one-point monumentalism
+fincher      Desaturated green-yellow, precise
+wong-kar-wai Saturated jewel tones, step-printed
+deakins      Painterly natural light, environmental
+del-toro     Fairy-tale gothic, amber + teal
+lynch        Dreamlike surreal, red + electric blue
+marvel       Dynamic action, bold primaries
+bw-photo     B&W documentary photography
+custom       You type your own style brief
+```
+
+### How `/negaareh` actually works
+
+1. You run `/negaareh pardeye-akhar 25 kiarostami` (25% of runtime, Kiarostami style).
+2. Negaaregar selects the 25% most dramatically important scenes (climax / midpoint / inciting / all-is-lost / turning points).
+3. Builds a `_cast-map.md` so the same character has the same face in every panel.
+4. Writes 60–120-word style-locked prompts per panel.
+5. Assembles `output/negaareh/pardeye-akhar/studio.html`.
+6. **You open the HTML in your browser.** For each panel:
+   - Click **"Bing IC"** → opens Bing Image Creator with prompt pre-filled → click Create → drag the generated image back onto the panel.
+   - Or click **"Try Stable Horde"** → in-browser generation, ~30–90s queue, no clicks elsewhere.
+   - Or click **"Mage" / "NightCafe" / "Ideogram" / "Leonardo" / "HF Flux"** → similar flow with different engines.
+   - Or **drag any image file** onto a panel — saved to your browser's localStorage.
+7. Click **"Export all (ZIP)"** in the toolbar when you're done.
+
+### Bulk-render path (CLI, for users with GPU or restricted browsers)
+
+```bash
+# Multi-backend: tries Stable Horde → local Automatic1111 → Pollinations
+tools/render-panels.sh output/negaareh/<slug>/prompts.tsv auto
+
+# Or render entirely locally with Stable Diffusion
+python tools/render-local.py output/negaareh/<slug>/prompts.tsv black-forest-labs/FLUX.1-schnell
+```
+
+Then load the JPGs into the studio HTML via the per-panel Upload button.
+
+### When you don't have to draw anything
+
+`/storybord` is enough when you just need a planning document. Use it for blocking, coverage maps, AD reference. Save `/negaareh` for moments where you actually need to *show* somebody what the film will look like.
+
+---
+
+## YouTube / short-form focus — `/koutaah`
+
+A 60-second YouTube short is **not** a shrunken feature. `/koutaah` runs a pipeline that respects short-form rules:
+
+- **First 3 seconds = the hook.** Audience swipes or stays at second 3. The agent writes three competing hook options and picks one, with reasoning.
+- **Retention beats every 5–7 seconds.** A new visual, a new revelation, a new emotional charge. No flat stretches.
+- **Payoff in the last 5 seconds** — either resolve the hook or open a loop that drives rewatches.
+- **Vertical aspect by default** for Shorts/Reels/TikTok. Composition rules differ.
+- **Critique uses a short-form rubric**: hook strength, retention curve density, payoff alignment, visual density per 10s window, on-screen text plan, loop potential.
+
+```bash
+/koutaah cafe-tehran youtube-shorts 60 kiarostami
+/koutaah daily-coffee reels 90 wes-anderson
+/koutaah lab-explainer tiktok 45 real
+```
+
+Defaults per platform: youtube-shorts (60s 9:16), youtube (any 16:9), reels (90s 9:16), tiktok (60s 9:16), twitter (140s 16:9).
+
+---
+
+## Documentary path
+
+```
+/zanjireh <slug> documentary
+```
+
+Replaces dialogue-writing with B-roll planning. **Interviews are opt-in** — many documentary modes don't use them (observational/Wiseman, poetic/Reggio, archival/Kapadia, essay/Marker). If you want interviews, run `/mosaahebeh <slug>` separately. The agent posts a one-paragraph suggestion after the scenario step but never writes interviews unless you ask.
+
+Mode picker via `/gooneh <slug>` first — it recommends expository / observational / poetic / archival / essay / participatory / hybrid and lists 5 reference works.
+
+---
+
+## Honest disclaimer about images
+
+**Claude (this CLI) cannot generate raster images.** It's a text/code model. SVG (which is text) Claude can write; pixel-art with recognizable faces is outside its capability.
+
+For real comic-book / Hollywood-style storyboard images, this project orchestrates **free external generators** — primarily **Bing Image Creator** (DALL·E 3, free with Microsoft account), and as alternatives **NightCafe**, **Mage.space**, **Ideogram**, **Leonardo**, **HuggingFace Flux**, **Stable Horde** (anonymous, in-browser), and **local Stable Diffusion** via `tools/render-local.py`.
+
+The HTML studio page has a button for each. **If one is blocked or down, another works** — that's the whole point of having seven backends. No paid API, no subscription, no API keys.
+
+For users in restricted networks (Iran, China etc.): Bing IC and Mage usually need VPN; local Stable Diffusion always works offline; Stable Horde sometimes works without VPN.
+
+---
+
+## Folders
 
 ```
 .
 ├── .claude/
-│   ├── agents/          # the agent definitions
-│   └── commands/        # the slash commands
-├── raw/                 # drop research material here (PDFs, notes, images, transcripts)
+│   ├── agents/          # five agents (daastansaraa, pardeh-negaar, negaaregar, shakhsiat-pardaaz, pajooheshgar, salighe-shenas)
+│   └── commands/        # 14 slash commands
+├── raw/                 # drop research material here (PDFs, notes, photos, transcripts)
 ├── danesh/              # distilled research notes (written by pajooheshgar)
+├── salighe/             # your taste profile — agents read it before every command
 ├── templates/
-│   └── storyboard.svg   # base SVG template for storyboards
+│   ├── storyboard.svg   # base for /storybord
+│   └── studio.html      # base for /negaareh — multi-backend interactive page
+├── tools/
+│   ├── render-panels.sh # bulk-render (multi-backend, falls through if one is down)
+│   └── render-local.py  # local Stable Diffusion via diffusers
 ├── output/
 │   ├── senaario/<slug>/ # script artifacts
 │   ├── shakhsiat/       # character bibles
-│   ├── storybord/<slug>/# SVG storyboards + shot-lists
+│   ├── storybord/<slug>/# SVG storyboards
+│   ├── negaareh/<slug>/ # HTML studio + prompts + panels/
 │   ├── prompt/          # AI-video prompts
 │   └── naghd/           # critiques
-└── README.md            # this file
+└── README.md
 ```
 
 ---
 
-## A typical session
+## Who is the writer? (the pedigree behind Daastansaraa)
 
-1. Drop a book, a transcript, a few photos into `raw/pardeye-akhar/`.
-2. `/zanjireh pardeye-akhar kaameleh`
-3. Watch Daastansaraa run: research → script → characters → story-doctor → storyboard → prompts → critique.
-4. Open `output/storybord/pardeye-akhar/board-01.svg` in your browser.
-5. Take the prompts in `output/prompt/pardeye-akhar.md` and paste them into Hailuo / Kling / Pika / Runway / Luma for free generation.
+- **Craft**: McKee, Syd Field, Campbell / Vogler, Blake Snyder, Aristotle, Mamet, Sorkin, Charlie Kaufman.
+- **Documentary**: Errol Morris, Werner Herzog, Ken Burns, Wiseman, Varda, Asif Kapadia, Adam Curtis, Joshua Oppenheimer.
+- **Iranian cinema**: کیارستمی، فرهادی، بیضایی، مهرجویی، شهیدثالث، مجیدی، بنی‌اعتماد، پناهی.
+- **Literary roots**: فردوسی، نظامی، حافظ، فروغ، شاملو، هدایت، گلشیری.
 
-For finer control, run the individual commands instead of `/zanjireh`.
-
----
-
-## چرا بدون API پولی / Why no paid API
-
-The user's hard constraint: no paid generation. So the system is built around it:
-
-- **Text & structure** — Claude Code itself, free within your subscription.
-- **Storyboards** — real SVG files written by the agent, viewable in any browser. No image-API needed.
-- **Still keyframes** — prompts targeted at **Bing Image Creator (DALL·E 3)**, **Leonardo AI free tier**, **Krea free**, **Recraft free**, **Ideogram free**, **Flux Schnell on HuggingFace / fal free**.
-- **AI video** — prompts targeted at **Hailuo (MiniMax)**, **Kling**, **Pika**, **Runway Gen-3 trial**, **Luma Dream Machine free**, **Sora via Bing Video Creator**, **Veo (limited)**, **Wan 2.1**, **Pixverse**. All offer some free generations.
-
-Free-tier limits change. The prompt files mark them `[verify current limits]` so you can sanity-check before relying.
+Full skill list (10 detailed sections covering structural models, character psychology, dialogue, cinematography, genre mastery, documentary craft, Iranian cultural context, story-doctoring) lives in [`.claude/agents/daastansaraa.md`](.claude/agents/daastansaraa.md).
 
 ---
 
-## نکات / Tips
+## Using with other LLMs (Ollama, LM Studio)
 
-- The **storyboard is the most important deliverable**. Daastansaraa knows this and will never skip the SVG step.
-- Speak Farsi or English — the agent answers in both as you wish.
-- Add a folder under `raw/<slug>/` for each project so the researcher doesn't conflate sources.
-- For Iranian stories, mention the **region, decade, dialect, and political backdrop** in your brief — the agent uses them to shape voice and silhouette.
-- For documentary work, run `/zanjireh <slug> documentary` — you'll get interview question banks instead of dialogue.
+The agent prompts in `.claude/agents/*.md` are plain Markdown — paste any one as a system prompt for **Ollama** (`qwen2.5:32b`, `llama3.3:70b`, `deepseek-r1:32b`), **LM Studio**, **Aider**, **Continue.dev**, **Open WebUI**. Slash commands and `AskUserQuestion` are Claude Code-specific, but the underlying agent logic is portable.
+
+Strong free hosted alternatives: **Google AI Studio** (Gemini 2.5 free), **Groq** (free Llama 3.3 70B, Qwen 32B, DeepSeek-R1), **Together AI** free credit, **HuggingFace Inference**, **Mistral Le Chat**.
+
+---
+
+## نکته‌ی نهایی / Final note
+
+This project is designed for the user who is making a film with no budget and a strong vision. Daastansaraa does not write *for* you — it writes *with* you. The taste profile is the contract; the storyboard is the deliverable you'll defend in a meeting. Run `/rahnama` whenever you're not sure what's next. Run `/salighe learn` after every 2–3 finished projects so the agents keep up with how you're evolving.

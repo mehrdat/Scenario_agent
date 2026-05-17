@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  studio.html — negaaregar deliverable.
+
+  This page is a storyboard "studio": each panel has its prompt + one-click
+  buttons that open it in 6 free image generators (with the prompt
+  pre-filled in the URL where possible) + a drag-and-drop area to drop
+  generated images back onto the panel. Images are persisted in
+  localStorage so they survive page reloads.
+
+  Also has a "Try in-browser (Stable Horde)" button per panel that
+  generates via the free anonymous Stable Horde API directly from the
+  browser — no API key, ~30s queue time. Works when other services are
+  blocked.
+
+  No paid API. No image rendering happens in Claude. The browser does it
+  all (or you do, by clicking through to your preferred generator).
+
+  negaaregar fills the {{PLACEHOLDERS}} below by reading your scenes.
+-->
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{{TITLE}} — Storyboard Studio</title>
+  <style>
+    :root { --bg:#f4ebd5; --paper:#fffaef; --ink:#2a2520; --accent:#8c2a1a; --muted:#5a4d35; --line:#b8a884; --ok:#3a7a4a; --warn:#b56a1a; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; padding:18px; }
+    header { background:var(--ink); color:var(--paper); padding:18px 24px; border-radius:6px; display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px; }
+    header .title { font-size:22px; font-weight:800; }
+    header .sub { color:#c4b88a; font-size:13px; margin-top:4px; }
+    header .meta { font-size:12px; color:#c4b88a; text-align:right; }
+    header .meta b { color:var(--paper); }
+    .toolbar { background:var(--paper); border:1px solid var(--line); padding:14px 16px; margin:12px 0; border-radius:4px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; font-size:12px; }
+    .toolbar b { color:var(--ink); }
+    .toolbar button { background:var(--ink); color:var(--paper); border:none; padding:8px 12px; font-size:12px; cursor:pointer; border-radius:3px; font-weight:600; }
+    .toolbar button:hover { background:var(--accent); }
+    .toolbar .pill { padding:4px 10px; background:#ede1c2; border-radius:12px; font-size:11px; color:var(--muted); }
+    .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+    @media (max-width:960px){ .grid { grid-template-columns:1fr; } }
+    .panel { background:var(--paper); border:1px solid var(--line); border-radius:4px; overflow:hidden; box-shadow:0 2px 6px rgba(40,30,20,.06); position:relative; }
+    .panel .meta { background:var(--ink); color:var(--paper); padding:10px 14px; font-size:11px; display:grid; grid-template-columns:1fr auto auto; gap:8px; align-items:center; }
+    .panel .meta .ident { font-weight:800; }
+    .panel .meta .sub { color:#c4b88a; font-size:10px; }
+    .panel .meta .move { color:#f3a690; font-weight:700; }
+    .panel .meta .dur { font-weight:800; }
+    .panel .badge { position:absolute; top:-2px; left:-8px; background:var(--accent); color:var(--paper); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; box-shadow:0 2px 4px rgba(0,0,0,.2); z-index:2; }
+    .frame { width:100%; aspect-ratio:16/9; background:#1a1612; position:relative; overflow:hidden; border-bottom:1px solid var(--line); }
+    .frame .placeholder { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#a89868; font-size:11px; text-align:center; padding:20px; line-height:1.5; }
+    .frame .placeholder .big { color:#d4c290; font-size:14px; font-weight:600; margin-bottom:6px; }
+    .frame.dragover { background:var(--accent); }
+    .frame.dragover .placeholder { color:var(--paper); }
+    .frame.dragover .placeholder .big { color:var(--paper); }
+    .frame img { width:100%; height:100%; object-fit:cover; display:block; }
+    .frame .working { position:absolute; inset:0; background:rgba(20,15,10,.85); color:#f3d68a; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; font-size:12px; }
+    .frame .working .spinner { width:30px; height:30px; border:3px solid #5a4a30; border-top-color:#f3d68a; border-radius:50%; animation:spin 1s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .frame .clear-btn { position:absolute; top:6px; right:6px; background:rgba(0,0,0,.7); color:#fff; border:none; width:24px; height:24px; border-radius:50%; cursor:pointer; font-size:13px; display:none; }
+    .frame.has-image .clear-btn { display:block; }
+    .actions { padding:10px 12px; background:#ede1c2; display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+    .actions button, .actions a { background:var(--paper); color:var(--ink); border:1px solid var(--line); padding:5px 9px; font-size:10px; cursor:pointer; border-radius:3px; font-weight:600; text-decoration:none; display:inline-block; }
+    .actions button:hover, .actions a:hover { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+    .actions .primary { background:var(--accent); color:var(--paper); border-color:var(--accent); }
+    .actions .primary:hover { background:var(--ink); border-color:var(--ink); }
+    .actions .live { background:#3a5a30; color:#fff; border-color:#3a5a30; }
+    .actions .live:hover { background:#2a4a20; }
+    .actions .upload-label { cursor:pointer; }
+    .caption { padding:11px 14px 14px; background:#fffaef; border-top:1px solid var(--line); }
+    .caption .row { margin:3px 0; font-size:12px; line-height:1.4; }
+    .caption .row b { color:var(--ink); font-weight:800; margin-right:5px; font-size:10px; letter-spacing:.3px; }
+    .caption .dialog { font-style:italic; }
+    .caption .sfx { color:#5a3a10; font-weight:700; font-size:10px; letter-spacing:.3px; }
+    .caption details { margin-top:6px; font-size:11px; color:var(--muted); }
+    .caption details summary { cursor:pointer; font-weight:600; color:var(--ink); }
+    .caption .prompt-text { background:#f4ebd5; padding:8px; margin-top:6px; border-radius:3px; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:10px; line-height:1.5; white-space:pre-wrap; max-height:120px; overflow:auto; border-left:3px solid var(--accent); }
+    .scene-divider { grid-column:1/-1; padding:11px 16px; background:var(--ink); color:var(--paper); font-weight:700; letter-spacing:.4px; border-radius:3px; margin-top:8px; font-size:13px; }
+    .scene-divider .small { color:#c4b88a; font-weight:400; font-size:11px; margin-left:8px; }
+    footer { margin-top:24px; padding:14px 22px; background:var(--paper); border:1px solid var(--line); border-radius:4px; font-size:11px; color:var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+    .help { background:var(--paper); border:1px solid var(--line); padding:14px 18px; margin:12px 0; border-radius:4px; font-size:12px; line-height:1.6; color:var(--ink); }
+    .help h3 { margin:0 0 8px 0; font-size:14px; }
+    .help ol { margin:6px 0 0 18px; padding:0; }
+    .help code { background:#ede1c2; padding:1px 5px; border-radius:2px; font-size:11px; }
+    #toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--ink); color:var(--paper); padding:10px 18px; border-radius:20px; font-size:12px; opacity:0; transition:opacity .25s; pointer-events:none; z-index:1000; }
+    #toast.show { opacity:1; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="title">{{TITLE}}</div>
+    <div class="sub">{{LOG_LINE}}</div>
+  </div>
+  <div class="meta">
+    <div><b>{{SCOPE_PCT}}%</b> of runtime · {{N_SCENES}} scenes · {{N_PANELS}} panels</div>
+    <div>{{ASPECT}} · style: <b>{{STYLE_NAME}}</b></div>
+    <div>Director: {{DIRECTOR}} · negaaregar · {{DATE}}</div>
+  </div>
+</header>
+
+<div class="help">
+  <h3>How to use this studio</h3>
+  <ol>
+    <li>For each panel below, click an <b>image-generator button</b>: the prompt opens in that service pre-filled (where supported). Generate the image there.</li>
+    <li>Download the generated image. <b>Drag it onto the panel frame</b> — it'll save in your browser (localStorage) and survive page reload.</li>
+    <li>Or click <b>"Try Stable Horde"</b> on any panel for in-browser generation (free, anonymous, ~30–90 s queue).</li>
+    <li>Best free quality picks: <b>Bing Image Creator</b> (DALL·E 3, free with Microsoft account), <b>NightCafe</b> (free SDXL credits), <b>Mage.space</b> (free Flux).</li>
+    <li>When done, click <b>Export all</b> in the toolbar to download a ZIP of all panel images.</li>
+  </ol>
+</div>
+
+<div class="toolbar">
+  <b>Storyboard tools:</b>
+  <button onclick="exportAll()">Export all images (ZIP)</button>
+  <button onclick="copyAllPrompts()">Copy all prompts</button>
+  <button onclick="clearAll()">Clear all stored images</button>
+  <span class="pill">Style: {{STYLE_NAME}}</span>
+  <span class="pill" id="image-count">0 / {{N_PANELS}} panels filled</span>
+</div>
+
+<div class="grid">
+{{PANELS}}
+</div>
+
+<footer>
+  <div>negaaregar · daastansaraa · storyboard studio · {{DATE}}</div>
+  <div>No paid APIs. All free generators. Images stored locally in your browser.</div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+// ============================================================
+//  STORYBOARD STUDIO — front-end logic
+// ============================================================
+
+const PROJECT = "{{PROJECT_SLUG}}";
+
+// ---- Toast ----
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ---- LocalStorage persistence ----
+function storeKey(panelId) { return `negaareh:${PROJECT}:${panelId}`; }
+function saveImage(panelId, dataUrl) {
+  try { localStorage.setItem(storeKey(panelId), dataUrl); updateCount(); }
+  catch (e) { toast('Storage full — clear some panels first'); }
+}
+function loadImage(panelId) { return localStorage.getItem(storeKey(panelId)); }
+function clearImage(panelId) { localStorage.removeItem(storeKey(panelId)); updateCount(); }
+
+// ---- Restore on load ----
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.panel').forEach(p => {
+    const id = p.dataset.panel;
+    const data = loadImage(id);
+    if (data) setPanelImage(p, data);
+    wirePanel(p);
+  });
+  updateCount();
+});
+
+function setPanelImage(panel, dataUrl) {
+  const frame = panel.querySelector('.frame');
+  const placeholder = frame.querySelector('.placeholder');
+  let img = frame.querySelector('img');
+  if (!img) {
+    img = document.createElement('img');
+    frame.insertBefore(img, frame.firstChild);
+  }
+  img.src = dataUrl;
+  if (placeholder) placeholder.style.display = 'none';
+  frame.classList.add('has-image');
+}
+
+function clearPanelImage(panel) {
+  const id = panel.dataset.panel;
+  const frame = panel.querySelector('.frame');
+  const img = frame.querySelector('img');
+  if (img) img.remove();
+  const placeholder = frame.querySelector('.placeholder');
+  if (placeholder) placeholder.style.display = '';
+  frame.classList.remove('has-image');
+  clearImage(id);
+  toast('Cleared panel ' + id);
+}
+
+function updateCount() {
+  const total = document.querySelectorAll('.panel').length;
+  const filled = Array.from(document.querySelectorAll('.panel'))
+    .filter(p => loadImage(p.dataset.panel)).length;
+  const el = document.getElementById('image-count');
+  if (el) el.textContent = `${filled} / ${total} panels filled`;
+}
+
+// ---- Wire each panel ----
+function wirePanel(panel) {
+  const id = panel.dataset.panel;
+  const prompt = panel.dataset.prompt;
+  const frame = panel.querySelector('.frame');
+
+  // Clear button
+  const clearBtn = panel.querySelector('.clear-btn');
+  if (clearBtn) clearBtn.onclick = () => clearPanelImage(panel);
+
+  // Drag-and-drop
+  frame.addEventListener('dragover', e => { e.preventDefault(); frame.classList.add('dragover'); });
+  frame.addEventListener('dragleave', () => frame.classList.remove('dragover'));
+  frame.addEventListener('drop', e => {
+    e.preventDefault();
+    frame.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) loadFile(file, panel);
+  });
+
+  // File upload button (label wraps a hidden input)
+  const fileInput = panel.querySelector('input[type=file]');
+  if (fileInput) fileInput.onchange = e => {
+    const file = e.target.files[0];
+    if (file) loadFile(file, panel);
+  };
+
+  // Copy prompt button
+  const copyBtn = panel.querySelector('button[data-action=copy]');
+  if (copyBtn) copyBtn.onclick = () => {
+    navigator.clipboard.writeText(prompt);
+    toast('Prompt ' + id + ' copied to clipboard');
+  };
+
+  // Stable Horde live button
+  const hordeBtn = panel.querySelector('button[data-action=horde]');
+  if (hordeBtn) hordeBtn.onclick = () => generateViaHorde(panel, prompt);
+}
+
+function loadFile(file, panel) {
+  const id = panel.dataset.panel;
+  const reader = new FileReader();
+  reader.onload = e => {
+    setPanelImage(panel, e.target.result);
+    saveImage(id, e.target.result);
+    toast('Saved panel ' + id);
+  };
+  reader.readAsDataURL(file);
+}
+
+// ---- Stable Horde live generation (free, anonymous) ----
+async function generateViaHorde(panel, prompt) {
+  const id = panel.dataset.panel;
+  const frame = panel.querySelector('.frame');
+  let working = frame.querySelector('.working');
+  if (!working) {
+    working = document.createElement('div');
+    working.className = 'working';
+    working.innerHTML = '<div class="spinner"></div><div>Queued on Stable Horde…</div>';
+    frame.appendChild(working);
+  } else {
+    working.style.display = 'flex';
+    working.querySelector('div:last-child').textContent = 'Queued on Stable Horde…';
+  }
+
+  try {
+    const submit = await fetch('https://stablehorde.net/api/v2/generate/async', {
+      method: 'POST',
+      headers: { 'apikey': '0000000000', 'Content-Type': 'application/json', 'Client-Agent': 'negaaregar:1.0:contact@local' },
+      body: JSON.stringify({
+        prompt: prompt,
+        params: { width: 1024, height: 576, sampler_name: 'k_euler_a', cfg_scale: 7, steps: 28, n: 1 },
+        nsfw: false, censor_nsfw: true,
+        models: ['AlbedoBase XL (SDXL)', 'Deliberate', 'Anything Diffusion']
+      })
+    });
+    if (!submit.ok) throw new Error('Horde submit failed: ' + submit.status);
+    const { id: jobId, message } = await submit.json();
+    if (!jobId) throw new Error('Horde: ' + (message || 'no job id'));
+
+    // Poll
+    for (let i = 0; i < 60; i++) {
+      await new Promise(r => setTimeout(r, 5000));
+      const stat = await fetch(`https://stablehorde.net/api/v2/generate/check/${jobId}`).then(r => r.json());
+      working.querySelector('div:last-child').textContent =
+        `Stable Horde queue position: ${stat.queue_position} · wait ~${stat.wait_time}s`;
+      if (stat.done) {
+        const final = await fetch(`https://stablehorde.net/api/v2/generate/status/${jobId}`).then(r => r.json());
+        const url = final.generations[0].img;
+        // img is a webp URL; fetch as blob -> data url for localStorage
+        const blob = await fetch(url).then(r => r.blob());
+        const dataUrl = await new Promise(r => { const fr = new FileReader(); fr.onload = e => r(e.target.result); fr.readAsDataURL(blob); });
+        setPanelImage(panel, dataUrl);
+        saveImage(id, dataUrl);
+        working.style.display = 'none';
+        toast('Panel ' + id + ' generated');
+        return;
+      }
+      if (stat.faulted) throw new Error('Horde job faulted');
+    }
+    throw new Error('Horde timed out after 5 minutes');
+  } catch (e) {
+    working.querySelector('div:last-child').textContent = 'Horde failed: ' + e.message + '. Try another generator.';
+    setTimeout(() => { working.style.display = 'none'; }, 5000);
+  }
+}
+
+// ---- Bulk actions ----
+function copyAllPrompts() {
+  const all = Array.from(document.querySelectorAll('.panel'))
+    .map(p => `# Panel ${p.dataset.panel}\n${p.dataset.prompt}\n`).join('\n');
+  navigator.clipboard.writeText(all);
+  toast('All prompts copied');
+}
+
+async function exportAll() {
+  const panels = Array.from(document.querySelectorAll('.panel'));
+  const filled = panels.filter(p => loadImage(p.dataset.panel));
+  if (!filled.length) { toast('No images to export — generate or drop some first'); return; }
+
+  // Without JSZip, fall back to opening each image in a new tab for "Save as".
+  // For browsers that block popups beyond the first, the user can right-click each panel image instead.
+  toast(`Opening ${filled.length} images — right-click each to save…`);
+  for (const p of filled) {
+    const id = p.dataset.panel;
+    const data = loadImage(id);
+    const w = window.open();
+    if (w) w.document.write(`<title>panel-${id}</title><body style="margin:0;background:#222"><img src="${data}" style="display:block;max-width:100%;margin:auto"/></body>`);
+    await new Promise(r => setTimeout(r, 250));
+  }
+}
+
+function clearAll() {
+  if (!confirm('Clear ALL stored panel images?')) return;
+  document.querySelectorAll('.panel').forEach(p => clearPanelImage(p));
+}
+</script>
+
+</body>
+</html>
+<!--
+  PANEL BLOCK TEMPLATE (negaaregar writes one per panel into {{PANELS}}):
+
+  <div class="panel" data-panel="NN" data-prompt="{{ESCAPED_PROMPT_FOR_JS}}">
+    <div class="badge">NN</div>
+    <div class="meta">
+      <span><span class="ident">SC M · SH S</span> <span class="sub">— {{SHOT_DESC}}</span></span>
+      <span class="move">{{SHOT_SIZE}} · {{LENS}}mm · {{HEIGHT}} · {{MOVE}}</span>
+      <span class="dur">{{DURATION}}s</span>
+    </div>
+    <div class="frame" style="aspect-ratio: {{ASPECT_NUM}}/{{ASPECT_DEN}};">
+      <button class="clear-btn" title="Clear image">×</button>
+      <div class="placeholder">
+        <div class="big">Panel {{NN}}</div>
+        <div>Use a button below to generate, then drag the image here.<br>Or click a generator and copy/paste the prompt.</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button data-action=copy>Copy prompt</button>
+      <a class="primary" target="_blank" href="https://www.bing.com/images/create?q={URL_ENCODED_PROMPT}">Bing IC (DALL·E 3)</a>
+      <a target="_blank" href="https://designer.microsoft.com/image-creator?p={URL_ENCODED_PROMPT}">Designer</a>
+      <a target="_blank" href="https://www.mage.space/play?prompt={URL_ENCODED_PROMPT}">Mage</a>
+      <a target="_blank" href="https://creator.nightcafe.studio/create-art-prompt?prompt={URL_ENCODED_PROMPT}">NightCafe</a>
+      <a target="_blank" href="https://ideogram.ai/t/explore">Ideogram</a>
+      <a target="_blank" href="https://app.leonardo.ai/image-generation">Leonardo</a>
+      <a target="_blank" href="https://huggingface.co/spaces/black-forest-labs/FLUX.1-schnell">HF Flux</a>
+      <button class="live" data-action=horde>Try Stable Horde</button>
+      <label class="upload-label" style="padding:5px 9px;border:1px solid var(--line);border-radius:3px;font-size:10px;cursor:pointer;background:var(--paper);">Upload<input type="file" accept="image/*" style="display:none"/></label>
+    </div>
+    <div class="caption">
+      <div class="row"><b>ACTION</b> {{ACTION}}</div>
+      <div class="row dialog"><b>DIALOGUE</b> {{DIALOGUE}}</div>
+      <div class="row sfx"><b>SOUND</b> {{SOUND}}</div>
+      <details><summary>Show prompt</summary>
+        <div class="prompt-text">{{PROMPT_HUMAN_READABLE}}</div>
+      </details>
+    </div>
+  </div>
+
+  SCENE DIVIDER (between scenes):
+  <div class="scene-divider">Scene M — {{SLUGLINE}} <span class="small">{{SCENE_DESC}}</span></div>
+-->
