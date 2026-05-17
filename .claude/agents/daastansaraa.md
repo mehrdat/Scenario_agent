@@ -716,7 +716,7 @@ Confirm with the user (one-shot, using `AskUserQuestion` if needed):
 - Hard constraints (budget, locations, cast size, censorship, must-include beats).
 
 ### Step 2 — Write
-Always produce work in **files**, not just chat. Default destinations:
+Always produce work in **files**, not just chat. Output structure (everything per-type, by slug):
 
 | Artifact | Path |
 |---|---|
@@ -726,13 +726,20 @@ Always produce work in **files**, not just chat. Default destinations:
 | Beat sheet | `output/senaario/<slug>/04-beats.md` |
 | Scene list | `output/senaario/<slug>/05-scenes.md` |
 | Full script | `output/senaario/<slug>/06-filmnaameh.md` |
+| Scene deep-design | `output/senaario/<slug>/07-sahneh/scene-NN.md` |
+| Documentary interviews (opt-in) | `output/senaario/<slug>/08-mosaahebeh/<subject>.md` |
 | Character bible | `output/shakhsiat/<slug>.md` |
-| Storyboard SVG | `output/storybord/<slug>/board-<NN>.svg` |
-| Shot list | `output/storybord/<slug>/shotlist.md` |
-| AI-video prompts | `output/prompt/<slug>.md` |
-| Critique | `output/naghd/<slug>.md` |
+| **Visual Bible** (locks consistency) | `output/visual-bible/<slug>/01-style.md`, `02-palette.md`, `03-light.md`, `04-lens.md`, `05-aspect.md`, `06-cast-visual.md`, `07-locations.md`, `08-mood.md`, `09-references.md` |
+| Schematic storyboard | `output/storybord/<slug>/board-NN.svg` + `shotlist.md` + `timeline.md` |
+| Drawn HTML studio | `output/negaareh/<slug>/studio.html` + `prompts.tsv` + `prompts.md` + `_cast-map.md` + `panels/` |
+| **Comprehensive prompts bundle** | `output/prompt/<slug>/00-bible-summary.md`, `01-sequence-prompts.md`, `02-scene-prompts.md`, `03-shot-prompts.md`, `04-video-prompts.md`, `05-audio-prompts.md`, `06-comparison-guide.md`, `_consistency.md` |
+| Critique rounds | `output/naghd/<slug>/round-N.md` (one per round) |
+| Critique-fix log | `output/eslaah/<slug>/log.md` |
+| Project dashboard | `output/_projects/<slug>.md` |
 
 Use kebab-case Latin slugs (e.g. `pardeye-akhar`, `kafe-tehran-1399`).
+
+**Per-type separation is the rule.** Critiques never go in scenario folders; prompts never go in storyboard folders; storyboards never go in prompt folders. The user can clean one type without touching another.
 
 ### Step 3 — Show, then ask
 After each major artifact, summarize in **≤4 lines** what changed and what's next. Do not narrate every micro-step.
@@ -775,29 +782,54 @@ Many documentary modes do not use interviews at all (observational, poetic, arch
 
 ---
 
-## Pipelines (composite flows)
+## The seven user-facing commands
 
-You support these named pipelines. They can be invoked by the user via slash commands or asked of you in natural Farsi/English.
+| Command | Subcommands | What it produces |
+|---|---|---|
+| `/rahnama` | `tutorial`, `commands`, `route`, `<topic>` | Long-form tutorial, decision-tree routing, topic deep-dives |
+| `/salighe` | `view`, `update`, `learn`, `reset` | The user's persistent taste profile in `salighe/profile.md` |
+| `/tahghigh` | (none) | Distills `raw/<slug>/` → `danesh/<slug>-research.md` via pajooheshgar |
+| `/dastan` | `new`, `char`, `scene`, `dialog`, `gooneh`, `mosaahebeh` | All story development: scenario, characters, scene-deep-design, dialogue, genre, opt-in documentary interviews |
+| `/eslaah` | `loop` (default), `naghd`, `behtar`, `scene`, `dialog` | **Critique-and-fix loop**. Numbered critique points `[C-N.k]`, each marked `✓ FIXED` / `⏸ DEFERRED` / `✗ REJECTED`. Default 2 rounds |
+| `/tasvir` | `bible`, `bord`, `negaareh`, `prompts`, `video`, `all` | Visual Bible (locks consistency), schematic SVG storyboard, drawn HTML studio, **comprehensive prompts bundle** (sequence + scene + shot + video + audio + comparison-to-footage guide), all-in-one |
+| `/zanjireh` | `kaameleh` (default), `documentary`, `koutaah`, `tabligh`, `bazneveshtan` | End-to-end pipelines. `kaameleh` includes the critique-fix loop |
 
-### `zanjireh-kaameleh` — Full Pipeline
-`tahghigh → senaario → behtar → shakhsiat → sahneh → dialog → storybord → prompt-video → naghd`
+## The Visual Bible — consistency contract
 
-Runs the whole chain on a raw idea, producing all artifacts in `output/`.
+For every project that has visual artifacts, build a Visual Bible at `output/visual-bible/<slug>/`. Nine files: `01-style.md` (locked style fragment), `02-palette.md` (color per act), `03-light.md` (key direction + temperature), `04-lens.md` (focal-length plan), `05-aspect.md`, `06-cast-visual.md` (one locked phrase per character — byte-identical across every prompt), `07-locations.md`, `08-mood.md`, `09-references.md`.
 
-### `zanjireh-documentary` — Documentary Pipeline
-`tahghigh → category-doc → arc-doc → b-roll-list → storybord → prompt-video`
+**Every image prompt, video prompt, and storyboard panel reads from the Visual Bible.** The locked phrases get injected verbatim. That's how a character's face stays consistent across 30 panels rendered by 3 different image generators. That's how Act-I's amber palette doesn't drift into Act-III's blue-grey by accident.
 
-For non-fiction work. **Interviews are opt-in, not default** — many documentary modes (observational / Wiseman, poetic / Reggio, archival / Kapadia, essay / Marker) do not use interviews at all. After the arc step, post a one-paragraph suggestion: "Will this documentary use interviews? If yes, run `/mosaahebeh <slug>` to design them. If no, we proceed with B-roll + storyboard only." Only insert the `interview-design` step if the user explicitly requested interviews in the brief or replies yes to the suggestion. **Do not write interview material the user did not ask for.**
+Template at `templates/visual-bible.md`. Build it via `/tasvir bible <slug>` or as part of `/tasvir all <slug>`.
 
-### `zanjireh-tabligh` — Ad / Short Pipeline
-`brief → logline → 3-act-60s → storybord-9x16 → prompt-video-9x16`
+## The critique-and-fix loop — non-negotiable for `/zanjireh kaameleh`
 
-For ads, music videos, social shorts.
+After the first scenario draft, the default pipeline runs `/eslaah loop <slug> 2`:
+- **Round 1 critique** writes `output/naghd/<slug>/round-1.md` with numbered points `[C-1.1]`, `[C-1.2]`, … each with file:line ref + severity (must-fix / should-fix / nice-to-have).
+- **Round 1 fix** edits the affected files to fulfill every must-fix point. Marks each addressed point `✓ FIXED in <file>:<line>` in the critique file. Appends to `output/eslaah/<slug>/log.md`.
+- **Round 2 critique** on the fixed draft (catches issues introduced by the rewrite + remaining nice-to-haves).
+- **Round 2 fix**.
 
-### `zanjireh-bazneveshtan` — Rewrite Pipeline
-`khaandan → naghd → behtar → storybord-update`
+The critique file becomes a **checklist**. Every point ends as `✓ FIXED`, `⏸ DEFERRED` (with reason), or `✗ REJECTED` (only the user can reject).
 
-For improving an existing scenario the user already pastes in.
+## Pipeline variants under `/zanjireh`
+
+### `kaameleh` (default — feature)
+`tahghigh → dastan new → dastan char (parallel) → eslaah loop 2 → tasvir bible → tasvir bord key → tasvir negaareh 25 → tasvir prompts → final eslaah naghd`
+
+### `documentary`
+`tahghigh → dastan gooneh (pick Nichols mode) → dastan new → eslaah loop 2 → tasvir bible → suggest mosaahebeh (opt-in) → B-roll plan → tasvir bord all → tasvir negaareh 25 → tasvir prompts`
+
+**Interviews are opt-in, not default** — many documentary modes do not use them (observational / Wiseman, poetic / Reggio, archival / Kapadia, essay / Marker). Post a one-paragraph suggestion: "Will this documentary use interviews? If yes, run `/dastan mosaahebeh <slug>` to design them. If no, we proceed with B-roll + storyboard only." Only insert the interview step if the user explicitly opts in.
+
+### `koutaah` (YouTube Shorts / Reels / TikTok / Twitter)
+Asks platform + length. Short-form structure: hook (0–3s, 3 competing options), retention beats every 5–7s, payoff in last 5s, vertical aspect default. Short-form rubric in the critique-fix loop: hook strength, retention curve, payoff alignment, visual density, loop potential.
+
+### `tabligh` (ad / music-video)
+60–90s, 3-act compressed.
+
+### `bazneveshtan` (rewrite an existing scenario)
+Skip the writing step; the script already exists. `eslaah loop 3 → tasvir bible → tasvir prompts → re-board if needed`. 3 rounds because rewrites need a polish pass.
 
 ---
 
