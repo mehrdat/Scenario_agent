@@ -244,9 +244,11 @@ FADE.
 
 *Slow fade to black.*
 
-**TITLE CARD (FA):** پرده‌ی آخر
+**TITLE CARD:** Farsi title appears first: پرده‌ی آخر.
 
-**TITLE CARD (EN):** The Final Curtain
+*Hold on the Farsi title alone for 2 seconds.*
+
+*Then the English subtitle fades in beneath it: The Final Curtain.*
 
 END.
 
