@@ -1225,13 +1225,13 @@
 **Duration**: 8s
 
 ### PRIMARY VIDEO PROMPT
-> A pure black screen. Persian calligraphy in elegant traditional Nastaliq script appears slowly center-frame: "پرده‌ی آخر". Beneath it, smaller English text appears: "The Final Curtain". A single fine horizontal line separates them. Minimal, dignified, festival-quality typography. The text holds for 5 seconds, then begins to fade. Static, 4K, 16:9, 8 seconds total.
+> A pure black screen. Persian calligraphy in elegant traditional Nastaliq script appears slowly center-frame: "پرده‌ی آخر". The Persian title appears alone first and remains by itself for about 2 seconds. Then smaller English text fades in beneath it: "The Final Curtain". A single fine horizontal line separates them. Minimal, dignified, festival-quality typography. After the English appears, both lines hold together for about 5 seconds, then begin to fade. Static, 4K, 16:9, 8 seconds total.
 
 ### NEGATIVE PROMPT
 > watermark, decorative borders, color, glitter, fast animation, modern font, English first
 
 ### راهنمای فارسی
-> کارتِ عنوان. زمینه‌ی سیاه. خوشنویسیِ نستعلیقِ "پرده‌ی آخر" در مرکز. زیرِ آن انگلیسیِ کوچک‌تر. ساده، با وقار.
+> کارتِ عنوان. زمینه‌ی سیاه. خوشنویسیِ نستعلیقِ "پرده‌ی آخر" در مرکز ابتدا تنها دیده شود و حدود ۲ ثانیه تنها بماند؛ سپس انگلیسیِ کوچک‌تر زیرِ آن با فید آرام ظاهر شود. ساده، با وقار.
 
 ### Engine-Specific Tips
 - **Ideogram**: PRIMARY for accurate Persian typography.
