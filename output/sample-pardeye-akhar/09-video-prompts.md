@@ -21,7 +21,6 @@
 | **Luma Dream Machine** | ~30 free/month + daily refresh | Real-world physics, dolly moves |
 | **Sora (via Bing Video Creator)** | Limited free per day | Highest quality when available; period drama strong |
 | **Wan 2.1** | Free if self-hosted; free on HuggingFace inference | Fully free, slower turnaround |
-| **Pixverse** | Free tier with daily limit | Fast turnaround; less photorealistic |
 
 ## Recommended engine for THIS project
 
