@@ -120,10 +120,6 @@ CUT TO:
 
 *She turns to leave. Stops. Looks back at the curtain.*
 
-**MARYAM**
-پدرتان مرد خوبی بود.
-*(Your father was a good man.)*
-
 *No answer. She walks on.*
 
 CUT TO:
