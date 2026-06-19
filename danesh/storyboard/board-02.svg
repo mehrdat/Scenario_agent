@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" width="1600" height="1100" font-family="Helvetica, Arial, sans-serif">
+  <!-- =========================================================
+       PERSIAN CHEETAH — STORYBOARD PAGE 2 of 2
+       Key beats: Pirouz death (news ticker + mural+child),
+                  Sec 5 opener (highway), Sec 6 wild cubs camera-trap,
+                  Sec 6 classroom, Sec 7 drone ascent, Sec 7 final still
+       ========================================================= -->
+
+  <defs>
+    <symbol id="cheetah-low2" viewBox="0 0 80 30">
+      <path d="M5,22 Q15,18 25,20 L40,20 Q55,18 70,22 L75,24 L72,26 L60,25 Q45,27 30,25 L15,26 L8,25 Z" fill="#444"/>
+      <circle cx="68" cy="20" r="2.2" fill="#444"/>
+      <path d="M70,18 L73,15 L74,18 Z" fill="#444"/>
+    </symbol>
+    <symbol id="figChild2" viewBox="0 0 30 70">
+      <circle cx="15" cy="10" r="6" fill="none" stroke="#000" stroke-width="2"/>
+      <line x1="15" y1="16" x2="15" y2="45" stroke="#000" stroke-width="2"/>
+      <line x1="15" y1="22" x2="3" y2="20" stroke="#000" stroke-width="2"/>
+      <line x1="15" y1="22" x2="27" y2="8" stroke="#000" stroke-width="2"/>
+      <line x1="15" y1="45" x2="8" y2="68" stroke="#000" stroke-width="2"/>
+      <line x1="15" y1="45" x2="22" y2="68" stroke="#000" stroke-width="2"/>
+    </symbol>
+    <symbol id="figSit" viewBox="0 0 40 50">
+      <circle cx="20" cy="10" r="6" fill="none" stroke="#000" stroke-width="2"/>
+      <line x1="20" y1="16" x2="20" y2="32" stroke="#000" stroke-width="2"/>
+      <line x1="20" y1="22" x2="10" y2="32" stroke="#000" stroke-width="2"/>
+      <line x1="20" y1="22" x2="30" y2="32" stroke="#000" stroke-width="2"/>
+      <line x1="20" y1="32" x2="8" y2="45" stroke="#000" stroke-width="2"/>
+      <line x1="20" y1="32" x2="32" y2="45" stroke="#000" stroke-width="2"/>
+    </symbol>
+    <symbol id="arrow-craneUp2" viewBox="0 0 30 100">
+      <line x1="15" y1="95" x2="15" y2="10" stroke="#000" stroke-width="2"/>
+      <polygon points="15,10 8,22 22,22" fill="#000"/>
+      <text x="32" y="55" font-size="9" fill="#000">DRONE↑</text>
+    </symbol>
+  </defs>
+
+  <rect width="1600" height="1100" fill="#FAFAF7"/>
+  <text x="40" y="38" font-size="22" font-weight="700" fill="#111">PERSIAN CHEETAH — Storyboard · Page 2 of 2</text>
+  <text x="40" y="60" font-size="13" fill="#555">Pirouz death · five reasons · the unnamed wild cubs · the outro</text>
+  <line x1="40" y1="72" x2="1560" y2="72" stroke="#222" stroke-width="1"/>
+
+  <!-- ============== PANEL 7 — PIROUZ DEATH: NEWS TICKER + MURAL+CHILD ============== -->
+  <g transform="translate(40,90)">
+    <rect x="0" y="0" width="480" height="270" fill="#FFF" stroke="#000" stroke-width="2"/>
+    <line x1="160" y1="0" x2="160" y2="270" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="320" y1="0" x2="320" y2="270" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="0" y1="90" x2="480" y2="90" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="0" y1="180" x2="480" y2="180" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <!-- Mural on plaster wall, child below -->
+    <rect x="2" y="2" width="476" height="266" fill="#C8B49A"/>
+    <!-- wall texture stipple -->
+    <g fill="#A08868" opacity="0.4">
+      <circle cx="60" cy="30" r="1"/><circle cx="140" cy="55" r="1"/><circle cx="280" cy="40" r="1"/>
+      <circle cx="380" cy="80" r="1"/><circle cx="120" cy="130" r="1"/><circle cx="320" cy="150" r="1"/>
+      <circle cx="240" cy="100" r="1"/><circle cx="420" cy="120" r="1"/>
+    </g>
+    <!-- mural painted cheetah, large, mid-frame -->
+    <ellipse cx="240" cy="100" rx="170" ry="70" fill="#D8B080" opacity="0.5"/>
+    <use href="#cheetah-low2" x="120" y="90" width="240" height="90"/>
+    <!-- mural spots -->
+    <g fill="#3A2A18">
+      <circle cx="180" cy="110" r="2"/><circle cx="210" cy="115" r="2"/><circle cx="240" cy="112" r="2"/>
+      <circle cx="270" cy="118" r="2"/><circle cx="300" cy="115" r="2"/><circle cx="330" cy="120" r="2"/>
+    </g>
+    <text x="120" y="180" font-size="13" font-weight="700" fill="#7A4A28" font-style="italic">پیروز · PIROUZ</text>
+    <!-- child reaching up -->
+    <use href="#figChild2" x="225" y="195" width="36" height="84"/>
+    <!-- raised hand to paw -->
+    <line x1="252" y1="208" x2="278" y2="165" stroke="#000" stroke-width="2"/>
+    <circle cx="278" cy="165" r="3" fill="none" stroke="#000" stroke-width="1.5"/>
+    <!-- painted paw target -->
+    <ellipse cx="284" cy="160" rx="10" ry="6" fill="#3A2A18" opacity="0.7"/>
+    <!-- News ticker overlay strip preceding this -->
+    <rect x="0" y="230" width="480" height="20" fill="#A00000"/>
+    <text x="8" y="245" font-size="10" fill="#FFF" font-family="monospace">۲۸ اسفند ۱۴۰۱ — یوزپلنگ پیروز درگذشت  ·  28 ESFAND 1401 — PIROUZ HAS DIED</text>
+    <!-- metadata -->
+    <rect x="0" y="270" width="480" height="60" fill="#111"/>
+    <text x="10" y="290" font-size="11" fill="#FFD" font-weight="700">SC 4 · SH 7 · MS MURAL + CHILD · 35mm</text>
+    <text x="10" y="305" font-size="10" fill="#CCC">Static · 5 sec hold · fingertip-to-paw is the cut point</text>
+    <text x="10" y="320" font-size="10" fill="#CCC">Preceded by 3-sec hold on Farsi news ticker (red strip)</text>
+  </g>
+  <g transform="translate(40,420)">
+    <text x="0" y="0" font-size="12" fill="#111" font-weight="700">4.7 Mural + child — the death beat</text>
+    <text x="0" y="16" font-size="11" fill="#333">The whole film compresses into one frame.</text>
+    <text x="0" y="30" font-size="11" fill="#333">"A nation grieved a cat. The cat knew nothing of it."</text>
+  </g>
+
+  <!-- ============== PANEL 8 — SEC 5 OPENER: HIGHWAY ============== -->
+  <g transform="translate(560,90)">
+    <rect x="0" y="0" width="480" height="270" fill="#FFF" stroke="#000" stroke-width="2"/>
+    <line x1="160" y1="0" x2="160" y2="270" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="320" y1="0" x2="320" y2="270" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="0" y1="90" x2="480" y2="90" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="0" y1="180" x2="480" y2="180" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <!-- empty 2-lane highway, plateau -->
+    <rect x="2" y="2" width="476" height="120" fill="#A8B8C8"/>
+    <rect x="2" y="122" width="476" height="146" fill="#C8B898"/>
+    <!-- distant mountain -->
+    <polygon points="2,122 100,108 200,118 320,100 440,115 478,110 478,122" fill="#9C9080"/>
+    <!-- asphalt vanishing -->
+    <polygon points="180,122 300,122 320,268 160,268" fill="#3A3A38"/>
+    <line x1="240" y1="135" x2="240" y2="265" stroke="#FFD" stroke-width="2" stroke-dasharray="14 12"/>
+    <!-- heat shimmer hint -->
+    <g stroke="#FFF" stroke-width="0.5" opacity="0.4">
+      <line x1="170" y1="170" x2="310" y2="170"/><line x1="172" y1="175" x2="308" y2="175"/>
+      <line x1="170" y1="180" x2="310" y2="180"/>
+    </g>
+    <text x="14" y="22" font-size="10" fill="#000" opacity="0.6">5-sec static · then truck blasts through</text>
+    <!-- metadata -->
+    <rect x="0" y="270" width="480" height="60" fill="#111"/>
+    <text x="10" y="290" font-size="11" fill="#FFD" font-weight="700">SC 5 · SH 1 · STATIC HIGHWAY · 35mm</text>
+    <text x="10" y="305" font-size="10" fill="#CCC">Hold 5 sec empty · truck enters and exits frame in &lt;1 sec</text>
+    <text x="10" y="320" font-size="10" fill="#CCC">SOUND: silence builds, truck shatters it</text>
+  </g>
+  <g transform="translate(560,420)">
+    <text x="0" y="0" font-size="12" fill="#111" font-weight="700">5.1 Highway, plateau</text>
+    <text x="0" y="16" font-size="11" fill="#333">Reason #1: roads. The truck is the whole argument.</text>
+    <text x="0" y="30" font-size="11" fill="#333">Tehran–Mashhad corridor (research §4).</text>
+  </g>
+
+  <!-- ============== PANEL 9 — SEC 6 WILD CUBS IN WADI (IR) ============== -->
+  <g transform="translate(1080,90)">
+    <rect x="0" y="0" width="480" height="270" fill="#FFF" stroke="#000" stroke-width="2"/>
+    <line x1="160" y1="0" x2="160" y2="270" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="320" y1="0" x2="320" y2="270" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="0" y1="90" x2="480" y2="90" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="0" y1="180" x2="480" y2="180" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <!-- IR camera-trap, wadi rocks -->
+    <rect x="2" y="2" width="476" height="266" fill="#0E0E0E"/>
+    <!-- wadi floor -->
+    <rect x="2" y="180" width="476" height="88" fill="#2A2A2A"/>
+    <!-- rock banks -->
+    <polygon points="2,180 60,140 120,180" fill="#1A1A1A"/>
+    <polygon points="360,180 420,135 478,180" fill="#1A1A1A"/>
+    <!-- adult cheetah, watching -->
+    <use href="#cheetah-low2" x="80" y="195" width="120" height="48"/>
+    <circle cx="190" cy="207" r="2" fill="#FFFFB0"/>
+    <circle cx="196" cy="207" r="2" fill="#FFFFB0"/>
+    <!-- two cubs playing, mid-air -->
+    <use href="#cheetah-low2" x="260" y="220" width="60" height="22"/>
+    <use href="#cheetah-low2" x="290" y="200" width="56" height="22"/>
+    <circle cx="306" cy="209" r="1.4" fill="#FFFFB0"/>
+    <circle cx="310" cy="209" r="1.4" fill="#FFFFB0"/>
+    <circle cx="340" cy="228" r="1.4" fill="#FFFFB0"/>
+    <circle cx="344" cy="228" r="1.4" fill="#FFFFB0"/>
+    <!-- play arc arrow -->
+    <path d="M275,235 Q300,205 318,212" stroke="#FFAA00" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
+    <text x="265" y="255" font-size="9" fill="#FFAA00">cub jumps on sibling — slow-mo if possible</text>
+    <!-- IR HUD -->
+    <text x="14" y="22" font-size="10" fill="#5A5A5A" font-family="monospace">CAM 47 · TOURAN · 2023-11 · 22:14</text>
+    <rect x="2" y="2" width="476" height="266" fill="none" stroke="#1A1A1A" stroke-width="12" opacity="0.6"/>
+    <!-- metadata -->
+    <rect x="0" y="270" width="480" height="60" fill="#111"/>
+    <text x="10" y="290" font-size="11" fill="#FFD" font-weight="700">SC 6 · SH 1 · CAMERA-TRAP · static IR</text>
+    <text x="10" y="305" font-size="10" fill="#CCC">7 sec hold · only playful cheetah image in film</text>
+    <text x="10" y="320" font-size="10" fill="#CCC">The counter-argument. The door left open.</text>
+  </g>
+  <g transform="translate(1080,420)">
+    <text x="0" y="0" font-size="12" fill="#111" font-weight="700">6.1 Unnamed cubs, wadi</text>
+    <text x="0" y="16" font-size="11" fill="#333">Anonymous on purpose. The film respects their safety.</text>
+    <text x="0" y="30" font-size="11" fill="#333">Followed by daytime drone of empty wadi (the absence).</text>
+  </g>
+
+  <!-- =========== ROW 2 =========== -->
+
+  <!-- ============== PANEL 10 — SEC 6 CLASSROOM ============== -->
+  <g transform="translate(40,500)">
+    <rect x="0" y="0" width="480" height="270" fill="#FFF" stroke="#000" stroke-width="2"/>
+    <line x1="160" y1="0" x2="160" y2="270" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="320" y1="0" x2="320" y2="270" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="0" y1="90" x2="480" y2="90" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="0" y1="180" x2="480" y2="180" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <!-- rural classroom: warm soft -->
+    <rect x="2" y="2" width="476" height="266" fill="#D8C8A8"/>
+    <!-- window of light (motivated key) -->
+    <rect x="20" y="20" width="100" height="120" fill="#FFE6B0" opacity="0.85"/>
+    <line x1="70" y1="20" x2="70" y2="140" stroke="#88684A" stroke-width="2"/>
+    <line x1="20" y1="80" x2="120" y2="80" stroke="#88684A" stroke-width="2"/>
+    <!-- teacher standing holding poster -->
+    <line x1="380" y1="110" x2="380" y2="200" stroke="#000" stroke-width="2"/>
+    <circle cx="380" cy="100" r="9" fill="none" stroke="#000" stroke-width="2"/>
+    <line x1="380" y1="200" x2="370" y2="248" stroke="#000" stroke-width="2"/>
+    <line x1="380" y1="200" x2="390" y2="248" stroke="#000" stroke-width="2"/>
+    <line x1="380" y1="125" x2="350" y2="140" stroke="#000" stroke-width="2"/>
+    <line x1="380" y1="125" x2="410" y2="140" stroke="#000" stroke-width="2"/>
+    <!-- poster -->
+    <rect x="290" y="110" width="80" height="60" fill="#FFFFFF" stroke="#000" stroke-width="1.5"/>
+    <use href="#cheetah-low2" x="298" y="135" width="64" height="26"/>
+    <text x="294" y="125" font-size="9" fill="#222" font-weight="700">یوزپلنگ</text>
+    <!-- circle of children sitting on floor -->
+    <use href="#figSit" x="80" y="200" width="32" height="50"/>
+    <use href="#figSit" x="130" y="210" width="32" height="50"/>
+    <use href="#figSit" x="190" y="215" width="32" height="50"/>
+    <use href="#figSit" x="250" y="210" width="32" height="50"/>
+    <!-- imitating child — arms up like paws -->
+    <g transform="translate(160,210)">
+      <circle cx="20" cy="10" r="6" fill="none" stroke="#D54040" stroke-width="2"/>
+      <line x1="20" y1="16" x2="20" y2="32" stroke="#D54040" stroke-width="2"/>
+      <line x1="20" y1="22" x2="8" y2="6" stroke="#D54040" stroke-width="2"/>
+      <line x1="20" y1="22" x2="32" y2="6" stroke="#D54040" stroke-width="2"/>
+      <line x1="20" y1="32" x2="8" y2="48" stroke="#D54040" stroke-width="2"/>
+      <line x1="20" y1="32" x2="32" y2="48" stroke="#D54040" stroke-width="2"/>
+    </g>
+    <text x="148" y="270" font-size="9" fill="#D54040" font-weight="700" text-anchor="middle">imitating cat — paws up</text>
+    <!-- metadata -->
+    <rect x="0" y="270" width="480" height="60" fill="#111"/>
+    <text x="10" y="290" font-size="11" fill="#FFD" font-weight="700">SC 6 · SH 4 · WIDE LS · 28mm</text>
+    <text x="10" y="305" font-size="10" fill="#CCC">Soft window key camera-left · 5 sec · child action mid-line</text>
+    <text x="10" y="320" font-size="10" fill="#CCC">Pull-quote card precedes this · classroom inherits the argument</text>
+  </g>
+  <g transform="translate(40,830)">
+    <text x="0" y="0" font-size="12" fill="#111" font-weight="700">6.4 Rural classroom — inheritance</text>
+    <text x="0" y="16" font-size="11" fill="#333">"The children, in the end, are the only ones who will inherit."</text>
+    <text x="0" y="30" font-size="11" fill="#333">Imitation = laughter = the door open.</text>
+  </g>
+
+  <!-- ============== PANEL 11 — SEC 7 DRONE ASCENT ============== -->
+  <g transform="translate(560,500)">
+    <rect x="0" y="0" width="480" height="270" fill="#FFF" stroke="#000" stroke-width="2"/>
+    <line x1="160" y1="0" x2="160" y2="270" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="320" y1="0" x2="320" y2="270" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="0" y1="90" x2="480" y2="90" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="0" y1="180" x2="480" y2="180" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <!-- high vertical drone view -->
+    <rect x="2" y="2" width="476" height="266" fill="#9CA0A8"/>
+    <!-- plateau viewed from above -->
+    <rect x="2" y="2" width="476" height="266" fill="#BAA888"/>
+    <!-- sparse vegetation dots seen from height -->
+    <g fill="#7A6A48" opacity="0.6">
+      <circle cx="80" cy="80" r="2"/><circle cx="120" cy="140" r="1.5"/><circle cx="200" cy="100" r="2"/>
+      <circle cx="280" cy="170" r="1.5"/><circle cx="340" cy="120" r="2"/><circle cx="400" cy="180" r="1.5"/>
+      <circle cx="60" cy="200" r="2"/><circle cx="160" cy="220" r="1.5"/><circle cx="240" cy="240" r="2"/>
+      <circle cx="320" cy="220" r="1.5"/><circle cx="420" cy="240" r="2"/>
+      <circle cx="100" cy="40" r="1.5"/><circle cx="220" cy="50" r="2"/><circle cx="360" cy="40" r="1.5"/>
+    </g>
+    <!-- thin road -->
+    <path d="M0,150 Q200,160 478,140" stroke="#5A4A38" stroke-width="1.5" fill="none"/>
+    <!-- ghost frame (next, smaller — drone climbing) -->
+    <rect x="120" y="80" width="240" height="135" fill="none" stroke="#FFF" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.85"/>
+    <text x="240" y="76" font-size="9" fill="#FFF" text-anchor="middle" opacity="0.9">end-of-move frame</text>
+    <!-- crane up arrow -->
+    <use href="#arrow-craneUp2" x="430" y="40" width="30" height="200"/>
+    <!-- metadata -->
+    <rect x="0" y="270" width="480" height="60" fill="#111"/>
+    <text x="10" y="290" font-size="11" fill="#FFD" font-weight="700">SC 7 · SH 1 · CRANE-UP DRONE · 24mm</text>
+    <text x="10" y="305" font-size="10" fill="#CCC">10 sec slow ascent · ghost frame shows end position</text>
+    <text x="10" y="320" font-size="10" fill="#CCC">MUSIC: cello note returns, fuller · "The difference is us."</text>
+  </g>
+  <g transform="translate(560,830)">
+    <text x="0" y="0" font-size="12" fill="#111" font-weight="700">7.1 Drone ascent over plateau</text>
+    <text x="0" y="16" font-size="11" fill="#333">The plateau widens. The audience is given altitude.</text>
+    <text x="0" y="30" font-size="11" fill="#333">First and only first-person plural: "us."</text>
+  </g>
+
+  <!-- ============== PANEL 12 — SEC 7 FINAL CAMERA-TRAP STILL ============== -->
+  <g transform="translate(1080,500)">
+    <rect x="0" y="0" width="480" height="270" fill="#FFF" stroke="#000" stroke-width="2"/>
+    <line x1="160" y1="0" x2="160" y2="270" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="320" y1="0" x2="320" y2="270" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="0" y1="90" x2="480" y2="90" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <line x1="0" y1="180" x2="480" y2="180" stroke="#999" stroke-dasharray="2 4" stroke-width="0.5"/>
+    <!-- final IR still, cheetah head-on, eyes glowing -->
+    <rect x="2" y="2" width="476" height="266" fill="#080808"/>
+    <rect x="2" y="200" width="476" height="68" fill="#252525"/>
+    <!-- cheetah body, head turned toward lens -->
+    <ellipse cx="240" cy="190" rx="80" ry="22" fill="#3A3A3A"/>
+    <!-- head -->
+    <circle cx="240" cy="155" r="32" fill="#444"/>
+    <!-- ears -->
+    <polygon points="222,128 228,138 215,138" fill="#444"/>
+    <polygon points="258,128 252,138 265,138" fill="#444"/>
+    <!-- glowing eyes — the closing shot -->
+    <circle cx="228" cy="152" r="4" fill="#FFFFC0"/>
+    <circle cx="252" cy="152" r="4" fill="#FFFFC0"/>
+    <circle cx="228" cy="152" r="6" fill="#FFFFC0" opacity="0.4"/>
+    <circle cx="252" cy="152" r="6" fill="#FFFFC0" opacity="0.4"/>
+    <!-- tear-stripes -->
+    <path d="M228,156 L226,170" stroke="#222" stroke-width="1.5"/>
+    <path d="M252,156 L254,170" stroke="#222" stroke-width="1.5"/>
+    <!-- nose -->
+    <path d="M236,168 L244,168 L240,174 Z" fill="#222"/>
+    <!-- IR HUD -->
+    <text x="14" y="22" font-size="10" fill="#5A5A5A" font-family="monospace">CAM 22 · NAYBANDAN · ARCHIVE</text>
+    <rect x="2" y="2" width="476" height="266" fill="none" stroke="#1A1A1A" stroke-width="12" opacity="0.6"/>
+    <!-- final-text overlay marker -->
+    <text x="240" y="240" font-size="13" fill="#FFFFC0" text-anchor="middle" font-style="italic">"Twelve. Still breathing."</text>
+    <!-- metadata -->
+    <rect x="0" y="270" width="480" height="60" fill="#111"/>
+    <text x="10" y="290" font-size="11" fill="#FFD" font-weight="700">SC 7 · SH 3 · CAMERA-TRAP STILL · static CU</text>
+    <text x="10" y="305" font-size="10" fill="#CCC">6 sec hold · then cut to black · end-card follows</text>
+    <text x="10" y="320" font-size="10" fill="#CCC">Bookends Sec 1 eyeshine — the film closes the loop</text>
+  </g>
+  <g transform="translate(1080,830)">
+    <text x="0" y="0" font-size="12" fill="#111" font-weight="700">7.3 Final still — head-on, eyes glowing</text>
+    <text x="0" y="16" font-size="11" fill="#333">The film ends where it began. The animal still here.</text>
+    <text x="0" y="30" font-size="11" fill="#333">End-card "In memory of Pirouz" follows over wind.</text>
+  </g>
+
+  <line x1="40" y1="1060" x2="1560" y2="1060" stroke="#222" stroke-width="0.5"/>
+  <text x="40" y="1080" font-size="10" fill="#666">Daastansaraa / pardeh-negaar · schematic planning storyboard · script-v2 reference · page 2/2</text>
+  <text x="1560" y="1080" font-size="10" fill="#666" text-anchor="end">v1 · 2026-05-18</text>
+</svg>

@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 1754" width="1240" height="1754" font-family="Helvetica, Arial, sans-serif">
+  <title>Persian Cheetah · Storyboard · Page 1 · Sections 1-4 · Key beats</title>
+  <desc>Daastansaraa / pardeh-negaar. 6 panels, 16:9 frames, schematic.</desc>
+
+  <defs>
+    <!-- 16:9 frame -->
+    <symbol id="frame" viewBox="0 0 1600 900">
+      <rect x="0" y="0" width="1600" height="900" fill="#f5f1ea" stroke="#222" stroke-width="6"/>
+      <!-- rule-of-thirds (light) -->
+      <line x1="533" y1="0" x2="533" y2="900" stroke="#bbb" stroke-width="1" stroke-dasharray="6 6"/>
+      <line x1="1067" y1="0" x2="1067" y2="900" stroke="#bbb" stroke-width="1" stroke-dasharray="6 6"/>
+      <line x1="0" y1="300" x2="1600" y2="300" stroke="#bbb" stroke-width="1" stroke-dasharray="6 6"/>
+      <line x1="0" y1="600" x2="1600" y2="600" stroke="#bbb" stroke-width="1" stroke-dasharray="6 6"/>
+    </symbol>
+    <!-- mountain ridge -->
+    <symbol id="ridge" viewBox="0 0 1600 200">
+      <polyline points="0,150 200,80 380,120 560,40 760,90 940,30 1140,80 1320,50 1500,100 1600,80" fill="none" stroke="#3a3a3a" stroke-width="3"/>
+      <polyline points="0,200 1600,200" fill="none" stroke="#3a3a3a" stroke-width="1"/>
+    </symbol>
+    <!-- cheetah silhouette running -->
+    <symbol id="cheetahRun" viewBox="0 0 200 100">
+      <path d="M10,70 Q40,40 80,55 L100,55 Q140,40 180,70 L175,75 Q150,70 130,75 L100,75 Q90,80 80,75 L40,75 Q25,80 15,75 Z" fill="#222"/>
+      <line x1="100" y1="55" x2="115" y2="38" stroke="#222" stroke-width="3"/>
+      <!-- legs splayed -->
+      <line x1="40" y1="75" x2="15" y2="95" stroke="#222" stroke-width="3"/>
+      <line x1="55" y1="75" x2="80" y2="95" stroke="#222" stroke-width="3"/>
+      <line x1="140" y1="75" x2="125" y2="95" stroke="#222" stroke-width="3"/>
+      <line x1="160" y1="75" x2="180" y2="95" stroke="#222" stroke-width="3"/>
+      <line x1="180" y1="68" x2="195" y2="50" stroke="#222" stroke-width="2"/>
+    </symbol>
+    <!-- cheetah standing -->
+    <symbol id="cheetahStand" viewBox="0 0 160 100">
+      <ellipse cx="80" cy="55" rx="50" ry="14" fill="#222"/>
+      <ellipse cx="125" cy="40" rx="14" ry="12" fill="#222"/>
+      <line x1="55" y1="65" x2="50" y2="92" stroke="#222" stroke-width="4"/>
+      <line x1="70" y1="65" x2="68" y2="92" stroke="#222" stroke-width="4"/>
+      <line x1="100" y1="65" x2="100" y2="92" stroke="#222" stroke-width="4"/>
+      <line x1="115" y1="62" x2="118" y2="92" stroke="#222" stroke-width="4"/>
+      <line x1="30" y1="55" x2="10" y2="65" stroke="#222" stroke-width="3"/>
+      <line x1="135" y1="36" x2="142" y2="28" stroke="#222" stroke-width="2"/>
+    </symbol>
+    <!-- cheetah pacing (captive) -->
+    <symbol id="cheetahPace" viewBox="0 0 160 100">
+      <ellipse cx="80" cy="55" rx="50" ry="14" fill="#333"/>
+      <ellipse cx="125" cy="42" rx="13" ry="11" fill="#333"/>
+      <line x1="55" y1="65" x2="55" y2="92" stroke="#333" stroke-width="4"/>
+      <line x1="70" y1="65" x2="70" y2="92" stroke="#333" stroke-width="4"/>
+      <line x1="100" y1="65" x2="100" y2="92" stroke="#333" stroke-width="4"/>
+      <line x1="115" y1="62" x2="115" y2="92" stroke="#333" stroke-width="4"/>
+      <line x1="30" y1="55" x2="10" y2="60" stroke="#333" stroke-width="3"/>
+    </symbol>
+    <!-- Artemisia tuft -->
+    <symbol id="tuft" viewBox="0 0 40 30">
+      <line x1="20" y1="30" x2="20" y2="14" stroke="#666" stroke-width="2"/>
+      <line x1="20" y1="30" x2="10" y2="18" stroke="#666" stroke-width="2"/>
+      <line x1="20" y1="30" x2="30" y2="18" stroke="#666" stroke-width="2"/>
+      <line x1="20" y1="30" x2="14" y2="10" stroke="#666" stroke-width="2"/>
+      <line x1="20" y1="30" x2="26" y2="10" stroke="#666" stroke-width="2"/>
+    </symbol>
+    <!-- light arrow -->
+    <symbol id="sunArrow" viewBox="0 0 80 80">
+      <circle cx="20" cy="20" r="10" fill="none" stroke="#d39e00" stroke-width="2"/>
+      <line x1="28" y1="28" x2="60" y2="60" stroke="#d39e00" stroke-width="3" marker-end="url(#arrHead)"/>
+    </symbol>
+    <!-- arrow head -->
+    <marker id="arrHead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#222"/>
+    </marker>
+    <marker id="arrSun" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d39e00"/>
+    </marker>
+    <!-- camera dolly forward indicator -->
+    <symbol id="moveDollyIn" viewBox="0 0 120 40">
+      <rect x="2" y="10" width="20" height="20" fill="none" stroke="#0a4" stroke-width="2"/>
+      <line x1="22" y1="20" x2="115" y2="20" stroke="#0a4" stroke-width="3" marker-end="url(#arrGreen)"/>
+      <text x="55" y="9" font-size="11" fill="#0a4">DOLLY IN</text>
+    </symbol>
+    <marker id="arrGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0a4"/>
+    </marker>
+    <symbol id="moveStatic" viewBox="0 0 120 40">
+      <rect x="40" y="10" width="40" height="20" fill="none" stroke="#a30" stroke-width="2"/>
+      <text x="48" y="25" font-size="11" fill="#a30">STATIC</text>
+    </symbol>
+    <symbol id="moveDrone" viewBox="0 0 120 40">
+      <rect x="2" y="10" width="20" height="20" fill="none" stroke="#06a" stroke-width="2"/>
+      <line x1="22" y1="20" x2="115" y2="20" stroke="#06a" stroke-width="3" stroke-dasharray="5 4" marker-end="url(#arrBlue)"/>
+      <text x="45" y="9" font-size="11" fill="#06a">DRONE FWD</text>
+    </symbol>
+    <marker id="arrBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#06a"/>
+    </marker>
+    <symbol id="moveKB" viewBox="0 0 120 40">
+      <rect x="2" y="10" width="20" height="20" fill="none" stroke="#705" stroke-width="2"/>
+      <rect x="35" y="13" width="14" height="14" fill="none" stroke="#705" stroke-width="2"/>
+      <line x1="22" y1="20" x2="115" y2="20" stroke="#705" stroke-width="2" marker-end="url(#arrPur)"/>
+      <text x="58" y="9" font-size="11" fill="#705">KEN BURNS</text>
+    </symbol>
+    <marker id="arrPur" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#705"/>
+    </marker>
+
+    <!-- title-card style -->
+    <symbol id="titleCard" viewBox="0 0 1600 900">
+      <rect x="0" y="0" width="1600" height="900" fill="#000"/>
+    </symbol>
+  </defs>
+
+  <!-- Page header -->
+  <rect x="0" y="0" width="1240" height="80" fill="#1a1a1a"/>
+  <text x="40" y="38" fill="#f0e6cf" font-size="22" font-weight="bold">PERSIAN CHEETAH · یوز ایرانی</text>
+  <text x="40" y="62" fill="#bba37a" font-size="14">Storyboard · Page 1 of 2 · Sections 1–4 (Hook · Difference · Where · What Went Wrong) · 16:9 · 9:30 documentary essay</text>
+  <text x="1200" y="62" fill="#bba37a" font-size="14" text-anchor="end">board-01.svg · 6 panels</text>
+
+  <!-- Panel layout: 2 columns x 3 rows, each panel: 580 x 520 -->
+  <!-- ===== PANEL 1.1 ===== -->
+  <g transform="translate(40, 110)">
+    <rect x="-6" y="-6" width="572" height="500" fill="#fff" stroke="#888" stroke-width="1"/>
+    <!-- frame -->
+    <svg x="0" y="0" width="560" height="315" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+      <use href="#frame"/>
+      <!-- gradient sky -->
+      <rect x="6" y="6" width="1588" height="450" fill="#a9b5c4"/>
+      <rect x="6" y="456" width="1588" height="440" fill="#e7d8be"/>
+      <!-- ridge -->
+      <use href="#ridge" x="6" y="380"/>
+      <!-- mid-ground tufts -->
+      <use href="#tuft" x="180" y="660" width="40" height="30"/>
+      <use href="#tuft" x="480" y="700" width="50" height="40"/>
+      <use href="#tuft" x="820" y="680" width="40" height="30"/>
+      <use href="#tuft" x="1180" y="710" width="60" height="40"/>
+      <!-- light arrow (back-right, blue dawn glow) -->
+      <use href="#sunArrow" x="1380" y="80" width="120" height="120"/>
+      <text x="1300" y="80" font-size="22" fill="#d39e00">blue dawn</text>
+      <!-- drone path -->
+      <line x1="80" y1="800" x2="1400" y2="800" stroke="#06a" stroke-width="3" stroke-dasharray="14 10" marker-end="url(#arrBlue)"/>
+      <text x="640" y="848" font-size="22" fill="#06a">drone fwd 2 m/s</text>
+    </svg>
+    <!-- caption -->
+    <text x="0" y="335" font-size="13" font-weight="bold" fill="#111">1.1 · Cold-open · Iranian plateau (blue dawn)</text>
+    <text x="0" y="355" font-size="11" fill="#333">Scene 03 · 0:18–0:30 · 12 sec · NO CAT IN FRAME</text>
+    <!-- metadata bar -->
+    <g font-size="10" fill="#222" transform="translate(0,372)">
+      <rect x="0" y="0" width="560" height="98" fill="#fafafa" stroke="#ccc"/>
+      <text x="8" y="14">SIZE  Wide aerial</text>
+      <text x="8" y="30">LENS  24mm · deep DoF</text>
+      <text x="8" y="46">HEIGHT  drone ~ 8 m AGL</text>
+      <text x="8" y="62">ANGLE  shallow downward, ~5°</text>
+      <text x="8" y="78">MOVE  drone fwd, slow, parallel to ground</text>
+      <text x="8" y="94">DURATION  12s</text>
+      <text x="280" y="14">LIGHT  pre-sunrise blue, back-right</text>
+      <text x="280" y="30">PALETTE  bone-white · dust-blue · charcoal basalt</text>
+      <text x="280" y="46">TEXTURE  gravel, Artemisia tussocks, basalt</text>
+      <text x="280" y="62">SOUND  wind only · low sustained string</text>
+      <text x="280" y="78">DIALOGUE  —</text>
+      <text x="280" y="94">CONTINUITY  next: portrait on rock (still)</text>
+    </g>
+  </g>
+
+  <!-- ===== PANEL 1.2 ===== -->
+  <g transform="translate(632, 110)">
+    <rect x="-6" y="-6" width="572" height="500" fill="#fff" stroke="#888" stroke-width="1"/>
+    <svg x="0" y="0" width="560" height="315" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+      <use href="#frame"/>
+      <rect x="6" y="6" width="1588" height="600" fill="#d5c4a3"/>
+      <rect x="6" y="606" width="1588" height="290" fill="#8b6f4e"/>
+      <use href="#ridge" x="6" y="500"/>
+      <!-- cheetah on rock, thirds intersection right -->
+      <rect x="980" y="600" width="240" height="50" fill="#4a3826"/>
+      <use href="#cheetahStand" x="1010" y="500" width="200" height="120"/>
+      <!-- light arrow camera-left, hard white -->
+      <use href="#sunArrow" x="60" y="80" width="120" height="120"/>
+      <text x="170" y="80" font-size="22" fill="#d39e00">hard noon light · camera-L</text>
+    </svg>
+    <text x="0" y="335" font-size="13" font-weight="bold" fill="#111">1.2 · Asiatic cheetah portrait on rock</text>
+    <text x="0" y="355" font-size="11" fill="#333">Scene 04 · 0:30–0:42 · 12 sec · STILL PHOTOGRAPH</text>
+    <g font-size="10" fill="#222" transform="translate(0,372)">
+      <rect x="0" y="0" width="560" height="98" fill="#fafafa" stroke="#ccc"/>
+      <text x="8" y="14">SIZE  Medium-wide</text>
+      <text x="8" y="30">LENS  85mm equiv (still)</text>
+      <text x="8" y="46">HEIGHT  eye-level</text>
+      <text x="8" y="62">ANGLE  level, slight rule-of-thirds right</text>
+      <text x="8" y="78">MOVE  STATIC (held still)</text>
+      <text x="8" y="94">DURATION  12s</text>
+      <text x="280" y="14">LIGHT  hard white midday, raking L</text>
+      <text x="280" y="30">PALETTE  sand · pale ochre · cinnamon coat accent</text>
+      <text x="280" y="46">TEXTURE  basalt, tear-stripes, pale fur</text>
+      <text x="280" y="62">SOUND  wind, low string sustained</text>
+      <text x="280" y="78">DIALOGUE  V.O. "Imagine a cheetah."</text>
+      <text x="280" y="94">MUST-NOT  acacia, savanna, orange coat</text>
+    </g>
+  </g>
+
+  <!-- ===== PANEL 2.1 ===== -->
+  <g transform="translate(40, 638)">
+    <rect x="-6" y="-6" width="572" height="500" fill="#fff" stroke="#888" stroke-width="1"/>
+    <svg x="0" y="0" width="560" height="315" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+      <use href="#frame"/>
+      <!-- left half: African (warm gold) -->
+      <rect x="6" y="6" width="794" height="888" fill="#d9b34a"/>
+      <use href="#cheetahRun" x="100" y="500" width="500" height="240"/>
+      <!-- acacia stub left -->
+      <line x1="120" y1="200" x2="120" y2="500" stroke="#5a3a18" stroke-width="6"/>
+      <ellipse cx="120" cy="180" rx="80" ry="40" fill="#6b8e23"/>
+      <text x="80" y="80" font-size="28" fill="#fff" font-weight="bold">AFRICA</text>
+      <!-- divider -->
+      <line x1="800" y1="6" x2="800" y2="894" stroke="#000" stroke-width="4"/>
+      <!-- right half: Persian (cool hard white) -->
+      <rect x="800" y="6" width="794" height="888" fill="#e6dcc8"/>
+      <use href="#ridge" x="800" y="540"/>
+      <use href="#cheetahRun" x="900" y="540" width="450" height="220"/>
+      <use href="#tuft" x="900" y="800" width="50" height="40"/>
+      <use href="#tuft" x="1100" y="780" width="40" height="30"/>
+      <use href="#tuft" x="1300" y="810" width="50" height="40"/>
+      <text x="870" y="80" font-size="28" fill="#222" font-weight="bold">IRAN</text>
+    </svg>
+    <text x="0" y="335" font-size="13" font-weight="bold" fill="#111">2.1 · Split-screen comparison · African vs. Persian</text>
+    <text x="0" y="355" font-size="11" fill="#333">Scene 08 · 1:00–1:18 · 18 sec · "We will not use it again."</text>
+    <g font-size="10" fill="#222" transform="translate(0,372)">
+      <rect x="0" y="0" width="560" height="98" fill="#fafafa" stroke="#ccc"/>
+      <text x="8" y="14">SIZE  Medium, matched both halves</text>
+      <text x="8" y="30">LENS  50mm equiv (each panel)</text>
+      <text x="8" y="46">HEIGHT  eye-level</text>
+      <text x="8" y="62">ANGLE  level, symmetrical</text>
+      <text x="8" y="78">MOVE  STATIC · cut to right-panel-only at 1:14</text>
+      <text x="8" y="94">DURATION  18s</text>
+      <text x="280" y="14">LIGHT  L=warm gold soft · R=cool hard white</text>
+      <text x="280" y="30">PALETTE  L:gold/green · R:bone/ochre/charcoal</text>
+      <text x="280" y="46">TEXTURE  L:tall grass,acacia · R:gravel,tuft,ridge</text>
+      <text x="280" y="62">SOUND  ambient only, no score</text>
+      <text x="280" y="78">DIALOGUE  V.O. taxonomy + "Yuz"</text>
+      <text x="280" y="94">MUST-NOT  any African flora in R panel</text>
+    </g>
+  </g>
+
+  <!-- ===== PANEL 3.1 ===== -->
+  <g transform="translate(632, 638)">
+    <rect x="-6" y="-6" width="572" height="500" fill="#fff" stroke="#888" stroke-width="1"/>
+    <svg x="0" y="0" width="560" height="315" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+      <use href="#frame"/>
+      <rect x="6" y="6" width="1588" height="500" fill="#cdb88f"/>
+      <rect x="6" y="506" width="1588" height="390" fill="#a98c5b"/>
+      <use href="#ridge" x="6" y="420"/>
+      <!-- tuft pattern receding -->
+      <use href="#tuft" x="60" y="800" width="80" height="60"/>
+      <use href="#tuft" x="280" y="780" width="60" height="50"/>
+      <use href="#tuft" x="540" y="760" width="50" height="40"/>
+      <use href="#tuft" x="820" y="740" width="40" height="30"/>
+      <use href="#tuft" x="1080" y="720" width="35" height="25"/>
+      <use href="#tuft" x="1340" y="700" width="30" height="20"/>
+      <!-- low golden sun -->
+      <use href="#sunArrow" x="80" y="80" width="120" height="120"/>
+      <text x="200" y="80" font-size="22" fill="#d39e00">low sun · camera-L</text>
+      <!-- drone fwd glide -->
+      <line x1="80" y1="850" x2="1400" y2="850" stroke="#06a" stroke-width="3" stroke-dasharray="14 10" marker-end="url(#arrBlue)"/>
+      <text x="640" y="880" font-size="22" fill="#06a">drone glide ~2 m/s</text>
+      <!-- lower-third label -->
+      <rect x="40" y="780" width="500" height="50" fill="#000" opacity="0.5"/>
+      <text x="60" y="815" font-size="22" fill="#fff">Touran Biosphere Reserve · Semnan</text>
+    </svg>
+    <text x="0" y="335" font-size="13" font-weight="bold" fill="#111">3.1 · Touran wide drone · sparse plateau</text>
+    <text x="0" y="355" font-size="11" fill="#333">Scene 12 · 1:50–2:05 · 15 sec · piano motif enters</text>
+    <g font-size="10" fill="#222" transform="translate(0,372)">
+      <rect x="0" y="0" width="560" height="98" fill="#fafafa" stroke="#ccc"/>
+      <text x="8" y="14">SIZE  Wide</text>
+      <text x="8" y="30">LENS  28mm drone · deep DoF</text>
+      <text x="8" y="46">HEIGHT  drone ~ 10 m AGL</text>
+      <text x="8" y="62">ANGLE  slight downward ~10°</text>
+      <text x="8" y="78">MOVE  drone fwd glide ~2 m/s, parallel</text>
+      <text x="8" y="94">DURATION  15s</text>
+      <text x="280" y="14">LIGHT  low golden sun camera-L, long shadows R</text>
+      <text x="280" y="30">PALETTE  ochre · terracotta · dust-blue ridge</text>
+      <text x="280" y="46">TEXTURE  gravel, Artemisia receding to ridge</text>
+      <text x="280" y="62">SOUND  piano motif (single notes) enters · wind</text>
+      <text x="280" y="78">DIALOGUE  V.O. "She lives in four places. Touran."</text>
+      <text x="280" y="94">MUST-NOT  acacia, baobab, jungle, green grass</text>
+    </g>
+  </g>
+
+  <!-- ===== PANEL 4.1 ===== -->
+  <g transform="translate(40, 1166)">
+    <rect x="-6" y="-6" width="572" height="500" fill="#fff" stroke="#888" stroke-width="1"/>
+    <svg x="0" y="0" width="560" height="315" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+      <use href="#frame"/>
+      <!-- Persian miniature framing: gold leaf border, lapis sky -->
+      <rect x="6" y="6" width="1588" height="888" fill="#e9d27a"/>
+      <rect x="60" y="60" width="1480" height="780" fill="#1d4283"/>
+      <rect x="60" y="540" width="1480" height="300" fill="#c2a25a"/>
+      <!-- stylised horse + rider + yuz -->
+      <ellipse cx="700" cy="580" rx="180" ry="50" fill="#3a2618"/>
+      <line x1="600" y1="580" x2="580" y2="700" stroke="#3a2618" stroke-width="10"/>
+      <line x1="680" y1="580" x2="680" y2="710" stroke="#3a2618" stroke-width="10"/>
+      <line x1="760" y1="580" x2="770" y2="710" stroke="#3a2618" stroke-width="10"/>
+      <line x1="820" y1="580" x2="840" y2="700" stroke="#3a2618" stroke-width="10"/>
+      <!-- rider -->
+      <circle cx="650" cy="490" r="40" fill="#b73a3a"/>
+      <rect x="610" y="510" width="80" height="80" fill="#b73a3a"/>
+      <!-- yuz behind -->
+      <use href="#cheetahStand" x="820" y="510" width="200" height="100"/>
+      <!-- KB push -->
+      <use href="#moveKB" x="1320" y="800" width="240" height="80"/>
+    </svg>
+    <text x="0" y="335" font-size="13" font-weight="bold" fill="#111">4.1 · Sassanid/Safavid royal-yuz miniature</text>
+    <text x="0" y="355" font-size="11" fill="#333">Scene 17 · 3:00–3:18 · 18 sec · public-domain manuscript scan</text>
+    <g font-size="10" fill="#222" transform="translate(0,372)">
+      <rect x="0" y="0" width="560" height="98" fill="#fafafa" stroke="#ccc"/>
+      <text x="8" y="14">SIZE  Full-frame artwork</text>
+      <text x="8" y="30">LENS  archival</text>
+      <text x="8" y="46">HEIGHT  flat</text>
+      <text x="8" y="62">ANGLE  flat (artwork plane)</text>
+      <text x="8" y="78">MOVE  Ken Burns slow push on cheetah figure</text>
+      <text x="8" y="94">DURATION  18s</text>
+      <text x="280" y="14">LIGHT  gallery-flat (artwork)</text>
+      <text x="280" y="30">PALETTE  lapis blue · gold leaf · vermilion</text>
+      <text x="280" y="46">TEXTURE  manuscript paper grain, gold</text>
+      <text x="280" y="62">SOUND  wind under, no score</text>
+      <text x="280" y="78">DIALOGUE  V.O. "kings rode beside her... Yuz."</text>
+      <text x="280" y="94">MUST-HAVE  trained yuz visible behind/with rider</text>
+    </g>
+  </g>
+
+  <!-- ===== PANEL 4.6 ===== -->
+  <g transform="translate(632, 1166)">
+    <rect x="-6" y="-6" width="572" height="500" fill="#fff" stroke="#888" stroke-width="1"/>
+    <svg x="0" y="0" width="560" height="315" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+      <use href="#frame"/>
+      <rect x="6" y="6" width="1588" height="600" fill="#c9b48d"/>
+      <rect x="6" y="606" width="1588" height="290" fill="#3a3a3a"/>
+      <!-- road verge -->
+      <rect x="6" y="606" width="1588" height="40" fill="#5a4a30"/>
+      <!-- yellow road line -->
+      <line x1="6" y1="700" x2="1594" y2="700" stroke="#e6c14a" stroke-width="6" stroke-dasharray="40 30"/>
+      <!-- horizon road -->
+      <polyline points="400,896 770,640 830,640 1200,896" fill="#5a5a5a" stroke="#000"/>
+      <!-- the body (wide, no detail) -->
+      <ellipse cx="500" cy="650" rx="120" ry="22" fill="#8b6f4e"/>
+      <line x1="380" y1="650" x2="620" y2="650" stroke="#222" stroke-width="2"/>
+      <use href="#ridge" x="6" y="560"/>
+      <!-- static frame -->
+      <use href="#moveStatic" x="20" y="780" width="160" height="60"/>
+    </svg>
+    <text x="0" y="335" font-size="13" font-weight="bold" fill="#111">4.6 · Yuz carcass at roadside · the wound</text>
+    <text x="0" y="355" font-size="11" fill="#333">Scene 22 · 4:36–4:42 · 6 sec held · score drops out</text>
+    <g font-size="10" fill="#222" transform="translate(0,372)">
+      <rect x="0" y="0" width="560" height="98" fill="#fafafa" stroke="#ccc"/>
+      <text x="8" y="14">SIZE  Wide</text>
+      <text x="8" y="30">LENS  35mm · deep DoF</text>
+      <text x="8" y="46">HEIGHT  eye-level, slight overhead ~15°</text>
+      <text x="8" y="62">ANGLE  body in left third, road to horizon</text>
+      <text x="8" y="78">MOVE  STATIC · still photograph</text>
+      <text x="8" y="94">DURATION  6s</text>
+      <text x="280" y="14">LIGHT  hard late afternoon, motivated</text>
+      <text x="280" y="30">PALETTE  asphalt black · sand · yellow line</text>
+      <text x="280" y="46">TEXTURE  asphalt grain, gravel verge</text>
+      <text x="280" y="62">SOUND  silence, wind, distant engine</text>
+      <text x="280" y="78">DIALOGUE  none</text>
+      <text x="280" y="94">RESTRAINT  wide only · no blood close-up</text>
+    </g>
+  </g>
+
+  <!-- Footer -->
+  <rect x="0" y="1700" width="1240" height="54" fill="#1a1a1a"/>
+  <text x="40" y="1730" fill="#bba37a" font-size="12">Master rule: every section opens on landscape, closes on a face. · Camera-trap is sacred (used as-shot). · 200mm+ used exactly twice (Sec 4 highway, Sec 7 final).</text>
+  <text x="40" y="1746" fill="#bba37a" font-size="11">Light arrows: orange = motivated sun · Move arrows: green = dolly · blue = drone · purple = Ken Burns · red = static</text>
+</svg>

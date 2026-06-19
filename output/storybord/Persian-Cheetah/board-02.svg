@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 1754" width="1240" height="1754" font-family="Helvetica, Arial, sans-serif">
+  <title>Persian Cheetah · Storyboard · Page 2 · Sections 5-7 · Key beats</title>
+  <desc>Daastansaraa / pardeh-negaar. 6 panels, 16:9 frames, schematic.</desc>
+
+  <defs>
+    <symbol id="frame" viewBox="0 0 1600 900">
+      <rect x="0" y="0" width="1600" height="900" fill="#f5f1ea" stroke="#222" stroke-width="6"/>
+      <line x1="533" y1="0" x2="533" y2="900" stroke="#bbb" stroke-width="1" stroke-dasharray="6 6"/>
+      <line x1="1067" y1="0" x2="1067" y2="900" stroke="#bbb" stroke-width="1" stroke-dasharray="6 6"/>
+      <line x1="0" y1="300" x2="1600" y2="300" stroke="#bbb" stroke-width="1" stroke-dasharray="6 6"/>
+      <line x1="0" y1="600" x2="1600" y2="600" stroke="#bbb" stroke-width="1" stroke-dasharray="6 6"/>
+    </symbol>
+    <symbol id="ridge" viewBox="0 0 1600 200">
+      <polyline points="0,150 200,80 380,120 560,40 760,90 940,30 1140,80 1320,50 1500,100 1600,80" fill="none" stroke="#3a3a3a" stroke-width="3"/>
+    </symbol>
+    <symbol id="cheetahPace" viewBox="0 0 160 100">
+      <ellipse cx="80" cy="55" rx="50" ry="14" fill="#444"/>
+      <ellipse cx="125" cy="42" rx="13" ry="11" fill="#444"/>
+      <line x1="55" y1="65" x2="55" y2="92" stroke="#444" stroke-width="4"/>
+      <line x1="70" y1="65" x2="70" y2="92" stroke="#444" stroke-width="4"/>
+      <line x1="100" y1="65" x2="100" y2="92" stroke="#444" stroke-width="4"/>
+      <line x1="115" y1="62" x2="115" y2="92" stroke="#444" stroke-width="4"/>
+      <line x1="30" y1="55" x2="10" y2="60" stroke="#444" stroke-width="3"/>
+    </symbol>
+    <symbol id="cheetahCub" viewBox="0 0 100 80">
+      <ellipse cx="50" cy="45" rx="32" ry="12" fill="#444"/>
+      <circle cx="78" cy="35" r="11" fill="#444"/>
+      <line x1="34" y1="55" x2="34" y2="72" stroke="#444" stroke-width="3"/>
+      <line x1="44" y1="55" x2="44" y2="72" stroke="#444" stroke-width="3"/>
+      <line x1="60" y1="55" x2="60" y2="72" stroke="#444" stroke-width="3"/>
+      <line x1="70" y1="55" x2="70" y2="72" stroke="#444" stroke-width="3"/>
+    </symbol>
+    <symbol id="cheetahAdult" viewBox="0 0 200 100">
+      <ellipse cx="100" cy="55" rx="65" ry="16" fill="#333"/>
+      <ellipse cx="160" cy="38" rx="16" ry="13" fill="#333"/>
+      <line x1="65" y1="68" x2="60" y2="95" stroke="#333" stroke-width="4"/>
+      <line x1="85" y1="68" x2="82" y2="95" stroke="#333" stroke-width="4"/>
+      <line x1="125" y1="68" x2="125" y2="95" stroke="#333" stroke-width="4"/>
+      <line x1="145" y1="64" x2="148" y2="95" stroke="#333" stroke-width="4"/>
+      <line x1="35" y1="55" x2="10" y2="65" stroke="#333" stroke-width="3"/>
+    </symbol>
+    <!-- mesh enclosure -->
+    <pattern id="mesh" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M0,0 L40,40 M40,0 L0,40" stroke="#222" stroke-width="2" fill="none"/>
+    </pattern>
+    <!-- figure standing (Mehrdad) -->
+    <symbol id="figStand" viewBox="0 0 100 200">
+      <circle cx="50" cy="30" r="20" fill="#333"/>
+      <line x1="50" y1="50" x2="50" y2="130" stroke="#333" stroke-width="6"/>
+      <line x1="50" y1="70" x2="20" y2="110" stroke="#333" stroke-width="5"/>
+      <line x1="50" y1="70" x2="80" y2="110" stroke="#333" stroke-width="5"/>
+      <line x1="50" y1="130" x2="35" y2="195" stroke="#333" stroke-width="5"/>
+      <line x1="50" y1="130" x2="65" y2="195" stroke="#333" stroke-width="5"/>
+    </symbol>
+    <!-- window -->
+    <symbol id="window" viewBox="0 0 100 140">
+      <rect x="5" y="5" width="90" height="130" fill="#e8efff" stroke="#666" stroke-width="3"/>
+      <line x1="50" y1="5" x2="50" y2="135" stroke="#666" stroke-width="2"/>
+      <line x1="5" y1="70" x2="95" y2="70" stroke="#666" stroke-width="2"/>
+    </symbol>
+    <!-- sun arrow -->
+    <symbol id="sunArrow" viewBox="0 0 80 80">
+      <circle cx="20" cy="20" r="10" fill="none" stroke="#d39e00" stroke-width="2"/>
+      <line x1="28" y1="28" x2="60" y2="60" stroke="#d39e00" stroke-width="3" marker-end="url(#arrSun)"/>
+    </symbol>
+    <marker id="arrSun" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d39e00"/>
+    </marker>
+    <marker id="arrHead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#222"/>
+    </marker>
+    <marker id="arrGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0a4"/>
+    </marker>
+    <marker id="arrBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#06a"/>
+    </marker>
+    <marker id="arrPur" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#705"/>
+    </marker>
+    <symbol id="moveStatic" viewBox="0 0 120 40">
+      <rect x="40" y="10" width="40" height="20" fill="none" stroke="#a30" stroke-width="2"/>
+      <text x="48" y="25" font-size="11" fill="#a30">STATIC</text>
+    </symbol>
+    <symbol id="moveKB" viewBox="0 0 120 40">
+      <rect x="2" y="10" width="20" height="20" fill="none" stroke="#705" stroke-width="2"/>
+      <rect x="35" y="13" width="14" height="14" fill="none" stroke="#705" stroke-width="2"/>
+      <line x1="22" y1="20" x2="115" y2="20" stroke="#705" stroke-width="2" marker-end="url(#arrPur)"/>
+      <text x="58" y="9" font-size="11" fill="#705">KEN BURNS</text>
+    </symbol>
+  </defs>
+
+  <!-- Page header -->
+  <rect x="0" y="0" width="1240" height="80" fill="#1a1a1a"/>
+  <text x="40" y="38" fill="#f0e6cf" font-size="22" font-weight="bold">PERSIAN CHEETAH · یوز ایرانی</text>
+  <text x="40" y="62" fill="#bba37a" font-size="14">Storyboard · Page 2 of 2 · Sections 5–7 (The Named · Conservation · Outro) · 16:9 · 9:30 documentary essay</text>
+  <text x="1200" y="62" fill="#bba37a" font-size="14" text-anchor="end">board-02.svg · 6 panels</text>
+
+  <!-- ===== PANEL 5.1 ===== -->
+  <g transform="translate(40, 110)">
+    <rect x="-6" y="-6" width="572" height="500" fill="#fff" stroke="#888" stroke-width="1"/>
+    <svg x="0" y="0" width="560" height="315" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+      <use href="#frame"/>
+      <rect x="6" y="6" width="1588" height="888" fill="#7a7466"/>
+      <!-- mesh -->
+      <rect x="6" y="6" width="1588" height="888" fill="url(#mesh)" opacity="0.4"/>
+      <!-- pacing rectangle ghost arrow -->
+      <polyline points="200,650 1400,650 1400,720 200,720 200,650" fill="none" stroke="#0a4" stroke-width="3" stroke-dasharray="14 10" marker-end="url(#arrGreen)"/>
+      <text x="600" y="800" font-size="22" fill="#0a4">pacing rectangle · 8 steps · turn</text>
+      <!-- cheetah pacing -->
+      <use href="#cheetahPace" x="700" y="600" width="240" height="150"/>
+      <!-- harsh top light -->
+      <use href="#sunArrow" x="700" y="50" width="120" height="120"/>
+      <text x="830" y="80" font-size="22" fill="#d39e00">harsh top · enclosure roof</text>
+    </svg>
+    <text x="0" y="335" font-size="13" font-weight="bold" fill="#111">5.1 · Kooshki pacing the enclosure</text>
+    <text x="0" y="355" font-size="11" fill="#333">Scene 24 · 5:00–5:12 · 12 sec · archival · then held still</text>
+    <g font-size="10" fill="#222" transform="translate(0,372)">
+      <rect x="0" y="0" width="560" height="98" fill="#fafafa" stroke="#ccc"/>
+      <text x="8" y="14">SIZE  Medium</text>
+      <text x="8" y="30">LENS  50mm equiv (archival)</text>
+      <text x="8" y="46">HEIGHT  eye-level behind mesh</text>
+      <text x="8" y="62">ANGLE  level, mesh in FG out-of-focus</text>
+      <text x="8" y="78">MOVE  STATIC archival</text>
+      <text x="8" y="94">DURATION  12s (4 mov + 3 hold + 5 buffer)</text>
+      <text x="280" y="14">LIGHT  archival yellow-grey, harsh top</text>
+      <text x="280" y="30">PALETTE  grey concrete · faded cinnamon · charcoal</text>
+      <text x="280" y="46">TEXTURE  mesh, concrete, faded fur</text>
+      <text x="280" y="62">SOUND  SILENCE (no music for Kooshki)</text>
+      <text x="280" y="78">DIALOGUE  V.O. "Kooshki... kidney failure."</text>
+      <text x="280" y="94">CONTINUITY  pacing = the cat's signature</text>
+    </g>
+  </g>
+
+  <!-- ===== PANEL 5.5 ===== -->
+  <g transform="translate(632, 110)">
+    <rect x="-6" y="-6" width="572" height="500" fill="#fff" stroke="#888" stroke-width="1"/>
+    <svg x="0" y="0" width="560" height="315" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+      <use href="#frame"/>
+      <rect x="6" y="6" width="1588" height="888" fill="#b8a07a"/>
+      <!-- 4-up grid of Pirouz at age stages, with KB push on the third -->
+      <rect x="60" y="60" width="380" height="280" fill="#f0e6cf" stroke="#444"/>
+      <text x="240" y="60" font-size="22" fill="#333" text-anchor="middle">4 wk</text>
+      <use href="#cheetahCub" x="180" y="160" width="140" height="100"/>
+      <rect x="500" y="60" width="380" height="280" fill="#f0e6cf" stroke="#444"/>
+      <text x="690" y="60" font-size="22" fill="#333" text-anchor="middle">3 mo</text>
+      <use href="#cheetahCub" x="620" y="150" width="160" height="120"/>
+      <!-- highlighted feather-toy frame -->
+      <rect x="940" y="60" width="380" height="280" fill="#fff" stroke="#a30" stroke-width="6"/>
+      <text x="1130" y="60" font-size="22" fill="#a30" text-anchor="middle">6 mo · feather toy ★</text>
+      <use href="#cheetahCub" x="1060" y="140" width="180" height="140"/>
+      <line x1="1240" y1="170" x2="1300" y2="120" stroke="#a30" stroke-width="3"/>
+      <circle cx="1300" cy="120" r="10" fill="#a30"/>
+      <rect x="280" y="450" width="380" height="280" fill="#f0e6cf" stroke="#444"/>
+      <text x="470" y="450" font-size="22" fill="#333" text-anchor="middle">9 mo</text>
+      <use href="#cheetahAdult" x="320" y="540" width="280" height="160"/>
+      <!-- KB push indicator on feather-toy -->
+      <use href="#moveKB" x="940" y="780" width="240" height="80"/>
+    </svg>
+    <text x="0" y="335" font-size="13" font-weight="bold" fill="#111">5.5 · Pirouz · age montage</text>
+    <text x="0" y="355" font-size="11" fill="#333">Scene 29 · 6:18–6:30 · 12 sec · cello note prepared</text>
+    <g font-size="10" fill="#222" transform="translate(0,372)">
+      <rect x="0" y="0" width="560" height="98" fill="#fafafa" stroke="#ccc"/>
+      <text x="8" y="14">SIZE  Photo montage; CU on 6-mo frame</text>
+      <text x="8" y="30">LENS  archival mixed</text>
+      <text x="8" y="46">HEIGHT  varies (still photos)</text>
+      <text x="8" y="62">ANGLE  varies</text>
+      <text x="8" y="78">MOVE  Ken Burns push on each frame</text>
+      <text x="8" y="94">DURATION  12s · holds escalate 2→3→4→3</text>
+      <text x="280" y="14">LIGHT  fluorescent on early; ambient on late</text>
+      <text x="280" y="30">PALETTE  clinical white-blue → warm sand</text>
+      <text x="280" y="46">TEXTURE  archival grain; bottle, scale, toy</text>
+      <text x="280" y="62">SOUND  piano continues; cello PRIMES at ~6:25</text>
+      <text x="280" y="78">DIALOGUE  V.O. "Children drew him..."</text>
+      <text x="280" y="94">CONTINUITY  feed → empty incubator next</text>
+    </g>
+  </g>
+
+  <!-- ===== PANEL 5.6 — incubator (the death beat) ===== -->
+  <g transform="translate(40, 638)">
+    <rect x="-6" y="-6" width="572" height="500" fill="#fff" stroke="#888" stroke-width="1"/>
+    <svg x="0" y="0" width="560" height="315" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+      <use href="#frame"/>
+      <!-- fluorescent room -->
+      <rect x="6" y="6" width="1588" height="888" fill="#c8d7c8"/>
+      <!-- fluorescent tube above -->
+      <rect x="500" y="60" width="600" height="40" fill="#ffffff"/>
+      <rect x="500" y="100" width="600" height="6" fill="#f0f0a0"/>
+      <text x="800" y="50" font-size="20" fill="#5a5a3a" text-anchor="middle">fluorescent tube · motivated</text>
+      <!-- incubator -->
+      <rect x="400" y="350" width="800" height="420" fill="#fff" stroke="#222" stroke-width="6"/>
+      <rect x="430" y="380" width="740" height="360" fill="#dfe6df" stroke="#888"/>
+      <!-- folded white towel inside -->
+      <rect x="600" y="600" width="400" height="80" fill="#fff" stroke="#888" stroke-width="2"/>
+      <!-- EMPTY emphasised by negative space -->
+      <text x="800" y="500" font-size="40" fill="#aaa" text-anchor="middle" font-style="italic">empty</text>
+      <use href="#moveStatic" x="20" y="800" width="160" height="60"/>
+    </svg>
+    <text x="0" y="335" font-size="13" font-weight="bold" fill="#111">5.6 · The empty incubator · the death beat</text>
+    <text x="0" y="355" font-size="11" fill="#333">Scene 30 · 6:30–6:42 · 12 sec held · DO NOT MOVE CAMERA</text>
+    <g font-size="10" fill="#222" transform="translate(0,372)">
+      <rect x="0" y="0" width="560" height="98" fill="#fafafa" stroke="#ccc"/>
+      <text x="8" y="14">SIZE  Medium</text>
+      <text x="8" y="30">LENS  35mm</text>
+      <text x="8" y="46">HEIGHT  eye-level (~1.1 m, seated subject height)</text>
+      <text x="8" y="62">ANGLE  level, centred (rare; earned by gravity)</text>
+      <text x="8" y="78">MOVE  STATIC · the longest held shot in the film</text>
+      <text x="8" y="94">DURATION  12s</text>
+      <text x="280" y="14">LIGHT  fluorescent overhead, slight green</text>
+      <text x="280" y="30">PALETTE  clinical pale green · white · grey</text>
+      <text x="280" y="46">TEXTURE  glass, folded towel, plastic shell</text>
+      <text x="280" y="62">SOUND  piano returns · single sustained CELLO note</text>
+      <text x="280" y="78">DIALOGUE  V.O. "He was named Victorious."</text>
+      <text x="280" y="94">RESTRAINT  no body · empty IS the body</text>
+    </g>
+  </g>
+
+  <!-- ===== PANEL 6.1 — Seyed-Emami ===== -->
+  <g transform="translate(632, 638)">
+    <rect x="-6" y="-6" width="572" height="500" fill="#fff" stroke="#888" stroke-width="1"/>
+    <svg x="0" y="0" width="560" height="315" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+      <use href="#frame"/>
+      <!-- portrait field -->
+      <rect x="6" y="6" width="1588" height="888" fill="#3a3530"/>
+      <rect x="200" y="80" width="900" height="800" fill="#a89880"/>
+      <!-- silhouetted face & shoulders -->
+      <circle cx="650" cy="380" r="180" fill="#1f1814"/>
+      <rect x="450" y="540" width="400" height="350" fill="#1f1814"/>
+      <!-- name card region -->
+      <rect x="1200" y="500" width="380" height="280" fill="#000"/>
+      <text x="1220" y="580" font-size="32" fill="#fff">Kavous</text>
+      <text x="1220" y="620" font-size="32" fill="#fff">Seyed-Emami</text>
+      <text x="1220" y="680" font-size="22" fill="#bba37a">کاووس سیدامامی</text>
+      <text x="1220" y="720" font-size="18" fill="#bba37a">1955 — 2018</text>
+      <use href="#moveKB" x="40" y="800" width="240" height="80"/>
+    </svg>
+    <text x="0" y="335" font-size="13" font-weight="bold" fill="#111">6.1 · Kavous Seyed-Emami · portrait + name card</text>
+    <text x="0" y="355" font-size="11" fill="#333">Scene 32 · 7:00–7:18 · 18 sec · imperceptible push</text>
+    <g font-size="10" fill="#222" transform="translate(0,372)">
+      <rect x="0" y="0" width="560" height="98" fill="#fafafa" stroke="#ccc"/>
+      <text x="8" y="14">SIZE  MCU (portrait still)</text>
+      <text x="8" y="30">LENS  archival</text>
+      <text x="8" y="46">HEIGHT  eye-level</text>
+      <text x="8" y="62">ANGLE  level, slight rule-of-thirds left</text>
+      <text x="8" y="78">MOVE  Ken Burns imperceptible push</text>
+      <text x="8" y="94">DURATION  18s (12 portrait + 6 name card)</text>
+      <text x="280" y="14">LIGHT  archival, cannot be changed</text>
+      <text x="280" y="30">PALETTE  warm sepia · charcoal · ivory card</text>
+      <text x="280" y="46">TEXTURE  archival news photograph</text>
+      <text x="280" y="62">SOUND  silence under photo</text>
+      <text x="280" y="78">DIALOGUE  V.O. ".. arrested January 2018."</text>
+      <text x="280" y="94">RESTRAINT  no reconstruction, no editorial</text>
+    </g>
+  </g>
+
+  <!-- ===== PANEL 7.1 — Mehrdad ===== -->
+  <g transform="translate(40, 1166)">
+    <rect x="-6" y="-6" width="572" height="500" fill="#fff" stroke="#888" stroke-width="1"/>
+    <svg x="0" y="0" width="560" height="315" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+      <use href="#frame"/>
+      <!-- room walls -->
+      <rect x="6" y="6" width="1588" height="888" fill="#d6c8b0"/>
+      <!-- window left -->
+      <use href="#window" x="80" y="180" width="280" height="500"/>
+      <!-- light bloom from window -->
+      <rect x="360" y="200" width="500" height="480" fill="#fff8e0" opacity="0.35"/>
+      <use href="#sunArrow" x="160" y="200" width="120" height="120"/>
+      <text x="300" y="230" font-size="22" fill="#d39e00">soft daylight · window-L</text>
+      <!-- figure -->
+      <use href="#figStand" x="780" y="280" width="280" height="560"/>
+      <!-- shadow side hint right of face -->
+      <circle cx="950" cy="383" r="60" fill="#000" opacity="0.18"/>
+      <!-- direct address sight line -->
+      <line x1="900" y1="370" x2="1580" y2="370" stroke="#a30" stroke-width="3" stroke-dasharray="10 8" marker-end="url(#arrHead)"/>
+      <text x="1100" y="350" font-size="22" fill="#a30">eye-line to lens</text>
+      <use href="#moveStatic" x="1380" y="800" width="160" height="60"/>
+    </svg>
+    <text x="0" y="335" font-size="13" font-weight="bold" fill="#111">7.1 · Mehrdad · direct address</text>
+    <text x="0" y="355" font-size="11" fill="#333">Scene 34a · 8:30–9:00 · 30 sec · single take preferred</text>
+    <g font-size="10" fill="#222" transform="translate(0,372)">
+      <rect x="0" y="0" width="560" height="98" fill="#fafafa" stroke="#ccc"/>
+      <text x="8" y="14">SIZE  Medium shot</text>
+      <text x="8" y="30">LENS  50mm prime · f/2.8 · shallow DoF</text>
+      <text x="8" y="46">HEIGHT  eye-level (lens at subject's eyes)</text>
+      <text x="8" y="62">ANGLE  level, slight third right</text>
+      <text x="8" y="78">MOVE  STATIC · no drift, no rack</text>
+      <text x="8" y="94">DURATION  30s</text>
+      <text x="280" y="14">LIGHT  daylight from window-L only · no fill</text>
+      <text x="280" y="30">PALETTE  warm bone · skin · ochre wall</text>
+      <text x="280" y="46">TEXTURE  fabric, daylight diffusion</text>
+      <text x="280" y="62">SOUND  lavalier + room tone · NO SCORE</text>
+      <text x="280" y="78">DIALOGUE  Mehrdad · "I made this..."</text>
+      <text x="280" y="94">CONTINUITY  earned by 8:30 of withholding face</text>
+    </g>
+  </g>
+
+  <!-- ===== PANEL 7.2 — wild mother + cubs ===== -->
+  <g transform="translate(632, 1166)">
+    <rect x="-6" y="-6" width="572" height="500" fill="#fff" stroke="#888" stroke-width="1"/>
+    <svg x="0" y="0" width="560" height="315" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+      <use href="#frame"/>
+      <!-- dusk ridge -->
+      <rect x="6" y="6" width="1588" height="400" fill="#3a4868"/>
+      <rect x="6" y="406" width="1588" height="500" fill="#7a5840"/>
+      <!-- last warm seam on horizon -->
+      <rect x="6" y="380" width="1588" height="40" fill="#c87a3a"/>
+      <use href="#ridge" x="6" y="330"/>
+      <!-- single-file line of family -->
+      <use href="#cheetahAdult" x="120" y="510" width="220" height="100"/>
+      <use href="#cheetahCub" x="360" y="540" width="120" height="80"/>
+      <use href="#cheetahCub" x="500" y="540" width="120" height="80"/>
+      <use href="#cheetahCub" x="640" y="540" width="120" height="80"/>
+      <use href="#cheetahCub" x="780" y="540" width="120" height="80"/>
+      <use href="#cheetahCub" x="920" y="540" width="120" height="80"/>
+      <!-- mother's backward glance line -->
+      <line x1="220" y1="510" x2="700" y2="540" stroke="#a30" stroke-width="3" stroke-dasharray="8 6"/>
+      <text x="350" y="500" font-size="20" fill="#a30">she glances back · ~13s</text>
+      <!-- direction arrow -->
+      <line x1="100" y1="700" x2="1500" y2="700" stroke="#0a4" stroke-width="3" stroke-dasharray="14 10" marker-end="url(#arrGreen)"/>
+      <text x="700" y="730" font-size="22" fill="#0a4">single file · L→R</text>
+      <use href="#moveStatic" x="20" y="800" width="160" height="60"/>
+    </svg>
+    <text x="0" y="335" font-size="13" font-weight="bold" fill="#111">7.2 · Wild mother + five cubs · final image</text>
+    <text x="0" y="355" font-size="11" fill="#333">Scene 34b · 9:00–9:20 · 20 sec · camera-trap is sacred</text>
+    <g font-size="10" fill="#222" transform="translate(0,372)">
+      <rect x="0" y="0" width="560" height="98" fill="#fafafa" stroke="#ccc"/>
+      <text x="8" y="14">SIZE  Wide-ish · static trap framing</text>
+      <text x="8" y="30">LENS  ~35mm equiv (camera-trap)</text>
+      <text x="8" y="46">HEIGHT  ground level (trap)</text>
+      <text x="8" y="62">ANGLE  level, ridge across mid-frame</text>
+      <text x="8" y="78">MOVE  STATIC · USED AS-SHOT · no stab/crop</text>
+      <text x="8" y="94">DURATION  20s</text>
+      <text x="280" y="14">LIGHT  dusk, low blue, last warm seam</text>
+      <text x="280" y="30">PALETTE  charcoal blue · ridge orange · grey</text>
+      <text x="280" y="46">TEXTURE  ridge stone, fur, dusk grain</text>
+      <text x="280" y="62">SOUND  wind · cello returns · warm chord enters</text>
+      <text x="280" y="78">DIALOGUE  V.O. "one wild female...five cubs."</text>
+      <text x="280" y="94">CONTINUITY  answers opening African sprint</text>
+    </g>
+  </g>
+
+  <!-- Footer -->
+  <rect x="0" y="1700" width="1240" height="54" fill="#1a1a1a"/>
+  <text x="40" y="1730" fill="#bba37a" font-size="12">After this panel: TITLE CARD on black · six names + Pirouz dates + blank seventh line · 10s hold + 3s held black · END.</text>
+  <text x="40" y="1746" fill="#bba37a" font-size="11">The blank seventh line is the film's argument in punctuation. Protect it through delivery.</text>
+</svg>

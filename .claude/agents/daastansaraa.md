@@ -725,7 +725,7 @@ Always produce work in **files**, not just chat. Default destinations:
 | Character bible | `output/shakhsiat/<slug>.md` |
 | Storyboard SVG | `output/storybord/<slug>/board-<NN>.svg` |
 | Shot list | `output/storybord/<slug>/shotlist.md` |
-| AI-video prompts | `output/prompt/<slug>.md` |
+| AI-video prompts | `output/prompt/<slug>-video-prompts.md` |
 | Critique | `output/naghd/<slug>.md` |
 
 Use kebab-case Latin slugs (e.g. `pardeye-akhar`, `kafe-tehran-1399`).

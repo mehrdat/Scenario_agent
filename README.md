@@ -57,18 +57,32 @@ For each story:
   Pardeh-negaar draws SVG storyboard pages + a shot-list.
 
 > /prompt-video pardeye-akhar
-  Daastansaraa generates per-shot prompts for free AI video generators.
+  THE FINAL & MOST IMPORTANT DELIVERABLE — per-shot AI-video prompts for free
+  generators, in extreme detail (camera, lens, light, motion, palette,
+  textures, must / must-not be visible, engine-specific tips).
+  Writes output/prompt/pardeye-akhar-video-prompts.md
+
+> /prompt-storyboard pardeye-akhar
+  Secondary file — per-shot still-image storyboard prompts (pencil/ink) for
+  Bing / Leonardo / Krea / Flux / Ideogram.
+  Writes output/prompt/pardeye-akhar-storyboard-prompts.md
 
 > /naghd pardeye-akhar
   Daastansaraa critiques the draft. Pair with /behtar to apply fixes.
 ```
 
-Or run everything in one shot:
+Or run everything in one shot (auto-resumes from existing artifacts):
 ```text
 > /zanjireh pardeye-akhar kaameleh
 ```
 
-Open the generated `output/storybord/pardeye-akhar/board-01.svg` in your browser. Paste the prompts from `output/prompt/pardeye-akhar.md` into Hailuo / Kling / Pika / Runway free / Luma free / Bing.
+If you've already started a project and want to continue from where you left off,
+without re-running finished steps:
+```text
+> /edaameh pardeye-akhar
+```
+
+Open the generated `output/storybord/pardeye-akhar/board-01.svg` in your browser. Paste the **video-generation** prompts from `output/prompt/pardeye-akhar-video-prompts.md` into Hailuo / Kling / Pika / Runway free / Luma free / Bing. Use `output/prompt/pardeye-akhar-storyboard-prompts.md` for still-image storyboard panels.
 
 ---
 
@@ -84,7 +98,7 @@ The agents are written as **plain Markdown system-prompts** plus a folder conven
   - Groq free tier, Together AI free credit, HuggingFace Inference, Google AI Studio (free)
 - The folder convention (`raw/`, `danesh/`, `output/`) is just files. Any agent that can read/write files can use it.
 - The SVG storyboard template at `templates/storyboard.svg` is plain XML — any model that can output text can fill it in.
-- The AI-video prompt format in `output/prompt/<slug>.md` is provider-agnostic text — paste into any free generator's web UI.
+- The AI-video prompt format in `output/prompt/<slug>-video-prompts.md` (and the secondary `output/prompt/<slug>-storyboard-prompts.md`) is provider-agnostic text — paste into any free generator's web UI.
 
 ### What is Claude Code-specific
 - The `/senaario`, `/storybord`, `/zanjireh`, … slash commands and their argument substitution.
@@ -190,8 +204,10 @@ Type any of these in Claude Code. All commands accept a `<slug>` argument (kebab
 | `/storybord <slug> [scope] [aspect]` | استوری‌بورد · planning board | Schematic SVG storyboard for planning the shoot. Low credit, clean lines. Scope picker is mandatory |
 | `/negaareh <slug> <percentage> [aspect]` | نگاره · drawn board | **Hollywood-style drawn storyboard.** Paper background, sketchy ink, real character silhouettes with faces & clothing, Persian arch / dome / cypress detail. Scope is % of runtime |
 | `/mosaahebeh <slug> [subject]` | مصاحبه · interview | **Opt-in.** Design documentary interview question banks. Skip if your doc doesn't use interviews |
-| `/prompt-video <slug> [engine]` | پرامپت ویدئو | Per-shot AI-video prompts (free engines) |
-| `/zanjireh <slug> [variant]` | زنجیره · pipeline | Runs the full chain end-to-end |
+| `/prompt-video <slug> [engine]` | پرامپت ویدئو | **THE FINAL & MOST IMPORTANT FILE.** Per-shot AI-video prompts (free engines), extreme detail — writes `output/prompt/<slug>-video-prompts.md` |
+| `/prompt-storyboard <slug> [style]` | پرامپت استوری‌بورد | Secondary. Per-shot still-image storyboard prompts for Bing / Leonardo / Krea / Flux / Ideogram — writes `output/prompt/<slug>-storyboard-prompts.md` |
+| `/zanjireh <slug> [variant]` | زنجیره · pipeline | Runs the full chain end-to-end. **Auto-resumes** from existing artifacts on re-run. Pass `--restart` to force a clean run |
+| `/edaameh <slug> [variant]` | ادامه · resume | Resume a partly-done project. Detects what's already done and runs only the missing steps. Never re-runs completed work |
 
 ### Storyboard scope picker
 
@@ -323,7 +339,9 @@ Many documentaries don't use interviews at all (observational/Wiseman, poetic/Re
 │   ├── senaario/<slug>/ # script artifacts
 │   ├── shakhsiat/       # character bibles
 │   ├── storybord/<slug>/# SVG storyboards + shot-lists
-│   ├── prompt/          # AI-video prompts
+│   ├── prompt/
+│   │   ├── <slug>-video-prompts.md       # ★ FINAL & MOST IMPORTANT — paste into video generators
+│   │   └── <slug>-storyboard-prompts.md  # secondary — still-image storyboard panel prompts
 │   └── naghd/           # critiques
 └── README.md            # this file
 ```
@@ -334,9 +352,10 @@ Many documentaries don't use interviews at all (observational/Wiseman, poetic/Re
 
 1. Drop a book, a transcript, a few photos into `raw/pardeye-akhar/`.
 2. `/zanjireh pardeye-akhar kaameleh`
-3. Watch Daastansaraa run: research → script → characters → story-doctor → storyboard → prompts → critique.
-4. Open `output/storybord/pardeye-akhar/board-01.svg` in your browser.
-5. Take the prompts in `output/prompt/pardeye-akhar.md` and paste them into Hailuo / Kling / Pika / Runway / Luma for free generation.
+3. Watch Daastansaraa run: research → script → characters → story-doctor → storyboard → **video prompts (the final & most important file)** → storyboard prompts → critique.
+4. Open `output/storybord/pardeye-akhar/board-01.svg` in your browser to review the planning board.
+5. The chain finishes by surfacing **`output/prompt/pardeye-akhar-video-prompts.md`** first — paste those prompts into Hailuo / Kling / Pika / Runway / Luma / Bing for free generation. This is the file the rest of the pipeline exists to produce.
+6. If you got interrupted and want to keep going next time, run `/edaameh pardeye-akhar` — it skips finished steps and resumes from where you left off. (`/zanjireh` does the same auto-resume now too; `/edaameh` is just the explicit "continue, don't re-audit" entrypoint.)
 
 For finer control, run the individual commands instead of `/zanjireh`.
 
@@ -357,7 +376,7 @@ Free-tier limits change. The prompt files mark them `[verify current limits]` so
 
 ## نکات / Tips
 
-- The **storyboard is the most important deliverable**. Daastansaraa knows this and will never skip the SVG step.
+- The **AI video-generation prompt file (`output/prompt/<slug>-video-prompts.md`) is the final and most important deliverable** of the entire chain. Everything else — research, script, character bible, story-doctoring, storyboard — exists to make that file as directorially specific as possible. The storyboard is the second-most important visual deliverable and the storyboard prompts are a separate, secondary file.
 - Speak Farsi or English — the agent answers in both as you wish.
 - Add a folder under `raw/<slug>/` for each project so the researcher doesn't conflate sources.
 - For Iranian stories, mention the **region, decade, dialect, and political backdrop** in your brief — the agent uses them to shape voice and silhouette.
