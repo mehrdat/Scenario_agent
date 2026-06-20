@@ -2,7 +2,8 @@
 
 > This file is the **operating contract** for the agent in this project. It supersedes the
 > older multi-command pipeline in `README.md`. When the user gives an idea + material, the
-> agent follows this brief and produces **exactly three Markdown files** in `output/`.
+> agent follows this brief and produces a **new timestamped folder in `output/` containing
+> exactly three Markdown files** (prompts+narration, scenario, research).
 > If anything is unclear or under-specified, **ask before producing** (`AskUserQuestion`).
 
 ---
@@ -38,17 +39,35 @@ desertification of Kavir/Lut. The agent may **suggest** topics during research.
 
 Per project (one topic), produce **only these three files**, named by topic slug:
 
-| File | Slug pattern | Required? |
-|---|---|---|
-| **Prompts** ★ most important | `output/<slug>-prompts.md` | Always |
-| **Scenario** | `output/<slug>-scenario.md` | Always |
-| **Research** | `output/<slug>-research.md` | Conditional (see §3) |
+**Every run creates a new timestamped folder** inside `output/`, named by date and time, and
+the three files live inside it:
 
+```
+output/<YYYY-MM-DD_HH-MM>_<slug>/
+   ├── prompts.md      ★ most important — extreme-detail shot prompts + narration
+   ├── scenario.md         the sectioned, video-translated scenario
+   └── research.md         the factual backbone (see §3)
+```
+
+| File | Path | Required? |
+|---|---|---|
+| **Prompts** ★ most important | `output/<YYYY-MM-DD_HH-MM>_<slug>/prompts.md` | Always |
+| **Scenario** | `output/<YYYY-MM-DD_HH-MM>_<slug>/scenario.md` | Always |
+| **Research** | `output/<YYYY-MM-DD_HH-MM>_<slug>/research.md` | Conditional (see §3) |
+
+- The folder name is the **local date and time of the run** plus the topic slug, e.g.
+  `2026-06-20_14-30_persian-cheetah/`. Get the real time with `date "+%Y-%m-%d_%H-%M"` — never
+  guess it. Use the folder timestamp consistently across all three files.
 - `<slug>` is kebab-case Latin, e.g. `persian-cheetah`, `hyrcanian-forest`, `dragonfly-wetlands`.
+- Inside the folder the files are plainly named `prompts.md`, `scenario.md`, `research.md` (the
+  folder already carries the topic and date).
+- **Prompts file = prompts WITH narration.** The narration for each sequence is attached inside
+  `prompts.md`, not split into a separate file.
 - **No other files.** No storyboards, character bibles, critique files, beats files. The old
   pipeline's intermediate artifacts stay *internal* (in the agent's reasoning), never written
   as separate files.
-- Old `output/` subfolders from previous runs are legacy — do not touch them, do not add to them.
+- Old `output/` files/subfolders from previous runs are legacy — do not touch them, do not add
+  to them. Each new run gets its own fresh timestamped folder.
 
 ### Language (bilingual)
 - **Narration**: written in **both English and Persian (Farsi)**. English first, Persian below.
@@ -59,7 +78,7 @@ Per project (one topic), produce **only these three files**, named by topic slug
 
 ---
 
-## 2. The pipeline (run internally; surface only the 3 files)
+## 2. The pipeline (run internally; surface only the timestamped folder of 3 files)
 
 The agent still does all the rigorous work — it just doesn't emit a file for each stage.
 
@@ -70,10 +89,12 @@ idea + input material
    → plan: story spine, the reasoning behind the story, the depth/why it matters
    → expand the plan to a long version
    → internal critique ↔ fix loop, repeated until acceptable
-   → SCENARIO (sectioned, video-translated, extreme detail)  → write scenario.md
+   → SCENARIO (sectioned, video-translated, extreme detail)  → write <folder>/scenario.md
    → internal critique of scenario until acceptable
    → PROMPTS: slice every section into 5–8s shots, write extreme-detail prompt per shot,
-     attach the narration for that sequence                  → write prompts.md  ★
+     attach the narration for that sequence                  → write <folder>/prompts.md  ★
+
+(First step of any run: create `output/<YYYY-MM-DD_HH-MM>_<slug>/` using the real clock time.)
 ```
 
 Critique loops happen in the agent's head/notes, not as deliverables. Only escalate to the
@@ -84,7 +105,7 @@ user when a creative decision genuinely needs their call.
 ## 3. Research file logic
 
 - **If the user provides files/research** (in `input/`): read and use them, **and still do the
-  agent's own web research** to verify, update, and fill gaps. Compile a `research.md`.
+  agent's own web research** to verify, update, and fill gaps. Compile `<folder>/research.md`.
 - **If the user provides nothing**: do a **deep independent research pass** based on the request,
   and compile `research.md`.
 - In practice `research.md` is almost always produced. It is the factual backbone the scenario
